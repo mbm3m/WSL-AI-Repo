@@ -47,8 +47,8 @@ const SolutionsSection = () => {
           </div>
           <div className="order-1 lg:order-2">
             <img
-              src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3"
-              alt="Doctor using tablet"
+              src="/lovable-uploads/264c83a3-5c25-4d00-836b-043abd625c7e.png"
+              alt="Platform solution illustration"
               className="w-full rounded-lg shadow-xl"
             />
           </div>
