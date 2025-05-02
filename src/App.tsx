@@ -17,10 +17,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          {/* These routes are just placeholders for future implementation */}
-          <Route path="/login" element={<NotFound />} />
-          <Route path="/signup" element={<NotFound />} />
-          <Route path="/demo" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

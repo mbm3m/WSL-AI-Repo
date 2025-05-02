@@ -1,9 +1,13 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const HeroSection = () => {
+  const scrollToRegistration = () => {
+    const registrationSection = document.getElementById('early-access-section');
+    registrationSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="relative py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,18 +20,23 @@ const HeroSection = () => {
               Transform the approval journey with a reliable, accurate, and fast digital process tailored to the local healthcare system.
             </p>
             <div className="mt-10 flex gap-4">
-              <Button asChild className="bg-blue-500 hover:bg-blue-600 px-6">
-                <Link to="/signup">Get Started</Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link to="/demo">Request Demo</Link>
+              <Button 
+                onClick={scrollToRegistration} 
+                className="bg-blue-500 hover:bg-blue-600 px-6"
+              >
+                Request Demo
               </Button>
             </div>
           </div>
-          <div className="lg:relative lg:h-full">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <img
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3"
-              alt="Doctor using MedAI"
+              src="/lovable-uploads/db2869cc-5cbe-4bec-a246-66fdf2c412b1.png"
+              alt="Doctor using smartphone"
+              className="w-full rounded-lg shadow-xl"
+            />
+            <img
+              src="/lovable-uploads/fb7ed94a-cf37-497c-920e-fee0d98f4139.png"
+              alt="Medical staff using laptop"
               className="w-full rounded-lg shadow-xl"
             />
           </div>
