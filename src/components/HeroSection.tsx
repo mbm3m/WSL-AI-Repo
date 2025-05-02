@@ -28,15 +28,10 @@ const HeroSection = () => {
               </Button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
             <img
               src="/lovable-uploads/db2869cc-5cbe-4bec-a246-66fdf2c412b1.png"
               alt="Doctor using smartphone"
-              className="w-full rounded-lg shadow-xl"
-            />
-            <img
-              src="/lovable-uploads/fb7ed94a-cf37-497c-920e-fee0d98f4139.png"
-              alt="Medical staff using laptop"
               className="w-full rounded-lg shadow-xl"
             />
           </div>
