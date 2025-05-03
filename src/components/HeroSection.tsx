@@ -1,11 +1,18 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  
   const scrollToRegistration = () => {
     const registrationSection = document.getElementById('early-access-section');
     registrationSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const navigateToDemoApp = () => {
+    navigate('/demo');
   };
 
   return (
@@ -24,7 +31,14 @@ const HeroSection = () => {
                 onClick={scrollToRegistration} 
                 className="bg-blue-500 hover:bg-blue-600 px-6"
               >
-                Request Demo
+                Join the Waitlist
+              </Button>
+              <Button 
+                onClick={navigateToDemoApp}
+                variant="outline"
+                className="border-blue-500 text-blue-500 hover:bg-blue-50 px-6"
+              >
+                Try Limited Version
               </Button>
             </div>
           </div>

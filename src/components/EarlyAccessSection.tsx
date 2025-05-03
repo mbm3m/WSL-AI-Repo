@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const EarlyAccessSection = () => {
   const [formData, setFormData] = useState({
@@ -19,21 +20,37 @@ const EarlyAccessSection = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      toast.success("Application submitted successfully! We'll be in touch soon.");
-      setFormData({
-        fullName: "",
-        email: "",
-        hospital: "",
-        phone: ""
+    try {
+      // Save to Supabase
+      const { error } = await supabase.from('applications').insert({
+        full_name: formData.fullName,
+        email: formData.email,
+        hospital: formData.hospital,
+        phone: formData.phone
       });
+      
+      if (error) {
+        console.error("Error submitting application:", error);
+        toast.error("Failed to submit your application. Please try again.");
+      } else {
+        toast.success("Application submitted successfully! We'll be in touch soon.");
+        setFormData({
+          fullName: "",
+          email: "",
+          hospital: "",
+          phone: ""
+        });
+      }
+    } catch (err) {
+      console.error("Error in submission:", err);
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
