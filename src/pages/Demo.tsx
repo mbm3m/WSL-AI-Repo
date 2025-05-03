@@ -3,20 +3,22 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { FileText, Upload } from "lucide-react";
+
+interface FileWithPreview extends File {
+  preview?: string;
+}
 
 interface DemoFormValues {
   fullName: string;
   email: string;
   hospital: string;
   phone: string;
-  reportContent: string;
-  policies: string;
 }
 
 const Demo = () => {
@@ -24,6 +26,8 @@ const Demo = () => {
   const [showForm, setShowForm] = useState(true);
   const [showReport, setShowReport] = useState(false);
   const [analysis, setAnalysis] = useState('');
+  const [reportFile, setReportFile] = useState<FileWithPreview | null>(null);
+  const [policyFile, setPolicyFile] = useState<FileWithPreview | null>(null);
   
   const form = useForm<DemoFormValues>({
     defaultValues: {
@@ -31,12 +35,48 @@ const Demo = () => {
       email: "",
       hospital: "",
       phone: "",
-      reportContent: "",
-      policies: ""
     }
   });
 
+  const handleReportFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      // Check if file is PDF or DOCX
+      if (file.type !== 'application/pdf' && 
+          file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        toast.error("Please upload a PDF or DOCX file for the medical report");
+        return;
+      }
+      setReportFile(file);
+      toast.success("Medical report file uploaded successfully");
+    }
+  };
+
+  const handlePolicyFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      // Check if file is PDF or DOCX
+      if (file.type !== 'application/pdf' && 
+          file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        toast.error("Please upload a PDF or DOCX file for the policies");
+        return;
+      }
+      setPolicyFile(file);
+      toast.success("Policy file uploaded successfully");
+    }
+  };
+
   const onSubmit = async (data: DemoFormValues) => {
+    if (!reportFile) {
+      toast.error("Please upload a medical report file");
+      return;
+    }
+    
+    if (!policyFile) {
+      toast.error("Please upload a policy file");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -63,9 +103,8 @@ const Demo = () => {
       setShowReport(true);
       
       // Simulate AI analysis
-      if (data.reportContent) {
-        setTimeout(() => {
-          const sampleAnalysis = `
+      setTimeout(() => {
+        const sampleAnalysis = `
 ## Report Analysis
 
 Based on the submitted medical report and policies:
@@ -85,12 +124,11 @@ Based on the submitted medical report and policies:
 
 ### Next Steps
 We recommend addressing these concerns before submitting for approval to improve chances of acceptance and reduce processing time.
-          `;
-          
-          setAnalysis(sampleAnalysis);
-          setIsSubmitting(false);
-        }, 3000);
-      }
+        `;
+        
+        setAnalysis(sampleAnalysis);
+        setIsSubmitting(false);
+      }, 3000);
     } catch (err) {
       console.error("Error in submission:", err);
       toast.error("An unexpected error occurred. Please try again.");
@@ -102,6 +140,8 @@ We recommend addressing these concerns before submitting for approval to improve
     setShowForm(true);
     setShowReport(false);
     setAnalysis('');
+    setReportFile(null);
+    setPolicyFile(null);
     form.reset();
   };
 
@@ -184,43 +224,63 @@ We recommend addressing these concerns before submitting for approval to improve
                   />
                 </div>
                 
-                <FormField
-                  control={form.control}
-                  name="reportContent"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Medical Report Content</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Paste your medical report text here for analysis" 
-                          className="min-h-[120px]"
-                          required 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {/* File Upload for Medical Report */}
+                <div className="space-y-2">
+                  <FormLabel>Medical Report</FormLabel>
+                  <div className="border border-gray-300 rounded-md bg-white p-4">
+                    <label className="flex flex-col items-center justify-center gap-2 cursor-pointer text-center">
+                      <FileText className="h-10 w-10 text-blue-500" />
+                      <span className="font-medium text-blue-500">
+                        {reportFile ? reportFile.name : "Upload medical report"}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        PDF or DOCX, max 10MB
+                      </span>
+                      <Input 
+                        type="file" 
+                        accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+                        className="hidden" 
+                        onChange={handleReportFileChange}
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        className="mt-2"
+                      >
+                        <Upload className="mr-2 h-4 w-4" /> Browse files
+                      </Button>
+                    </label>
+                  </div>
+                </div>
                 
-                <FormField
-                  control={form.control}
-                  name="policies"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Applicable Policies</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="List the Saudi healthcare policies you need to check compliance against" 
-                          className="min-h-[80px]"
-                          required 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {/* File Upload for Policies */}
+                <div className="space-y-2">
+                  <FormLabel>Applicable Policies</FormLabel>
+                  <div className="border border-gray-300 rounded-md bg-white p-4">
+                    <label className="flex flex-col items-center justify-center gap-2 cursor-pointer text-center">
+                      <FileText className="h-10 w-10 text-blue-500" />
+                      <span className="font-medium text-blue-500">
+                        {policyFile ? policyFile.name : "Upload policy documents"}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        PDF or DOCX, max 10MB
+                      </span>
+                      <Input 
+                        type="file" 
+                        accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+                        className="hidden" 
+                        onChange={handlePolicyFileChange}
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        className="mt-2"
+                      >
+                        <Upload className="mr-2 h-4 w-4" /> Browse files
+                      </Button>
+                    </label>
+                  </div>
+                </div>
                 
                 <Button 
                   type="submit" 
