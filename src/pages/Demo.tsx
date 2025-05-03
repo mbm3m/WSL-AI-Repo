@@ -8,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { FileText, Upload } from "lucide-react";
+import { FileText, Upload, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -25,7 +25,12 @@ const Demo = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showReport, setShowReport] = useState(false);
-  const [analysis, setAnalysis] = useState('');
+  const [analysis, setAnalysis] = useState<{
+    status: string;
+    criticalIssues: Array<{issue: string, regulation: string}>;
+    recommendations: string[];
+    risk: string;
+  } | null>(null);
   const [reportFile, setReportFile] = useState<FileWithPreview | null>(null);
   const [policyFile, setPolicyFile] = useState<FileWithPreview | null>(null);
   
@@ -102,29 +107,33 @@ const Demo = () => {
       setShowForm(false);
       setShowReport(true);
       
-      // Simulate AI analysis
+      // Simulate AI compliance analysis
       setTimeout(() => {
-        const sampleAnalysis = `
-## Report Analysis
-
-Based on the submitted medical report and policies:
-
-### Compliance Status
-✅ The report generally complies with Saudi healthcare documentation standards.
-
-### Areas of Concern
-⚠️ **Documentation Completeness**: The submitted report may be missing some required elements according to Saudi MOH guidelines.
-⚠️ **Policy Alignment**: Some aspects of the treatment plan may require additional justification based on the referenced policies.
-
-### Recommendations
-1. Include complete patient medical history as required by MOH Circular 2023-114
-2. Provide additional diagnostic evidence to support the treatment recommendation
-3. Ensure all prescribed medications align with the Saudi Formulary (2023 edition)
-4. Complete the required patient consent documentation
-
-### Next Steps
-We recommend addressing these concerns before submitting for approval to improve chances of acceptance and reduce processing time.
-        `;
+        // Sample compliance analysis - in a real app, this would come from the backend
+        const sampleAnalysis = {
+          status: "⚠️ Minor Issues – Needs Fixes Before Submission",
+          criticalIssues: [
+            {
+              issue: "Incomplete medication documentation",
+              regulation: "Saudi Formulary (2023 Edition), Section 4.2"
+            },
+            {
+              issue: "Missing pre-authorization for radiology procedure",
+              regulation: "Tawuniya Policy Rules, Article 17.3"
+            },
+            {
+              issue: "Outdated patient consent form used",
+              regulation: "MOH Circular 2023-114, Documentation Requirements"
+            }
+          ],
+          recommendations: [
+            "Include full medication list with dosages and durations following Saudi Formulary guidelines",
+            "Submit prior authorization form TW-RAD-23 for the CT scan procedure",
+            "Replace consent form with latest version (MOH-PCF-2023v2) and ensure all fields are completed",
+            "Add ICD-10-CM codes for all documented diagnoses"
+          ],
+          risk: "If submitted as-is, this report will face a mandatory 14-day delay in processing, with a 73% chance of claim denial according to NPHIES statistics for similar documentation issues. Patient may face uncovered charges for radiology procedures."
+        };
         
         setAnalysis(sampleAnalysis);
         setIsSubmitting(false);
@@ -139,10 +148,28 @@ We recommend addressing these concerns before submitting for approval to improve
   const resetDemo = () => {
     setShowForm(true);
     setShowReport(false);
-    setAnalysis('');
+    setAnalysis(null);
     setReportFile(null);
     setPolicyFile(null);
     form.reset();
+  };
+
+  const getStatusColor = () => {
+    if (!analysis) return "";
+    
+    if (analysis.status.includes("✅")) return "text-green-600";
+    if (analysis.status.includes("⚠️")) return "text-amber-500";
+    if (analysis.status.includes("❌")) return "text-red-600";
+    return "";
+  };
+
+  const getStatusIcon = () => {
+    if (!analysis) return null;
+    
+    if (analysis.status.includes("✅")) return <CheckCircle className="h-8 w-8 text-green-600 mb-2" />;
+    if (analysis.status.includes("⚠️")) return <AlertTriangle className="h-8 w-8 text-amber-500 mb-2" />;
+    if (analysis.status.includes("❌")) return <XCircle className="h-8 w-8 text-red-600 mb-2" />;
+    return null;
   };
 
   return (
@@ -152,10 +179,10 @@ We recommend addressing these concerns before submitting for approval to improve
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-4">
-              Medical Report Validation Tool
+              Medical Report Compliance Checker
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Experience a limited version of our AI-powered tool that analyzes medical reports against Saudi healthcare policies and guidelines.
+              Upload your medical report to verify compliance with Saudi Arabia's insurance regulations before submission
             </p>
           </div>
 
@@ -165,7 +192,7 @@ We recommend addressing these concerns before submitting for approval to improve
                 <div className="bg-blue-50 p-6 rounded-lg mb-8">
                   <h2 className="text-lg font-medium text-blue-800 mb-2">👋 Before You Begin</h2>
                   <p className="text-blue-700">
-                    This is a demonstration version with limited functionality. Please enter your details to try it out.
+                    This is a demonstration version with simulated AI analysis. Please enter your details to try it out.
                   </p>
                 </div>
 
@@ -296,7 +323,7 @@ We recommend addressing these concerns before submitting for approval to improve
           {showReport && (
             <div className="bg-white border rounded-lg shadow-lg p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Report Analysis</h2>
+                <h2 className="text-2xl font-bold text-gray-900">Compliance Report</h2>
                 <Button variant="outline" onClick={resetDemo}>Try Another Report</Button>
               </div>
               
@@ -304,16 +331,42 @@ We recommend addressing these concerns before submitting for approval to improve
                 <div className="text-center py-12">
                   <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
                   <p className="text-lg text-gray-600">Analyzing your report...</p>
-                  <p className="text-sm text-gray-500 mt-2">This may take a moment</p>
+                  <p className="text-sm text-gray-500 mt-2">Checking against Saudi healthcare regulations</p>
+                </div>
+              ) : analysis ? (
+                <div className="prose max-w-none">
+                  <div className="flex items-center mb-6">
+                    {getStatusIcon()}
+                    <h3 className={`text-xl font-bold ml-2 ${getStatusColor()}`}>Status: {analysis.status}</h3>
+                  </div>
+
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold mb-2">Critical Issues:</h4>
+                    <ol className="list-decimal pl-5 space-y-2">
+                      {analysis.criticalIssues.map((issue, index) => (
+                        <li key={index}>
+                          <span className="font-medium">{issue.issue}</span> - <span className="text-sm text-gray-600 italic">{issue.regulation}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold mb-2">Fix Recommendations:</h4>
+                    <ul className="list-disc pl-5 space-y-2">
+                      {analysis.recommendations.map((rec, index) => (
+                        <li key={index}>{rec}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-amber-50 border border-amber-200 rounded-md p-4">
+                    <h4 className="text-lg font-semibold mb-2 text-amber-800">Regulatory Risk if Submitted As-Is:</h4>
+                    <p className="text-amber-700">{analysis.risk}</p>
+                  </div>
                 </div>
               ) : (
-                <div className="prose max-w-none">
-                  {analysis ? (
-                    <div dangerouslySetInnerHTML={{ __html: analysis.replace(/\n/g, '<br>') }} />
-                  ) : (
-                    <p>No analysis available.</p>
-                  )}
-                </div>
+                <p>No analysis available.</p>
               )}
             </div>
           )}
