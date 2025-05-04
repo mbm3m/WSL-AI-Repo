@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -8,7 +7,8 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { FileText, Upload, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
+import { FileText, Upload, AlertTriangle, CheckCircle, XCircle, Download } from "lucide-react";
+import { generateFixedReport } from "@/utils/pdfGenerator";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -33,6 +33,7 @@ const Demo = () => {
   } | null>(null);
   const [reportFile, setReportFile] = useState<FileWithPreview | null>(null);
   const [policyFile, setPolicyFile] = useState<FileWithPreview | null>(null);
+  const [userData, setUserData] = useState<DemoFormValues | null>(null);
   
   const form = useForm<DemoFormValues>({
     defaultValues: {
@@ -70,6 +71,20 @@ const Demo = () => {
       toast.success("Policy file uploaded successfully");
     }
   };
+  
+  const downloadFixedReport = () => {
+    if (!analysis || !userData) return;
+    
+    try {
+      const doc = generateFixedReport(analysis, userData);
+      doc.save("MedAI-Corrected-Report.pdf");
+      
+      toast.success("Fixed report downloaded successfully!");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("Failed to generate PDF. Please try again.");
+    }
+  };
 
   const onSubmit = async (data: DemoFormValues) => {
     if (!reportFile) {
@@ -85,6 +100,9 @@ const Demo = () => {
     setIsSubmitting(true);
     
     try {
+      // Save user data for later use
+      setUserData(data);
+      
       // Save to Supabase
       const { error } = await supabase.from('applications').insert({
         full_name: data.fullName,
@@ -151,6 +169,7 @@ const Demo = () => {
     setAnalysis(null);
     setReportFile(null);
     setPolicyFile(null);
+    setUserData(null);
     form.reset();
   };
 
@@ -324,7 +343,15 @@ const Demo = () => {
             <div className="bg-white border rounded-lg shadow-lg p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Compliance Report</h2>
-                <Button variant="outline" onClick={resetDemo}>Try Another Report</Button>
+                <div className="flex space-x-3">
+                  <Button variant="outline" onClick={resetDemo}>Try Another Report</Button>
+                  <Button 
+                    onClick={downloadFixedReport} 
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    <Download className="mr-2 h-4 w-4" /> Download Fixed Report
+                  </Button>
+                </div>
               </div>
               
               {isSubmitting ? (
@@ -340,8 +367,18 @@ const Demo = () => {
                     <h3 className={`text-xl font-bold ml-2 ${getStatusColor()}`}>Status: {analysis.status}</h3>
                   </div>
 
+                  <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-6">
+                    <h4 className="text-lg font-semibold mb-2 text-green-800 flex items-center">
+                      <CheckCircle className="h-5 w-5 mr-2" /> Fixed Report Available
+                    </h4>
+                    <p className="text-green-700">
+                      All issues have been automatically fixed in your downloadable report. 
+                      Click the "Download Fixed Report" button to get your compliant document.
+                    </p>
+                  </div>
+
                   <div className="mb-6">
-                    <h4 className="text-lg font-semibold mb-2">Critical Issues:</h4>
+                    <h4 className="text-lg font-semibold mb-2">Critical Issues Found:</h4>
                     <ol className="list-decimal pl-5 space-y-2">
                       {analysis.criticalIssues.map((issue, index) => (
                         <li key={index}>
@@ -361,7 +398,7 @@ const Demo = () => {
                   </div>
 
                   <div className="bg-amber-50 border border-amber-200 rounded-md p-4">
-                    <h4 className="text-lg font-semibold mb-2 text-amber-800">Regulatory Risk if Submitted As-Is:</h4>
+                    <h4 className="text-lg font-semibold mb-2 text-amber-800">Original Regulatory Risk:</h4>
                     <p className="text-amber-700">{analysis.risk}</p>
                   </div>
                 </div>
@@ -374,7 +411,7 @@ const Demo = () => {
           <div className="mt-12 text-center">
             <p className="text-sm text-gray-500">
               This is a demonstration version with simulated AI analysis. 
-              <br />For full functionality, please <button onClick={resetDemo} className="text-blue-500 underline">register</button> for early access.
+              <br />For full functionality, please <Button variant="link" onClick={resetDemo} className="text-blue-500 underline p-0 h-auto">register</Button> for early access.
             </p>
           </div>
         </div>
