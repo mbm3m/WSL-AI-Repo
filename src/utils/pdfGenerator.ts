@@ -1,12 +1,8 @@
 
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
-// Extended jsPDF with autotable
-interface jsPDFWithAutoTable extends jsPDF {
-  autoTable: (options: any) => jsPDFWithAutoTable;
-}
-
+// Create the PDF report with properly initialized autoTable
 export const generateFixedReport = (analysis: {
   status: string;
   criticalIssues: Array<{issue: string, regulation: string}>;
@@ -19,7 +15,7 @@ export const generateFixedReport = (analysis: {
   phone: string;
 }) => {
   // Create new document
-  const doc = new jsPDF() as jsPDFWithAutoTable;
+  const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   
   // Add logo (placeholder position)
@@ -66,7 +62,8 @@ export const generateFixedReport = (analysis: {
     issue.regulation
   ]);
   
-  doc.autoTable({
+  // Use autoTable directly from the imported function
+  autoTable(doc, {
     startY: 130,
     head: [['No.', 'Original Issue', 'Reference Policy']],
     body: issueData,
@@ -77,7 +74,7 @@ export const generateFixedReport = (analysis: {
     }
   });
   
-  // Add recommendations section
+  // Get the last Y position after the table
   let finalY = (doc as any).lastAutoTable.finalY + 15;
   
   doc.setFontSize(14);
