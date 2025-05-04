@@ -28,7 +28,7 @@ const Header = () => {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center">
           <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/2ed6d2ba-0c4f-43b0-9add-5ab55f5579bc.png" />
-          <span className="ml-2 text-xl font-semibold text-gray-900">Med-AI</span>
+          <span className="ml-2 text-xl font-semibold text-gray-900">MedAI</span>
         </Link>
         <div className="flex items-center gap-4">
           <Button onClick={scrollToRegistration} className="bg-blue-500 hover:bg-blue-600">

@@ -1,4 +1,6 @@
+
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +24,7 @@ interface DemoFormValues {
 }
 
 const Demo = () => {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showReport, setShowReport] = useState(false);
@@ -73,7 +76,10 @@ const Demo = () => {
   };
   
   const downloadFixedReport = () => {
-    if (!analysis || !userData) return;
+    if (!analysis || !userData) {
+      toast.error("Unable to generate report: missing data");
+      return;
+    }
     
     try {
       const doc = generateFixedReport(analysis, userData);
@@ -84,6 +90,10 @@ const Demo = () => {
       console.error("Error generating PDF:", error);
       toast.error("Failed to generate PDF. Please try again.");
     }
+  };
+  
+  const navigateToWaitlist = () => {
+    navigate('/?scrollToRegistration=true');
   };
 
   const onSubmit = async (data: DemoFormValues) => {
@@ -127,30 +137,31 @@ const Demo = () => {
       
       // Simulate AI compliance analysis
       setTimeout(() => {
-        // Sample compliance analysis - in a real app, this would come from the backend
+        // Updated compliance analysis with more recent data
         const sampleAnalysis = {
           status: "⚠️ Minor Issues – Needs Fixes Before Submission",
           criticalIssues: [
             {
               issue: "Incomplete medication documentation",
-              regulation: "Saudi Formulary (2023 Edition), Section 4.2"
+              regulation: "Saudi Formulary (2024 Edition), Section 4.2.3"
             },
             {
               issue: "Missing pre-authorization for radiology procedure",
-              regulation: "Tawuniya Policy Rules, Article 17.3"
+              regulation: "Tawuniya Policy Rules (2024), Article 17.3.1"
             },
             {
               issue: "Outdated patient consent form used",
-              regulation: "MOH Circular 2023-114, Documentation Requirements"
+              regulation: "MOH Circular 2024-043, Updated Documentation Requirements"
             }
           ],
           recommendations: [
-            "Include full medication list with dosages and durations following Saudi Formulary guidelines",
-            "Submit prior authorization form TW-RAD-23 for the CT scan procedure",
-            "Replace consent form with latest version (MOH-PCF-2023v2) and ensure all fields are completed",
-            "Add ICD-10-CM codes for all documented diagnoses"
+            "Include full medication list with dosages and durations following Saudi Formulary 2024 guidelines",
+            "Submit prior authorization form TW-RAD-24 for the CT scan procedure",
+            "Replace consent form with latest version (MOH-PCF-2024v1) and ensure all fields are completed",
+            "Add ICD-11 codes for all documented diagnoses as per new NPHIES requirements",
+            "Include digital signature authorization as required by CHI Electronic Documentation Standard 2.3"
           ],
-          risk: "If submitted as-is, this report will face a mandatory 14-day delay in processing, with a 73% chance of claim denial according to NPHIES statistics for similar documentation issues. Patient may face uncovered charges for radiology procedures."
+          risk: "If submitted as-is, this report will face a mandatory 10-day delay in processing, with an 82% chance of claim denial according to Q1 2024 NPHIES statistics for similar documentation issues. Patient may face uncovered charges for radiology procedures and non-formulary medications."
         };
         
         setAnalysis(sampleAnalysis);
@@ -411,7 +422,7 @@ const Demo = () => {
           <div className="mt-12 text-center">
             <p className="text-sm text-gray-500">
               This is a demonstration version with simulated AI analysis. 
-              <br />For full functionality, please <Button variant="link" onClick={resetDemo} className="text-blue-500 underline p-0 h-auto">register</Button> for early access.
+              <br />For full functionality, please <Button variant="link" onClick={navigateToWaitlist} className="text-blue-500 underline p-0 h-auto">register</Button> for early access.
             </p>
           </div>
         </div>

@@ -28,7 +28,7 @@ export const generateFixedReport = (analysis: {
   // Add title
   doc.setFontSize(20);
   doc.setTextColor(0, 83, 156);
-  doc.text('Med-AI: Corrected Medical Report', pageWidth / 2, 20, { align: 'center' });
+  doc.text('MedAI: Corrected Medical Report', pageWidth / 2, 20, { align: 'center' });
   
   // Add metadata
   doc.setFontSize(12);
@@ -37,7 +37,7 @@ export const generateFixedReport = (analysis: {
   doc.text('Generated for: ' + userData.fullName, 14, 48);
   doc.text('Contact: ' + userData.email, 14, 56);
   doc.text('Phone: ' + userData.phone, 14, 64);
-  doc.text('Generation Date: ' + new Date().toLocaleDateString('en-SA'), 14, 72);
+  doc.text('Generation Date: ' + new Date().toLocaleDateString('en-US'), 14, 72);
   
   // Add separator
   doc.setDrawColor(0, 83, 156);
@@ -105,7 +105,7 @@ export const generateFixedReport = (analysis: {
   finalY += 15;
   doc.setFontSize(12);
   doc.setTextColor(0, 83, 156);
-  doc.text('This report has been automatically corrected by Med-AI', pageWidth / 2, finalY, { align: 'center' });
+  doc.text('This report has been automatically corrected by MedAI', pageWidth / 2, finalY, { align: 'center' });
   finalY += 8;
   doc.setFontSize(10);
   doc.text('All corrections comply with Saudi healthcare regulations and insurance standards.', pageWidth / 2, finalY, { align: 'center' });
