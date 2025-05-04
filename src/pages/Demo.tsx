@@ -9,8 +9,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { FileText, Upload, AlertTriangle, CheckCircle, XCircle, Download } from "lucide-react";
-import { generateFixedReport } from "@/utils/pdfGenerator";
+import { FileText, Upload, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -72,23 +71,6 @@ const Demo = () => {
       }
       setPolicyFile(file);
       toast.success("Policy file uploaded successfully");
-    }
-  };
-  
-  const downloadFixedReport = () => {
-    if (!analysis || !userData) {
-      toast.error("Unable to generate report: missing data");
-      return;
-    }
-    
-    try {
-      const doc = generateFixedReport(analysis, userData);
-      doc.save("MedAI-Corrected-Report.pdf");
-      
-      toast.success("Fixed report downloaded successfully!");
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-      toast.error("Failed to generate PDF. Please try again.");
     }
   };
   
@@ -356,12 +338,6 @@ const Demo = () => {
                 <h2 className="text-2xl font-bold text-gray-900">Compliance Report</h2>
                 <div className="flex space-x-3">
                   <Button variant="outline" onClick={resetDemo}>Try Another Report</Button>
-                  <Button 
-                    onClick={downloadFixedReport} 
-                    className="bg-green-600 hover:bg-green-700"
-                  >
-                    <Download className="mr-2 h-4 w-4" /> Download Fixed Report
-                  </Button>
                 </div>
               </div>
               
@@ -380,11 +356,11 @@ const Demo = () => {
 
                   <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-6">
                     <h4 className="text-lg font-semibold mb-2 text-green-800 flex items-center">
-                      <CheckCircle className="h-5 w-5 mr-2" /> Fixed Report Available
+                      <CheckCircle className="h-5 w-5 mr-2" /> Report Analysis Complete
                     </h4>
                     <p className="text-green-700">
-                      All issues have been automatically fixed in your downloadable report. 
-                      Click the "Download Fixed Report" button to get your compliant document.
+                      We've analyzed your report and identified the compliance issues below.
+                      Register for early access to get automatic corrections and downloadable fixed reports.
                     </p>
                   </div>
 
@@ -409,7 +385,7 @@ const Demo = () => {
                   </div>
 
                   <div className="bg-amber-50 border border-amber-200 rounded-md p-4">
-                    <h4 className="text-lg font-semibold mb-2 text-amber-800">Original Regulatory Risk:</h4>
+                    <h4 className="text-lg font-semibold mb-2 text-amber-800">Regulatory Risk:</h4>
                     <p className="text-amber-700">{analysis.risk}</p>
                   </div>
                 </div>
