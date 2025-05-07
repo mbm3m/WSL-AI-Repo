@@ -85,23 +85,20 @@ const Demo = () => {
     try {
       setAnalysisStage("Analyzing with GPT-4o...");
       
-      const response = await fetch('/api/analyze-medical-report', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      // Use Supabase Edge Function instead of direct API call
+      const { data, error } = await supabase.functions.invoke('analyze-medical-report', {
+        body: {
           reportText,
           policyText
-        }),
+        },
       });
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to analyze report');
+      if (error) {
+        console.error("Error calling analyze-medical-report:", error);
+        throw new Error(error.message || 'Failed to analyze report');
       }
       
-      return await response.json();
+      return data;
     } catch (error) {
       console.error("Error analyzing with GPT-4o:", error);
       throw error;
