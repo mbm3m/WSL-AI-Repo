@@ -25,6 +25,15 @@ serve(async (req) => {
       );
     }
 
+    if (!openAIApiKey) {
+      return new Response(
+        JSON.stringify({ error: 'OpenAI API key is not configured' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log("Analyzing report with GPT-4o. Report length:", reportText.length, "Policy length:", policyText.length);
+
     const systemPrompt = `You are an expert medical compliance checker specializing in Saudi Arabian healthcare regulations.
     
 Your task is to analyze medical reports for compliance against insurance policies and Saudi healthcare regulations.
@@ -75,10 +84,18 @@ Provide your analysis in the specified JSON format.`
       }),
     });
 
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("OpenAI API error:", response.status, errorText);
+      throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
+    }
+    
     const data = await response.json();
     
     // Parse the content as JSON to ensure proper format
     const analysisText = data.choices[0].message.content;
+    console.log("Received analysis from GPT-4o:", analysisText);
+    
     const analysis = JSON.parse(analysisText);
 
     return new Response(

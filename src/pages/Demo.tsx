@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -102,37 +101,10 @@ const Demo = () => {
         throw new Error(errorData.error || 'Failed to analyze report');
       }
       
-      const analysisResult = await response.json();
-      return analysisResult;
+      return await response.json();
     } catch (error) {
       console.error("Error analyzing with GPT-4o:", error);
-      
-      // Fallback to sample analysis if API fails
-      return {
-        status: "⚠️ Minor Issues – Needs Fixes Before Submission",
-        criticalIssues: [
-          {
-            issue: "Incomplete medication documentation",
-            regulation: "Saudi Formulary (2024 Edition), Section 4.2.3"
-          },
-          {
-            issue: "Missing pre-authorization for radiology procedure",
-            regulation: "Tawuniya Policy Rules (2024), Article 17.3.1"
-          },
-          {
-            issue: "Outdated patient consent form used",
-            regulation: "MOH Circular 2024-043, Updated Documentation Requirements"
-          }
-        ],
-        recommendations: [
-          "Include full medication list with dosages and durations following Saudi Formulary 2024 guidelines",
-          "Submit prior authorization form TW-RAD-24 for the CT scan procedure",
-          "Replace consent form with latest version (MOH-PCF-2024v1) and ensure all fields are completed",
-          "Add ICD-11 codes for all documented diagnoses as per new NPHIES requirements",
-          "Include digital signature authorization as required by CHI Electronic Documentation Standard 2.3"
-        ],
-        risk: "If submitted as-is, this report will face a mandatory 10-day delay in processing, with an 82% chance of claim denial according to Q1 2024 NPHIES statistics for similar documentation issues. Patient may face uncovered charges for radiology procedures and non-formulary medications."
-      };
+      throw error;
     }
   };
 
@@ -175,16 +147,21 @@ const Demo = () => {
       setShowForm(false);
       setShowReport(true);
       
-      // Process files
+      // Process files - now actually extract text
       setAnalysisStage("Extracting text from medical report...");
       const reportText = await extractTextFromFile(reportFile);
       
       setAnalysisStage("Extracting text from policy document...");
       const policyText = await extractTextFromFile(policyFile);
       
-      // Analyze with GPT-4o
-      const analysisResult = await analyzeWithGPT4o(reportText, policyText);
-      setAnalysis(analysisResult);
+      // Analyze with GPT-4o - using the real API
+      try {
+        const analysisResult = await analyzeWithGPT4o(reportText, policyText);
+        setAnalysis(analysisResult);
+      } catch (error) {
+        toast.error("Error analyzing report. Please try again later.");
+        console.error("Analysis error:", error);
+      }
       
       setIsSubmitting(false);
     } catch (err) {
