@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <p className="text-sm text-gray-400">
-            © 2023 MedAI. All rights reserved.
+            © 2025 MedAI. All rights reserved.
           </p>
         </div>
       </div>
