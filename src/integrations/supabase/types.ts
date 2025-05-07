@@ -36,30 +36,6 @@ export type Database = {
         }
         Relationships: []
       }
-      User: {
-        Row: {
-          created_at: string
-          email: string | null
-          Full_Name: string | null
-          id: number
-          phoneNumber: string | null
-        }
-        Insert: {
-          created_at?: string
-          email?: string | null
-          Full_Name?: string | null
-          id?: number
-          phoneNumber?: string | null
-        }
-        Update: {
-          created_at?: string
-          email?: string | null
-          Full_Name?: string | null
-          id?: number
-          phoneNumber?: string | null
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
