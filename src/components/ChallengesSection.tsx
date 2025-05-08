@@ -4,17 +4,17 @@ import { Clock, AlertTriangle, FileWarning } from "lucide-react";
 
 const challenges = [
   {
-    icon: <Clock className="h-7 w-7 text-black" />,
+    icon: <Clock className="h-7 w-7 text-blue-600" />,
     title: "Delays in Manual Reviews",
     description: "Eliminate bottlenecks in the approval process with streamlined digital workflows."
   },
   {
-    icon: <AlertTriangle className="h-7 w-7 text-black" />,
+    icon: <AlertTriangle className="h-7 w-7 text-blue-600" />,
     title: "High Error Rates & Rejections",
     description: "Reduce mistakes and improve accuracy with automated validation checks."
   },
   {
-    icon: <FileWarning className="h-7 w-7 text-black" />,
+    icon: <FileWarning className="h-7 w-7 text-blue-600" />,
     title: "Mismatch with Insurance Policies",
     description: "Ensure compliance with real-time policy verification and updates."
   }
@@ -69,7 +69,7 @@ const ChallengesSection = () => {
               key={index} 
               className={`challenge-card flex flex-col items-start p-8 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 opacity-0 [&.shown]:opacity-100 delay-${index * 100}`}
             >
-              <div className="p-4 bg-black/5 rounded-2xl mb-8">
+              <div className="p-4 bg-white shadow-md rounded-full mb-8 transition-transform duration-300 hover:scale-105">
                 {challenge.icon}
               </div>
               <h3 className="text-xl font-display font-semibold mb-3">{challenge.title}</h3>
