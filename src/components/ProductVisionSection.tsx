@@ -5,27 +5,27 @@ import { useTheme } from "@/hooks/use-theme";
 
 const features = [
   {
-    icon: <FileText size={28} className="text-blue-600 dark:text-blue-400" />,
+    icon: <FileText size={24} className="text-blue-600 dark:text-blue-400" />,
     title: "Smart Report Generation",
     description: "AI-assisted medical report writing from within the hospital"
   },
   {
-    icon: <ShieldCheck size={28} className="text-blue-600 dark:text-blue-400" />,
+    icon: <ShieldCheck size={24} className="text-blue-600 dark:text-blue-400" />,
     title: "Real-Time Policy Validation",
     description: "Instant insurer policy checks to reduce rejections"
   },
   {
-    icon: <Network size={28} className="text-blue-600 dark:text-blue-400" />,
+    icon: <Network size={24} className="text-blue-600 dark:text-blue-400" />,
     title: "Hospital–Insurer Sync",
     description: "In-platform communication for case review & updates"
   },
   {
-    icon: <Lock size={28} className="text-blue-600 dark:text-blue-400" />,
+    icon: <Lock size={24} className="text-blue-600 dark:text-blue-400" />,
     title: "Secure Data Handling",
     description: "All data encrypted and PDPL-ready"
   },
   {
-    icon: <ChartBar size={28} className="text-blue-600 dark:text-blue-400" />,
+    icon: <ChartBar size={24} className="text-blue-600 dark:text-blue-400" />,
     title: "Approval Insights Dashboard",
     description: "Analytics for hospital and insurer decision-makers"
   }
@@ -41,16 +41,12 @@ const ProductVisionSection = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0');
-            
             // If the heading becomes visible, animate the feature items
             if (entry.target === headingRef.current) {
               const items = document.querySelectorAll('.vision-feature');
               items.forEach((item, index) => {
                 setTimeout(() => {
                   item.classList.add('opacity-100');
-                  item.classList.remove('opacity-0');
                 }, 150 + index * 100);
               });
             }
@@ -59,10 +55,6 @@ const ProductVisionSection = () => {
       },
       { threshold: 0.1 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
     
     if (headingRef.current) {
       observer.observe(headingRef.current);
@@ -74,46 +66,46 @@ const ProductVisionSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className={`py-32 ${
+      className={`py-16 sm:py-24 md:py-32 ${
         theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'
-      } transition-opacity duration-500 opacity-0`}
+      } transition-colors duration-300 opacity-100`}
     >
       <div className="container mx-auto px-4 max-w-6xl">
         <div 
           ref={headingRef}
-          className="text-center mb-16 transition-opacity duration-500 opacity-0"
+          className="text-center mb-10 sm:mb-16"
         >
-          <h2 className={`text-4xl md:text-5xl font-display font-bold tracking-tight ${
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
-          } mb-4`}>How MedAI Will Work</h2>
-          <p className={`text-xl ${
+          } mb-3 sm:mb-4`}>How MedAI Will Work</h2>
+          <p className={`text-base sm:text-lg md:text-xl ${
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           } font-light max-w-3xl mx-auto`}>Our complete platform connecting hospitals and insurers</p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className="vision-feature flex flex-col items-center text-center p-6 transition-opacity duration-300 opacity-0"
+              className="vision-feature flex flex-col items-center text-center p-3 sm:p-4 md:p-6 transition-opacity duration-300 opacity-100"
             >
-              <div className={`p-5 ${
+              <div className={`p-3 sm:p-4 md:p-5 ${
                 theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-              } rounded-full shadow-sm mb-6 transition-transform duration-300 hover:scale-105`}>
+              } rounded-full shadow-sm mb-4 sm:mb-6 transition-transform duration-300 hover:scale-105`}>
                 {feature.icon}
               </div>
-              <h3 className={`font-display font-medium text-lg mb-3 ${
+              <h3 className={`font-display font-medium text-sm sm:text-base md:text-lg mb-2 sm:mb-3 ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>{feature.title}</h3>
               <p className={`${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-              } text-sm font-light`}>{feature.description}</p>
+              } text-xs sm:text-sm font-light`}>{feature.description}</p>
             </div>
           ))}
         </div>
         
-        <div className="text-center mt-16 transition-opacity duration-500 opacity-0 delay-500">
-          <p className={`text-sm font-display font-medium ${
+        <div className="text-center mt-10 sm:mt-16">
+          <p className={`text-xs sm:text-sm font-display font-medium ${
             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
           }`}>Launching full version in 2025</p>
         </div>

@@ -27,6 +27,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     const root = window.document.documentElement;
     
+    // Make all sections visible before changing theme
+    document.querySelectorAll('section').forEach(section => {
+      section.classList.add('opacity-100');
+    });
+    
     if (theme === "dark") {
       root.classList.add("dark");
     } else {

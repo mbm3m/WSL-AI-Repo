@@ -18,7 +18,7 @@ const Index = () => {
   const { theme } = useTheme();
   
   useEffect(() => {
-    // Make all sections visible immediately
+    // Immediately make all sections fully visible
     document.querySelectorAll('section').forEach(section => {
       section.classList.add('opacity-100');
       section.classList.remove('opacity-0');
@@ -34,32 +34,30 @@ const Index = () => {
       }
     }
     
-    // Use IntersectionObserver only for animation effects, not for visibility
+    // Use IntersectionObserver only for animation effects
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Add animation classes but don't control basic visibility
+            // Add animation classes but maintain visibility
             entry.target.classList.add('animate-viewed');
-            observer.unobserve(entry.target); // Stop observing once shown
           }
         });
       },
       { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
     );
     
-    // Observe all sections for additional animations
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
+    // Observe sections for animations
+    document.querySelectorAll('section').forEach(section => {
       observer.observe(section);
     });
     
-    // Preload the logo image for better performance
+    // Preload logo
     const logoPreload = new Image();
     logoPreload.src = "/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png";
     
     return () => observer.disconnect();
-  }, [searchParams]);
+  }, [searchParams, theme]); // Add theme dependency to trigger effect on theme change
 
   return (
     <div className={`flex flex-col min-h-screen ${
