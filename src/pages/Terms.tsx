@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useTheme } from "@/hooks/use-theme";
@@ -9,9 +9,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { trackViewedTerms } from "@/utils/analytics";
 
 const Terms = () => {
   const { theme } = useTheme();
+  
+  useEffect(() => {
+    // Track terms page view
+    trackViewedTerms();
+  }, []);
   
   return (
     <div className={`min-h-screen flex flex-col ${

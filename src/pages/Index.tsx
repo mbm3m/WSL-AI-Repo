@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
@@ -12,12 +12,18 @@ import ProductVisionSection from "@/components/ProductVisionSection";
 import TestimonialSection from "@/components/TestimonialSection";
 import MVPFlowSection from "@/components/MVPFlowSection";
 import { useTheme } from "@/hooks/use-theme";
+import { trackPageVisit, trackViewedPolicies } from "@/utils/analytics";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
   const { theme } = useTheme();
+  const policiesRef = useRef<HTMLDivElement>(null);
+  const policiesObserved = useRef(false);
   
   useEffect(() => {
+    // Track page visit on component mount
+    trackPageVisit();
+    
     // Ensure sections AND footer are visible regardless of theme changes
     const makeAllElementsVisible = () => {
       document.querySelectorAll('section, footer').forEach(element => {
@@ -37,6 +43,25 @@ const Index = () => {
           registrationSection.scrollIntoView({ behavior: 'smooth' });
         }, 300);
       }
+    }
+    
+    // Set up intersection observer for policy section tracking
+    const policyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !policiesObserved.current) {
+            trackViewedPolicies();
+            policiesObserved.current = true;
+            policyObserver.disconnect(); // Only track once
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    
+    // Observe solutions section for policy viewing
+    if (policiesRef.current) {
+      policyObserver.observe(policiesRef.current);
     }
     
     // Use IntersectionObserver with optimized animation settings
@@ -64,6 +89,7 @@ const Index = () => {
     
     return () => {
       observer.disconnect();
+      policyObserver.disconnect();
     };
   }, [searchParams, theme]); // Add theme dependency to trigger effect on theme change
 
@@ -76,7 +102,9 @@ const Index = () => {
         <HeroSection />
         <ChallengesSection />
         <MVPFlowSection />
-        <SolutionsSection />
+        <div ref={policiesRef}>
+          <SolutionsSection />
+        </div>
         <ProductVisionSection />
         <TestimonialSection />
         <BenefitsSection />

@@ -2,9 +2,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
+import { trackViewedTerms } from "@/utils/analytics";
 
-const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+const FooterLink = ({ to, children, trackEvent }: { to: string; children: React.ReactNode; trackEvent?: () => void }) => {
   const { theme } = useTheme();
+  
+  const handleClick = () => {
+    if (trackEvent) {
+      trackEvent();
+    }
+  };
   
   return (
     <Link
@@ -14,6 +21,7 @@ const FooterLink = ({ to, children }: { to: string; children: React.ReactNode })
           ? 'text-gray-400 hover:text-gray-200' 
           : 'text-gray-500 hover:text-gray-800'
       } transition-colors`}
+      onClick={handleClick}
     >
       {children}
     </Link>
@@ -44,9 +52,9 @@ const Footer = () => {
           </div>
           
           <div className="flex flex-wrap justify-center gap-6 mb-8">
-            <FooterLink to="/demo">Try Demo</FooterLink>
-            <FooterLink to="/contact">Contact Us</FooterLink>
-            <FooterLink to="/terms">Terms of Use</FooterLink>
+            <FooterLink to="/demo" trackEvent={() => trackClickedStartValidation("footer_demo_link")}>Try Demo</FooterLink>
+            <FooterLink to="/contact" trackEvent={() => trackViewedContact()}>Contact Us</FooterLink>
+            <FooterLink to="/terms" trackEvent={() => trackViewedTerms()}>Terms of Use</FooterLink>
             <FooterLink to="/privacy">Privacy Notice</FooterLink>
           </div>
           

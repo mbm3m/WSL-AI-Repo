@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { trackClickedStartValidation } from "@/utils/analytics";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const HeroSection = () => {
   const isMobile = useIsMobile();
   
   const scrollToRegistration = () => {
+    trackClickedStartValidation("hero_section_main_cta");
     const registrationSection = document.getElementById('early-access-section');
     registrationSection?.scrollIntoView({
       behavior: 'smooth'
@@ -19,6 +21,7 @@ const HeroSection = () => {
   };
   
   const navigateToDemoApp = () => {
+    trackClickedStartValidation("hero_section_demo_button");
     navigate('/demo');
   };
   

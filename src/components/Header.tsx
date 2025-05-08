@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { trackClickedStartValidation } from "@/utils/analytics";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ const Header = () => {
   }, []);
   
   const scrollToRegistration = () => {
+    trackClickedStartValidation("header_early_access_button");
     setMobileMenuOpen(false);
     
     if (location.pathname === '/') {
@@ -39,6 +40,7 @@ const Header = () => {
   };
 
   const navigateToDemoApp = () => {
+    trackClickedStartValidation("header_demo_button");
     setMobileMenuOpen(false);
     navigate('/demo');
   };
