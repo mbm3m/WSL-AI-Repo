@@ -42,7 +42,7 @@ const BenefitsSection = () => {
                 setTimeout(() => {
                   card.classList.add('opacity-100', 'translate-y-0');
                   card.classList.remove('opacity-0', 'translate-y-10');
-                }, 300 + index * 200);
+                }, 150 + index * 100); // Optimized animation timing
               });
             }
           }
@@ -69,28 +69,29 @@ const BenefitsSection = () => {
   return (
     <section 
       ref={sectionRef}
+      id="benefits-section"
       className={`py-32 ${
         theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'
-      } transition-all duration-700 opacity-0 translate-y-10`}
+      } transition-colors duration-300 opacity-100`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 
           ref={headingRef}
           className={`text-4xl md:text-5xl font-display font-bold tracking-tight text-center ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
-          } mb-8 transition-all duration-700 opacity-0 translate-y-10`}
+          } mb-8 opacity-100`}
         >
           Why Choose Us
         </h2>
         
         <p className={`text-xl text-center ${
           theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-        } font-light mb-16 max-w-3xl mx-auto transition-all duration-700 opacity-0 translate-y-10 delay-200`}>
+        } font-light mb-16 max-w-3xl mx-auto opacity-100`}>
           Our platform provides benefits across the healthcare ecosystem
         </p>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <Card className={`transition-all duration-300 benefit-card opacity-0 translate-y-10 ${cardClasses}`}>
+          <Card className={`transition-all duration-300 benefit-card opacity-100 ${cardClasses} will-change-transform`}>
             <CardHeader>
               <div className={`w-12 h-12 flex items-center justify-center ${
                 theme === 'dark' ? 'bg-gray-700' : 'bg-white'
@@ -115,7 +116,7 @@ const BenefitsSection = () => {
             </CardContent>
           </Card>
 
-          <Card className={`transition-all duration-300 benefit-card opacity-0 translate-y-10 ${cardClasses}`}>
+          <Card className={`transition-all duration-300 benefit-card opacity-100 ${cardClasses} will-change-transform`}>
             <CardHeader>
               <div className={`w-12 h-12 flex items-center justify-center ${
                 theme === 'dark' ? 'bg-gray-700' : 'bg-white'
@@ -140,7 +141,7 @@ const BenefitsSection = () => {
             </CardContent>
           </Card>
 
-          <Card className={`transition-all duration-300 benefit-card opacity-0 translate-y-10 ${cardClasses}`}>
+          <Card className={`transition-all duration-300 benefit-card opacity-100 ${cardClasses} will-change-transform`}>
             <CardHeader>
               <div className={`w-12 h-12 flex items-center justify-center ${
                 theme === 'dark' ? 'bg-gray-700' : 'bg-white'

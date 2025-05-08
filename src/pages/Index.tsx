@@ -18,11 +18,16 @@ const Index = () => {
   const { theme } = useTheme();
   
   useEffect(() => {
-    // Immediately make all sections fully visible
-    document.querySelectorAll('section').forEach(section => {
-      section.classList.add('opacity-100');
-      section.classList.remove('opacity-0');
-    });
+    // Ensure sections are visible regardless of theme changes
+    const makeSectionsVisible = () => {
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.add('opacity-100');
+        section.classList.remove('opacity-0', 'translate-y-10');
+      });
+    };
+    
+    // Run immediately and also when theme changes
+    makeSectionsVisible();
     
     // Handle scroll to registration if param is present
     if (searchParams.get('scrollToRegistration') === 'true') {
@@ -30,11 +35,11 @@ const Index = () => {
       if (registrationSection) {
         setTimeout(() => {
           registrationSection.scrollIntoView({ behavior: 'smooth' });
-        }, 600);
+        }, 300);
       }
     }
     
-    // Use IntersectionObserver only for animation effects
+    // Use IntersectionObserver with optimized animation settings
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
@@ -44,11 +49,12 @@ const Index = () => {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" }
     );
     
     // Observe sections for animations
-    document.querySelectorAll('section').forEach(section => {
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
       observer.observe(section);
     });
     
@@ -56,13 +62,15 @@ const Index = () => {
     const logoPreload = new Image();
     logoPreload.src = "/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png";
     
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, [searchParams, theme]); // Add theme dependency to trigger effect on theme change
 
   return (
     <div className={`flex flex-col min-h-screen ${
       theme === 'dark' ? 'bg-gray-900' : 'bg-white'
-    }`}>
+    } transition-colors duration-300`}>
       <Header />
       <main className="flex-1">
         <HeroSection />
@@ -79,8 +87,8 @@ const Index = () => {
       <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
         <div className="relative">
           <div className={`absolute inset-0 ${
-            theme === 'dark' ? 'bg-gray-800/70' : 'bg-white/70'
-          } backdrop-blur-md rounded-full`}></div>
+            theme === 'dark' ? 'bg-gray-800/80' : 'bg-white/80'
+          } backdrop-blur-sm rounded-full`}></div>
           <button
             onClick={() => {
               const registrationSection = document.getElementById('early-access-section');

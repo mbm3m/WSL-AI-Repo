@@ -27,19 +27,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     const root = window.document.documentElement;
     
-    // Make all sections visible before changing theme
+    // Important: Set all sections to visible BEFORE changing theme to avoid flicker
     document.querySelectorAll('section').forEach(section => {
       section.classList.add('opacity-100');
+      section.classList.remove('opacity-0');
     });
     
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    
-    // Save theme preference
-    localStorage.setItem("theme", theme);
+    // Add a small delay to ensure DOM is ready before theme switch
+    requestAnimationFrame(() => {
+      // Apply theme change
+      if (theme === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+      
+      // Save theme preference
+      localStorage.setItem("theme", theme);
+    });
   }, [theme]);
 
   return (

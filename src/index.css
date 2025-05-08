@@ -116,48 +116,48 @@ img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"] {
   aspect-ratio: 1 / 1;
 }
 
-/* Highly optimized animation classes for performance */
+/* Performance optimized animation classes */
 .hero-animate {
-  @apply transition-opacity duration-300;
+  @apply transition-opacity duration-200;
 }
 
-/* Performance optimization: only add will-change when needed */
+/* Only add will-change when needed to improve performance */
+.will-change-transform {
+  will-change: transform;
+}
+
 .will-change-opacity {
   will-change: opacity;
 }
 
-/* Glass effect with better performance */
+/* Improved glass effect with better performance */
 .glass {
-  @apply backdrop-blur-md bg-white/70 dark:bg-black/30;
+  @apply backdrop-blur-sm bg-white/70 dark:bg-black/30;
 }
 
 .glass-dark {
-  @apply backdrop-blur-md bg-black/40;
+  @apply backdrop-blur-sm bg-black/40;
 }
 
-/* Button effects - using only opacity/colors for performance */
+/* Button effects - using only transform/opacity for performance */
 .btn-hover {
-  @apply transition-colors duration-300;
+  @apply transition-transform duration-200;
 }
 
-/* Section transitions - sections are visible by default */
+/* Section transitions - sections are visible by default to prevent disappearing */
 section {
-  @apply transition-opacity duration-300 opacity-100;
+  @apply transition-all duration-200 opacity-100;
 }
 
 /* Animation class for sections that have been viewed */
 .animate-viewed {
-  @apply transition-transform duration-300 translate-y-0;
+  @apply transition-transform duration-200 translate-y-0;
 }
 
-/* Simplified delay utilities */
+/* Optimized delay utilities */
 .delay-100 { transition-delay: 100ms; }
 .delay-150 { transition-delay: 150ms; }
 .delay-200 { transition-delay: 200ms; }
-.delay-250 { transition-delay: 250ms; }
-.delay-300 { transition-delay: 300ms; }
-.delay-400 { transition-delay: 400ms; }
-.delay-500 { transition-delay: 500ms; }
 
 /* Form styling in dark mode */
 .dark input,
@@ -206,4 +206,10 @@ body, section, div, button, input, textarea {
 /* Ensure content is always visible during theme transitions */
 section, div {
   @apply opacity-100;
+}
+
+/* Hardware acceleration for smoother animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
