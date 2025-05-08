@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 
 const Contact = () => {
@@ -14,7 +14,6 @@ const Contact = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
   const { theme } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,16 +32,9 @@ const Contact = () => {
       
       if (error) {
         console.error("Error submitting form:", error);
-        toast({
-          title: "Error",
-          description: "There was a problem submitting your message. Please try again.",
-          variant: "destructive",
-        });
+        toast.error("There was a problem submitting your message. Please try again.");
       } else {
-        toast({
-          title: "Message received",
-          description: "Thank you for contacting us. We'll respond shortly.",
-        });
+        toast.success("Thank you for contacting us. We'll respond shortly.");
         
         // Reset form
         setName("");
@@ -51,11 +43,7 @@ const Contact = () => {
       }
     } catch (err) {
       console.error("Submission error:", err);
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again later.",
-        variant: "destructive",
-      });
+      toast.error("An unexpected error occurred. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -78,80 +66,92 @@ const Contact = () => {
           </p>
         </div>
         
-        <div className={`${
-          theme === 'dark' 
-            ? 'bg-gray-800 border border-gray-700 shadow-md' 
-            : 'bg-white border border-gray-100 shadow-sm'
-        } rounded-xl p-8`}>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className={`block text-sm font-medium ${
-                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-              } mb-1`}>
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className={`w-full px-4 py-2 rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                  theme === 'dark' 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                    : 'border-gray-200 text-gray-900'
-                }`}
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="email" className={`block text-sm font-medium ${
-                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-              } mb-1`}>
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className={`w-full px-4 py-2 rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                  theme === 'dark' 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                    : 'border-gray-200 text-gray-900'
-                }`}
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="message" className={`block text-sm font-medium ${
-                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-              } mb-1`}>
-                Message
-              </label>
-              <Textarea
-                id="message"
-                rows={5}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-                className={`w-full px-4 py-2 rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                  theme === 'dark' 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                    : 'border-gray-200 text-gray-900'
-                }`}
-              />
-            </div>
-            
-            <Button 
-              type="submit" 
-              disabled={isSubmitting}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
-            >
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </Button>
-          </form>
+        <div className="relative">
+          <div className={`absolute -inset-1 ${
+            theme === 'dark' 
+              ? 'bg-gradient-to-r from-gray-800 to-gray-700' 
+              : 'bg-gradient-to-r from-gray-100 to-gray-200'
+          } rounded-xl blur-lg opacity-30`}></div>
+          <div className={`relative ${
+            theme === 'dark' 
+              ? 'bg-gray-800 border-gray-700' 
+              : 'bg-white border-gray-100'
+          } rounded-2xl p-8 md:p-12 border shadow-sm`}>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label htmlFor="name" className={`text-sm font-medium ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  Full Name
+                </label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  placeholder="Your name"
+                  className={`w-full border ${
+                    theme === 'dark' 
+                      ? 'border-gray-600 bg-gray-700 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-blue-400/10' 
+                      : 'border-gray-200 focus:border-black focus:ring-0'
+                  } transition-all duration-300`}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="email" className={`text-sm font-medium ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  Email Address
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Your email"
+                  className={`w-full border ${
+                    theme === 'dark' 
+                      ? 'border-gray-600 bg-gray-700 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-blue-400/10' 
+                      : 'border-gray-200 focus:border-black focus:ring-0'
+                  } transition-all duration-300`}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="message" className={`text-sm font-medium ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  Message
+                </label>
+                <Textarea
+                  id="message"
+                  rows={5}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                  placeholder="How can we help you?"
+                  className={`w-full border ${
+                    theme === 'dark' 
+                      ? 'border-gray-600 bg-gray-700 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-blue-400/10' 
+                      : 'border-gray-200 focus:border-black focus:ring-0'
+                  } transition-all duration-300`}
+                />
+              </div>
+              
+              <div className="flex justify-center pt-4">
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="px-8 py-6 text-white rounded-full transition-all duration-300 bg-blue-600 hover:bg-blue-500"
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </main>
       <Footer />

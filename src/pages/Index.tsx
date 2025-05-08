@@ -63,7 +63,7 @@ const Index = () => {
       theme === 'dark' ? 'bg-gray-900' : 'bg-white'
     }`}>
       <Header />
-      <main className="flex-1 pt-16">
+      <main className="flex-1">
         <HeroSection />
         <ChallengesSection />
         <MVPFlowSection />
