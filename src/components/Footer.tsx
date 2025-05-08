@@ -1,18 +1,28 @@
 
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "@/hooks/use-theme";
 
-const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link
-    to={to}
-    className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
-  >
-    {children}
-  </Link>
-);
+const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  const { theme } = useTheme();
+  
+  return (
+    <Link
+      to={to}
+      className={`text-sm ${
+        theme === 'dark' 
+          ? 'text-gray-400 hover:text-gray-200' 
+          : 'text-gray-500 hover:text-gray-800'
+      } transition-colors`}
+    >
+      {children}
+    </Link>
+  );
+};
 
 const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
+  const { theme } = useTheme();
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,14 +49,20 @@ const Footer = () => {
   return (
     <footer 
       ref={footerRef}
-      className="bg-white border-t border-gray-100 py-16 opacity-0 transition-opacity duration-700"
+      className={`${
+        theme === 'dark' 
+          ? 'bg-gray-900 border-t border-gray-800' 
+          : 'bg-white border-t border-gray-100'
+      } py-16 opacity-0 transition-opacity duration-700`}
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <div className="mb-8">
             <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
               <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" />
-              <span className="ml-2 text-xl font-display font-medium text-gray-900">MedAI</span>
+              <span className={`ml-2 text-xl font-display font-medium ${
+                theme === 'dark' ? 'text-white' : 'text-gray-900'
+              }`}>MedAI</span>
             </Link>
           </div>
           
@@ -58,7 +74,9 @@ const Footer = () => {
           </div>
           
           <div>
-            <p className="text-sm text-gray-500 font-light">
+            <p className={`text-sm font-light ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               &copy; {currentYear} MedAI. All rights reserved.
             </p>
           </div>

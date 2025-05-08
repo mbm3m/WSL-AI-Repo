@@ -11,9 +11,11 @@ import Footer from "@/components/Footer";
 import ProductVisionSection from "@/components/ProductVisionSection";
 import TestimonialSection from "@/components/TestimonialSection";
 import MVPFlowSection from "@/components/MVPFlowSection";
+import { useTheme } from "@/hooks/use-theme";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
+  const { theme } = useTheme();
   
   useEffect(() => {
     // Performance optimization: Only animate sections on scroll, not the hero section
@@ -57,7 +59,9 @@ const Index = () => {
   }, [searchParams]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className={`flex flex-col min-h-screen ${
+      theme === 'dark' ? 'bg-gray-900' : 'bg-white'
+    }`}>
       <Header />
       <main className="flex-1 pt-16">
         <HeroSection />
@@ -73,7 +77,9 @@ const Index = () => {
       {/* Sticky Mobile CTA with improved glass effect */}
       <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
         <div className="relative">
-          <div className="absolute inset-0 bg-white/70 backdrop-blur-md rounded-full"></div>
+          <div className={`absolute inset-0 ${
+            theme === 'dark' ? 'bg-gray-800/70' : 'bg-white/70'
+          } backdrop-blur-md rounded-full`}></div>
           <button
             onClick={() => {
               const registrationSection = document.getElementById('early-access-section');

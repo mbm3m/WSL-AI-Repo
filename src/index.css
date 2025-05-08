@@ -109,6 +109,13 @@
   }
 }
 
+/* Optimize logo loading */
+img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"] {
+  width: 32px;
+  height: 32px;
+  aspect-ratio: 1 / 1;
+}
+
 /* Highly optimized animation classes for performance */
 .hero-animate {
   @apply opacity-0 transition-opacity duration-300;
