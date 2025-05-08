@@ -20,7 +20,7 @@ const Footer = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0', 'translate-y-10');
+            entry.target.classList.remove('opacity-0');
           }
         });
       },
@@ -39,7 +39,7 @@ const Footer = () => {
   return (
     <footer 
       ref={footerRef}
-      className="bg-white border-t border-gray-100 py-16 transition-all duration-700 opacity-0 translate-y-10"
+      className="bg-white border-t border-gray-100 py-16 opacity-0 transition-opacity duration-700"
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">

@@ -1,30 +1,25 @@
 
 import React, { useEffect, useRef } from "react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const TestimonialSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const testimonialRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // More efficient intersection observer implementation
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0', 'translate-y-10');
+            entry.target.classList.remove('opacity-0');
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
     );
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
-    }
-    
-    if (testimonialRef.current) {
-      observer.observe(testimonialRef.current);
     }
 
     return () => observer.disconnect();
@@ -33,17 +28,14 @@ const TestimonialSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-32 bg-white transition-all duration-700 opacity-0 translate-y-10"
+      className="py-32 bg-white opacity-0 transition-opacity duration-700"
     >
       <div className="container mx-auto px-4 max-w-5xl">
-        <div className="text-center mb-12 transition-all duration-700">
+        <div className="text-center mb-12 transition-opacity duration-500">
           <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-gray-900">What Early Users Say</h2>
         </div>
         
-        <div 
-          ref={testimonialRef}
-          className="relative transition-all duration-700 opacity-0 translate-y-10 delay-300"
-        >
+        <div className="relative transition-opacity duration-500 delay-150">
           <div className="absolute -inset-1.5 bg-gradient-to-r from-gray-100 to-white rounded-3xl blur-lg opacity-70"></div>
           <div className="relative bg-white rounded-2xl p-12 shadow-sm hover:shadow-md transition-shadow duration-300">
             <div className="flex flex-col items-center text-center">

@@ -4,17 +4,17 @@ import { Clock, AlertTriangle, FileWarning } from "lucide-react";
 
 const challenges = [
   {
-    icon: <Clock className="h-7 w-7 text-gray-800" />,
+    icon: <Clock className="h-7 w-7 text-black" />,
     title: "Delays in Manual Reviews",
     description: "Eliminate bottlenecks in the approval process with streamlined digital workflows."
   },
   {
-    icon: <AlertTriangle className="h-7 w-7 text-gray-800" />,
+    icon: <AlertTriangle className="h-7 w-7 text-black" />,
     title: "High Error Rates & Rejections",
     description: "Reduce mistakes and improve accuracy with automated validation checks."
   },
   {
-    icon: <FileWarning className="h-7 w-7 text-gray-800" />,
+    icon: <FileWarning className="h-7 w-7 text-black" />,
     title: "Mismatch with Insurance Policies",
     description: "Ensure compliance with real-time policy verification and updates."
   }
@@ -28,22 +28,17 @@ const ChallengesSection = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Add animation class to section
+            // Simplified animation - just toggle opacity class
             entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0', 'translate-y-10');
+            entry.target.classList.remove('opacity-0');
             
-            // Find all challenge cards within this section
+            // Find all challenge cards within this section and mark them to be animated with CSS
             const cards = entry.target.querySelectorAll('.challenge-card');
-            cards.forEach((card, index) => {
-              setTimeout(() => {
-                card.classList.add('opacity-100', 'translate-y-0');
-                card.classList.remove('opacity-0', 'translate-y-10');
-              }, index * 100); // Stagger the animation
-            });
+            cards.forEach(card => card.classList.add('shown'));
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -57,7 +52,7 @@ const ChallengesSection = () => {
     <section 
       id="challenges-section"
       ref={sectionRef} 
-      className="py-32 bg-gray-50 transition-all duration-700 opacity-0 translate-y-10 overflow-hidden"
+      className="py-32 bg-gray-50 opacity-0 transition-opacity duration-700 overflow-hidden"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-center text-gray-900 mb-6">
@@ -72,9 +67,9 @@ const ChallengesSection = () => {
           {challenges.map((challenge, index) => (
             <div 
               key={index} 
-              className="challenge-card flex flex-col items-start p-8 bg-white rounded-2xl transition-all duration-500 opacity-0 translate-y-10 shadow-sm hover:shadow-md"
+              className={`challenge-card flex flex-col items-start p-8 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 opacity-0 [&.shown]:opacity-100 delay-${index * 100}`}
             >
-              <div className="p-4 bg-gray-100 rounded-2xl mb-8">
+              <div className="p-4 bg-black/5 rounded-2xl mb-8">
                 {challenge.icon}
               </div>
               <h3 className="text-xl font-display font-semibold mb-3">{challenge.title}</h3>

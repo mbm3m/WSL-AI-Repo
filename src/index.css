@@ -106,32 +106,37 @@
   }
 }
 
-/* Global animation classes */
-.animate-on-scroll {
-  @apply opacity-0 translate-y-10 transition-all duration-700;
+/* Optimized animation classes - simplified for performance */
+.hero-animate {
+  @apply opacity-0 transition-opacity duration-500;
 }
 
-/* Glassmorphism effects */
+/* Optimized glass effects */
 .glass {
-  @apply backdrop-blur-md bg-white/50 border border-white/20;
+  @apply backdrop-blur-md bg-white/50;
 }
 
 .glass-dark {
-  @apply backdrop-blur-md bg-black/30 border border-white/10;
+  @apply backdrop-blur-md bg-black/30;
 }
 
-/* Button hover effects */
-.btn-hover-effect {
-  @apply transition-all duration-300;
-}
-.btn-hover-effect:hover {
-  @apply transform scale-105;
+/* Button hover effects - simplified */
+.btn-hover {
+  @apply transition-colors duration-300;
 }
 
-/* Interactive sections */
-.interactive-card {
-  @apply transition-all duration-300;
+/* Section transitions - using opacity only for better performance */
+section {
+  @apply transition-opacity duration-500;
 }
-.interactive-card:hover {
-  @apply shadow-lg transform -translate-y-1;
-}
+
+/* Delay utilities for staggered animations */
+.delay-100 { transition-delay: 100ms; }
+.delay-150 { transition-delay: 150ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-250 { transition-delay: 250ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-350 { transition-delay: 350ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-450 { transition-delay: 450ms; }
+.delay-500 { transition-delay: 500ms; }
