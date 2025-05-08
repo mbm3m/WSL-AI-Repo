@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Check } from "lucide-react";
 
 const features = [
@@ -22,36 +22,98 @@ const features = [
 ];
 
 const SolutionsSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100');
+            entry.target.classList.remove('opacity-0', 'translate-y-10');
+            
+            // Animate list items if the section is visible
+            if (entry.target === sectionRef.current) {
+              const items = entry.target.querySelectorAll('.feature-item');
+              items.forEach((item, index) => {
+                setTimeout(() => {
+                  item.classList.add('opacity-100', 'translate-y-0');
+                  item.classList.remove('opacity-0', 'translate-y-10');
+                }, 300 + index * 150);
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    if (contentRef.current) {
+      observer.observe(contentRef.current);
+    }
+    
+    if (imageRef.current) {
+      observer.observe(imageRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="py-24 bg-white">
+    <section 
+      ref={sectionRef}
+      className="py-32 bg-white transition-all duration-700 opacity-0 translate-y-10"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-center gap-16">
-          <div className="md:w-1/2">
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 mb-12">
+          <div 
+            ref={contentRef}
+            className="md:w-1/2 transition-all duration-700 opacity-0 translate-y-10 delay-300"
+          >
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-gray-900 mb-6">
               How Our Platform Solves It
             </h2>
             
+            <p className="text-xl text-gray-600 mb-12 font-light">
+              We've built powerful features to transform medical approvals
+            </p>
+            
             <ul className="space-y-8">
               {features.map((feature, index) => (
-                <li key={index} className="flex items-start">
+                <li 
+                  key={index} 
+                  className="feature-item flex items-start transition-all duration-500 opacity-0 translate-y-10"
+                >
                   <div className="mr-4 flex h-6 w-6 items-center justify-center rounded-full bg-black text-white mt-1">
                     <Check className="h-3 w-3" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900">{feature.title}</h3>
-                    <p className="mt-1 text-gray-600">{feature.description}</p>
+                    <h3 className="text-lg font-display font-medium text-gray-900">{feature.title}</h3>
+                    <p className="mt-1 text-gray-600 font-light">{feature.description}</p>
                   </div>
                 </li>
               ))}
             </ul>
           </div>
           
-          <div className="md:w-1/2 mt-12 md:mt-0">
-            <img
-              src="/lovable-uploads/fb7ed94a-cf37-497c-920e-fee0d98f4139.png"
-              alt="Medical staff using laptop"
-              className="w-full rounded-2xl shadow-xl"
-            />
+          <div 
+            ref={imageRef}
+            className="md:w-1/2 mt-12 md:mt-0 transition-all duration-700 opacity-0 translate-y-10 delay-500"
+          >
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-gray-200 to-gray-100 rounded-2xl blur opacity-30"></div>
+              <img
+                src="/lovable-uploads/fb7ed94a-cf37-497c-920e-fee0d98f4139.png"
+                alt="Medical staff using laptop"
+                className="relative w-full rounded-2xl shadow-xl"
+              />
+            </div>
           </div>
         </div>
       </div>

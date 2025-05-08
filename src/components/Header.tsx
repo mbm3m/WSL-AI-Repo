@@ -1,11 +1,21 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   
   const scrollToRegistration = () => {
     if (location.pathname === '/') {
@@ -24,22 +34,37 @@ const Header = () => {
     navigate('/demo');
   };
 
-  return <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/95 backdrop-blur">
+  return (
+    <header 
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled 
+          ? "bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm" 
+          : "bg-transparent"
+      }`}
+    >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
           <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/2ed6d2ba-0c4f-43b0-9add-5ab55f5579bc.png" />
-          <span className="ml-2 text-xl font-semibold text-gray-900">MedAI</span>
+          <span className="ml-2 text-xl font-display font-semibold text-gray-900">MedAI</span>
         </Link>
         <div className="flex items-center gap-4">
-          <Button onClick={scrollToRegistration} className="bg-blue-500 hover:bg-blue-600">
-            Join the Waitlist
+          <Button 
+            onClick={scrollToRegistration} 
+            variant="ghost"
+            className="font-medium text-gray-900 hover:bg-black hover:text-white transition-all duration-300"
+          >
+            Join Early Access
           </Button>
-          <Button onClick={navigateToDemoApp} variant="outline" className="border-blue-500 text-blue-500 hover:bg-blue-50">
+          <Button 
+            onClick={navigateToDemoApp}
+            className="bg-black text-white hover:bg-gray-800 font-medium transition-all duration-300"
+          >
             Try Limited Version
           </Button>
         </div>
       </div>
-    </header>;
+    </header>
+  );
 };
 
 export default Header;

@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
@@ -12,13 +12,41 @@ const FooterLink = ({ to, children }: { to: string; children: React.ReactNode })
 );
 
 const Footer = () => {
+  const footerRef = useRef<HTMLElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100');
+            entry.target.classList.remove('opacity-0', 'translate-y-10');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-white border-t border-gray-200">
-      <div className="container mx-auto px-4 py-12">
+    <footer 
+      ref={footerRef}
+      className="bg-white border-t border-gray-100 py-16 transition-all duration-700 opacity-0 translate-y-10"
+    >
+      <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <div className="mb-8">
-            <Link to="/" className="text-2xl font-bold">
-              MedAI
+            <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
+              <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/2ed6d2ba-0c4f-43b0-9add-5ab55f5579bc.png" />
+              <span className="ml-2 text-xl font-display font-medium text-gray-900">MedAI</span>
             </Link>
           </div>
           
@@ -30,8 +58,8 @@ const Footer = () => {
           </div>
           
           <div>
-            <p className="text-sm text-gray-500">
-              &copy; {new Date().getFullYear()} MedAI. All rights reserved.
+            <p className="text-sm text-gray-500 font-light">
+              &copy; {currentYear} MedAI. All rights reserved.
             </p>
           </div>
         </div>
