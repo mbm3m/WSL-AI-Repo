@@ -90,8 +90,8 @@ const SolutionsSection = () => {
                   key={index} 
                   className="feature-item flex items-start transition-opacity duration-300 opacity-0"
                 >
-                  <div className="mr-4 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white mt-1">
-                    <Check className="h-3 w-3" />
+                  <div className="mr-4 p-2 bg-white shadow-md rounded-full transition-transform duration-300 hover:scale-105">
+                    <Check className="h-4 w-4 text-blue-600" />
                   </div>
                   <div>
                     <h3 className="text-lg font-display font-medium text-gray-900">{feature.title}</h3>
