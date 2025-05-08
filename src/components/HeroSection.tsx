@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Shield } from "lucide-react";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -23,10 +24,13 @@ const HeroSection = () => {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Faster Medical Approvals, Less Paperwork — Built for Saudi Hospitals & Insurance Companies
             </h1>
+            <p className="mt-3 text-gray-600">
+              Part of a full platform connecting hospitals and insurers in Saudi Arabia.
+            </p>
             <p className="mt-6 text-lg text-gray-600">
               Transform the approval journey with a reliable, accurate, and fast digital process tailored to the local healthcare system.
             </p>
-            <div className="mt-10 flex gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <Button 
                 onClick={scrollToRegistration} 
                 className="bg-blue-500 hover:bg-blue-600 px-6"
@@ -40,6 +44,10 @@ const HeroSection = () => {
               >
                 Try Limited Version
               </Button>
+              <div className="mt-4 sm:mt-6 flex items-center">
+                <Shield className="h-4 w-4 text-blue-500 mr-2" />
+                <span className="text-sm text-gray-600">Coming Soon: Nphies & PDPL integration</span>
+              </div>
             </div>
           </div>
           <div>

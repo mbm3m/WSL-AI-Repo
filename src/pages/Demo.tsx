@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -8,8 +9,10 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { FileText, Upload, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
+import { FileText, Upload, AlertTriangle, CheckCircle, XCircle, Lock, Cpu } from "lucide-react";
 import { extractTextFromFile } from "@/utils/fileProcessing";
+import { Checkbox } from "@/components/ui/checkbox";
+import MVPFlowSection from "@/components/MVPFlowSection";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -20,6 +23,7 @@ interface DemoFormValues {
   email: string;
   hospital: string;
   phone: string;
+  consentChecked: boolean;
 }
 
 interface AnalysisResult {
@@ -39,6 +43,8 @@ const Demo = () => {
   const [policyFile, setPolicyFile] = useState<FileWithPreview | null>(null);
   const [userData, setUserData] = useState<DemoFormValues | null>(null);
   const [analysisStage, setAnalysisStage] = useState<string>("");
+  const [isDraggingReport, setIsDraggingReport] = useState(false);
+  const [isDraggingPolicy, setIsDraggingPolicy] = useState(false);
   
   const form = useForm<DemoFormValues>({
     defaultValues: {
@@ -46,8 +52,41 @@ const Demo = () => {
       email: "",
       hospital: "",
       phone: "",
+      consentChecked: false,
     }
   });
+
+  const handleReportFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingReport(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type !== 'application/pdf' && 
+          file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        toast.error("Please upload a PDF or DOCX file for the medical report");
+        return;
+      }
+      setReportFile(file);
+      toast.success("Medical report file uploaded successfully");
+    }
+  };
+  
+  const handlePolicyFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingPolicy(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type !== 'application/pdf' && 
+          file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        toast.error("Please upload a PDF or DOCX file for the policies");
+        return;
+      }
+      setPolicyFile(file);
+      toast.success("Policy file uploaded successfully");
+    }
+  };
 
   const handleReportFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -115,6 +154,11 @@ const Demo = () => {
       toast.error("Please upload a policy file");
       return;
     }
+    
+    if (!data.consentChecked) {
+      toast.error("Please agree to the terms for demo analysis");
+      return;
+    }
 
     setIsSubmitting(true);
     
@@ -155,15 +199,16 @@ const Demo = () => {
       try {
         const analysisResult = await analyzeWithGPT4o(reportText, policyText);
         setAnalysis(analysisResult);
+        toast.success("✅ Report analyzed — check your output.");
       } catch (error) {
-        toast.error("Error analyzing report. Please try again later.");
+        toast.error("⚠️ Error analyzing report. Please try again later.");
         console.error("Analysis error:", error);
       }
       
       setIsSubmitting(false);
     } catch (err) {
       console.error("Error in submission:", err);
-      toast.error("An unexpected error occurred. Please try again.");
+      toast.error("⚠️ Please upload valid documents.");
       setIsSubmitting(false);
     }
   };
@@ -202,7 +247,10 @@ const Demo = () => {
       <Header />
       <main className="flex-1 py-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center mb-12">
+          {/* MVP Visual Flow Section */}
+          <MVPFlowSection />
+          
+          <div className="text-center mb-12 mt-12">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-4">
               Medical Report Compliance Checker
             </h1>
@@ -229,7 +277,12 @@ const Demo = () => {
                       <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your full name" required {...field} />
+                          <Input 
+                            placeholder="Enter your full name" 
+                            required 
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors" 
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -242,7 +295,13 @@ const Demo = () => {
                       <FormItem>
                         <FormLabel>Email Address</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Enter your email" required {...field} />
+                          <Input 
+                            type="email" 
+                            placeholder="Enter your email" 
+                            required 
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -255,7 +314,12 @@ const Demo = () => {
                       <FormItem>
                         <FormLabel>Hospital/Company</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your organization" required {...field} />
+                          <Input 
+                            placeholder="Enter your organization" 
+                            required 
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -268,7 +332,12 @@ const Demo = () => {
                       <FormItem>
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your phone number" required {...field} />
+                          <Input 
+                            placeholder="Enter your phone number" 
+                            required 
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -279,15 +348,28 @@ const Demo = () => {
                 {/* File Upload for Medical Report */}
                 <div className="space-y-2">
                   <FormLabel>Medical Report</FormLabel>
-                  <div className="border border-gray-300 rounded-md bg-white p-4">
+                  <div 
+                    className={`border-2 border-dashed rounded-md bg-white p-6 transition-colors ${isDraggingReport ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}
+                    onDragOver={(e) => {e.preventDefault(); setIsDraggingReport(true);}}
+                    onDragLeave={(e) => {e.preventDefault(); setIsDraggingReport(false);}}
+                    onDrop={handleReportFileDrop}
+                  >
                     <label className="flex flex-col items-center justify-center gap-2 cursor-pointer text-center">
-                      <FileText className="h-10 w-10 text-blue-500" />
-                      <span className="font-medium text-blue-500">
-                        {reportFile ? reportFile.name : "Upload medical report"}
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        PDF or DOCX, max 10MB
-                      </span>
+                      {reportFile ? (
+                        <>
+                          <div className="bg-green-100 rounded-full p-3">
+                            <FileText className="h-8 w-8 text-green-600" />
+                          </div>
+                          <span className="font-medium text-green-600">{reportFile.name}</span>
+                          <span className="text-sm text-gray-500">File selected - click to change</span>
+                        </>
+                      ) : (
+                        <>
+                          <FileText className="h-10 w-10 text-blue-500" />
+                          <span className="font-medium text-blue-500">Upload medical report</span>
+                          <span className="text-sm text-gray-500">PDF or DOCX, max 10MB</span>
+                        </>
+                      )}
                       <Input 
                         type="file" 
                         accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
@@ -297,10 +379,11 @@ const Demo = () => {
                       <Button 
                         type="button" 
                         variant="outline" 
-                        className="mt-2"
+                        className="mt-2 hover:bg-blue-50"
                       >
                         <Upload className="mr-2 h-4 w-4" /> Browse files
                       </Button>
+                      <p className="text-xs text-gray-500 mt-1">Or drag files here</p>
                     </label>
                   </div>
                 </div>
@@ -308,15 +391,28 @@ const Demo = () => {
                 {/* File Upload for Policies */}
                 <div className="space-y-2">
                   <FormLabel>Applicable Policies</FormLabel>
-                  <div className="border border-gray-300 rounded-md bg-white p-4">
+                  <div 
+                    className={`border-2 border-dashed rounded-md bg-white p-6 transition-colors ${isDraggingPolicy ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}
+                    onDragOver={(e) => {e.preventDefault(); setIsDraggingPolicy(true);}}
+                    onDragLeave={(e) => {e.preventDefault(); setIsDraggingPolicy(false);}}
+                    onDrop={handlePolicyFileDrop}
+                  >
                     <label className="flex flex-col items-center justify-center gap-2 cursor-pointer text-center">
-                      <FileText className="h-10 w-10 text-blue-500" />
-                      <span className="font-medium text-blue-500">
-                        {policyFile ? policyFile.name : "Upload policy documents"}
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        PDF or DOCX, max 10MB
-                      </span>
+                      {policyFile ? (
+                        <>
+                          <div className="bg-green-100 rounded-full p-3">
+                            <FileText className="h-8 w-8 text-green-600" />
+                          </div>
+                          <span className="font-medium text-green-600">{policyFile.name}</span>
+                          <span className="text-sm text-gray-500">File selected - click to change</span>
+                        </>
+                      ) : (
+                        <>
+                          <FileText className="h-10 w-10 text-blue-500" />
+                          <span className="font-medium text-blue-500">Upload policy documents</span>
+                          <span className="text-sm text-gray-500">PDF or DOCX, max 10MB</span>
+                        </>
+                      )}
                       <Input 
                         type="file" 
                         accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
@@ -326,21 +422,65 @@ const Demo = () => {
                       <Button 
                         type="button" 
                         variant="outline" 
-                        className="mt-2"
+                        className="mt-2 hover:bg-blue-50"
                       >
                         <Upload className="mr-2 h-4 w-4" /> Browse files
                       </Button>
+                      <p className="text-xs text-gray-500 mt-1">Or drag files here</p>
                     </label>
+                  </div>
+                </div>
+                
+                {/* Consent Checkbox */}
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="consentChecked"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>
+                            I agree to share this file for demo analysis purposes only
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <div className="bg-yellow-50 border border-yellow-200 rounded p-3 text-sm text-yellow-700">
+                    Do not upload real patient data. This is a limited demo version for testing only.
                   </div>
                 </div>
                 
                 <Button 
                   type="submit" 
-                  className="w-full bg-blue-500 hover:bg-blue-600"
+                  className="w-full bg-blue-500 hover:bg-blue-600 transition-all transform hover:scale-[1.02] active:scale-[0.99]"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Processing..." : "Analyze Report"}
+                  {isSubmitting ? (
+                    <>
+                      <span className="inline-block animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></span>
+                      Processing...
+                    </>
+                  ) : "Analyze Report"}
                 </Button>
+                
+                <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+                  <div className="flex items-center">
+                    <Cpu className="h-4 w-4 text-blue-500 mr-1" />
+                    <span>AI-powered</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Lock className="h-4 w-4 text-blue-500 mr-1" />
+                    <span>Data is not stored or saved</span>
+                  </div>
+                </div>
               </form>
             </Form>
           )}
@@ -350,7 +490,7 @@ const Demo = () => {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Compliance Report</h2>
                 <div className="flex space-x-3">
-                  <Button variant="outline" onClick={resetDemo}>Try Another Report</Button>
+                  <Button variant="outline" onClick={resetDemo} className="hover:bg-blue-50">Try Another Report</Button>
                 </div>
               </div>
               
@@ -416,6 +556,17 @@ const Demo = () => {
           </div>
         </div>
       </main>
+      
+      {/* Sticky Mobile CTA */}
+      <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
+        <Button
+          onClick={navigateToWaitlist}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg shadow-lg"
+        >
+          📩 Join Early Access
+        </Button>
+      </div>
+      
       <Footer />
     </div>
   );

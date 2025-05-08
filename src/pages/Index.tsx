@@ -10,6 +10,8 @@ import SolutionsSection from "@/components/SolutionsSection";
 import BenefitsSection from "@/components/BenefitsSection";
 import EarlyAccessSection from "@/components/EarlyAccessSection";
 import Footer from "@/components/Footer";
+import ProductVisionSection from "@/components/ProductVisionSection";
+import TestimonialSection from "@/components/TestimonialSection";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
@@ -32,9 +34,25 @@ const Index = () => {
         <HeroSection />
         <ChallengesSection />
         <SolutionsSection />
+        <ProductVisionSection />
+        <TestimonialSection />
         <BenefitsSection />
         <EarlyAccessSection />
       </main>
+      
+      {/* Sticky Mobile CTA */}
+      <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
+        <Button
+          onClick={() => {
+            const registrationSection = document.getElementById('early-access-section');
+            registrationSection?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg shadow-lg"
+        >
+          📩 Join Early Access
+        </Button>
+      </div>
+      
       <Footer />
     </div>
   );
