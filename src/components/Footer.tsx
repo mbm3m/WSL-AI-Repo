@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
-import { trackViewedTerms } from "@/utils/analytics";
+import { trackViewedTerms, trackViewedContact, trackClickedStartValidation } from "@/utils/analytics";
 
 const FooterLink = ({ to, children, trackEvent }: { to: string; children: React.ReactNode; trackEvent?: () => void }) => {
   const { theme } = useTheme();
