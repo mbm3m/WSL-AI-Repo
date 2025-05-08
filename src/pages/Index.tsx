@@ -1,8 +1,6 @@
 
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ChallengesSection from "@/components/ChallengesSection";
@@ -42,15 +40,15 @@ const Index = () => {
       
       {/* Sticky Mobile CTA */}
       <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
-        <Button
+        <button
           onClick={() => {
             const registrationSection = document.getElementById('early-access-section');
             registrationSection?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg shadow-lg"
+          className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-full shadow-lg transition-all duration-300"
         >
-          📩 Join Early Access
-        </Button>
+          Join Early Access
+        </button>
       </div>
       
       <Footer />

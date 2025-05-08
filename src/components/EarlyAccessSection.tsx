@@ -54,71 +54,73 @@ const EarlyAccessSection = () => {
   };
 
   return (
-    <section id="early-access-section" className="py-16 scroll-mt-20">
+    <section id="early-access-section" className="py-24 bg-gray-50 scroll-mt-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-            Join the Platform — Early Access for Healthcare Teams
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold tracking-tight text-gray-900">
+            Join the Platform — Early Access
           </h2>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-4 text-xl text-gray-600">
             Be among the first to transform your medical approval process
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <Input
-                name="fullName"
-                placeholder="Full Name"
-                value={formData.fullName}
-                onChange={handleChange}
-                required
-                className="w-full"
-              />
+        <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12 border border-gray-100">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div>
+                <Input
+                  name="fullName"
+                  placeholder="Full Name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                  className="w-full border-gray-200 focus:border-gray-300 focus:ring-0"
+                />
+              </div>
+              <div>
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full border-gray-200 focus:border-gray-300 focus:ring-0"
+                />
+              </div>
+              <div>
+                <Input
+                  name="hospital"
+                  placeholder="Hospital/Company"
+                  value={formData.hospital}
+                  onChange={handleChange}
+                  required
+                  className="w-full border-gray-200 focus:border-gray-300 focus:ring-0"
+                />
+              </div>
+              <div>
+                <Input
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full border-gray-200 focus:border-gray-300 focus:ring-0"
+                />
+              </div>
             </div>
-            <div>
-              <Input
-                name="email"
-                type="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full"
-              />
+            <div className="flex justify-center">
+              <Button 
+                type="submit" 
+                className="px-8 py-6 bg-black hover:bg-gray-800 text-white rounded-full transition-all duration-300"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Processing..." : "Apply Now"}
+              </Button>
             </div>
-            <div>
-              <Input
-                name="hospital"
-                placeholder="Hospital/Company"
-                value={formData.hospital}
-                onChange={handleChange}
-                required
-                className="w-full"
-              />
-            </div>
-            <div>
-              <Input
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                className="w-full"
-              />
-            </div>
-          </div>
-          <div className="flex justify-center">
-            <Button 
-              type="submit" 
-              className="w-full bg-blue-500 hover:bg-blue-600"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Processing..." : "Apply Now"}
-            </Button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </section>
   );

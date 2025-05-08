@@ -1,58 +1,43 @@
 
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, AlertTriangle, FileWarning } from "lucide-react";
+
+const challenges = [
+  {
+    icon: <Clock className="h-6 w-6 text-gray-800" />,
+    title: "Delays in Manual Reviews",
+    description: "Eliminate bottlenecks in the approval process with streamlined digital workflows."
+  },
+  {
+    icon: <AlertTriangle className="h-6 w-6 text-gray-800" />,
+    title: "High Error Rates & Rejections",
+    description: "Reduce mistakes and improve accuracy with automated validation checks."
+  },
+  {
+    icon: <FileWarning className="h-6 w-6 text-gray-800" />,
+    title: "Mismatch with Insurance Policies",
+    description: "Ensure compliance with real-time policy verification and updates."
+  }
+];
 
 const ChallengesSection = () => {
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-center text-gray-900 mb-16">
+    <section className="py-24 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        <h2 className="text-4xl font-bold tracking-tight text-center text-gray-900 mb-16">
           Common Challenges We Solve
         </h2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <Card className="border-none shadow-lg">
-            <CardHeader className="pb-2">
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 mb-4">
-                <Clock className="h-6 w-6 text-blue-600" />
+        
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+          {challenges.map((challenge, index) => (
+            <div key={index} className="flex flex-col items-start p-6 bg-white rounded-2xl transition-all duration-300 hover:shadow-lg">
+              <div className="p-3 bg-gray-100 rounded-full mb-6">
+                {challenge.icon}
               </div>
-              <CardTitle className="text-xl">Delays in Manual Reviews</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Eliminate bottlenecks in the approval process with streamlined 
-                digital workflows.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-none shadow-lg">
-            <CardHeader className="pb-2">
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 mb-4">
-                <AlertTriangle className="h-6 w-6 text-blue-600" />
-              </div>
-              <CardTitle className="text-xl">High Error Rates & Rejections</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Reduce mistakes and improve accuracy with automated validation checks.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-none shadow-lg">
-            <CardHeader className="pb-2">
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 mb-4">
-                <FileWarning className="h-6 w-6 text-blue-600" />
-              </div>
-              <CardTitle className="text-xl">Mismatch with Insurance Policies</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Ensure compliance with real-time policy verification and updates.
-              </p>
-            </CardContent>
-          </Card>
+              <h3 className="text-xl font-medium mb-3">{challenge.title}</h3>
+              <p className="text-gray-600">{challenge.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

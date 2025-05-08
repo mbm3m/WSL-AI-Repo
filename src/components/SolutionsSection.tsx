@@ -23,19 +23,19 @@ const features = [
 
 const SolutionsSection = () => {
   return (
-    <section className="py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-center text-gray-900 mb-16">
-          How Our Platform Solves It
-        </h2>
-        
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 items-center">
-          <div className="order-2 lg:order-1">
+    <section className="py-24 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div className="flex flex-col md:flex-row md:items-center gap-16">
+          <div className="md:w-1/2">
+            <h2 className="text-4xl font-bold tracking-tight text-gray-900 mb-12">
+              How Our Platform Solves It
+            </h2>
+            
             <ul className="space-y-8">
               {features.map((feature, index) => (
-                <li key={index} className="flex">
-                  <div className="mr-4 flex h-7 w-7 items-center justify-center rounded-full bg-blue-100">
-                    <Check className="h-4 w-4 text-blue-600" />
+                <li key={index} className="flex items-start">
+                  <div className="mr-4 flex h-6 w-6 items-center justify-center rounded-full bg-black text-white mt-1">
+                    <Check className="h-3 w-3" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium text-gray-900">{feature.title}</h3>
@@ -45,11 +45,12 @@ const SolutionsSection = () => {
               ))}
             </ul>
           </div>
-          <div className="order-1 lg:order-2">
+          
+          <div className="md:w-1/2 mt-12 md:mt-0">
             <img
               src="/lovable-uploads/fb7ed94a-cf37-497c-920e-fee0d98f4139.png"
               alt="Medical staff using laptop"
-              className="w-full rounded-lg shadow-xl"
+              className="w-full rounded-2xl shadow-xl"
             />
           </div>
         </div>
