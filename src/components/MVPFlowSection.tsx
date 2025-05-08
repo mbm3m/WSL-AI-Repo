@@ -10,7 +10,6 @@ const MVPFlowSection = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Simpler animation approach - make visible immediately
             entry.target.classList.add('opacity-100');
             entry.target.classList.remove('opacity-0');
             
@@ -51,7 +50,6 @@ const MVPFlowSection = () => {
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <p className="text-sm font-medium text-gray-600 mb-2">WORKFLOW PREVIEW</p>
           <h3 className="text-2xl md:text-3xl font-display font-bold text-gray-900">
             How Our System Works
           </h3>

@@ -44,7 +44,7 @@ const Header = () => {
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
-          <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/393cca20-ef4b-4f00-9342-81a87850b0dc.png" />
+          <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" />
           <span className="ml-2 text-xl font-display font-semibold text-gray-900">MedAI</span>
         </Link>
         <div className="flex items-center gap-4">

@@ -42,8 +42,8 @@ const TestimonialSection = () => {
               <blockquote className="text-2xl md:text-3xl font-light text-gray-700 mb-8 font-display">
                 "MedAI helped us reduce our approval delays drastically — can't wait for the full release!"
               </blockquote>
-              <cite className="flex items-center font-medium text-gray-900 not-italic">
-                <span>Dr. Ahmed B., Internal Medicine, Riyadh</span>
+              <cite className="font-medium text-gray-900 not-italic">
+                Dr. Ahmed B., Internal Medicine, Riyadh
               </cite>
             </div>
           </div>

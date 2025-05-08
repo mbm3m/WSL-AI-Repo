@@ -16,27 +16,8 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   
   useEffect(() => {
-    // Performance optimization: Only animate the first visible elements
-    // and use lightweight CSS transitions
-    const animateInitialElements = () => {
-      const initialElements = document.querySelectorAll('.hero-animate');
-      initialElements.forEach((el) => {
-        // Add the will-change property to improve rendering performance
-        el.classList.add('will-change-opacity');
-        el.classList.add('opacity-100');
-        el.classList.remove('opacity-0');
-      });
-      
-      // Remove will-change after animations complete to free up resources
-      setTimeout(() => {
-        initialElements.forEach(el => {
-          el.classList.remove('will-change-opacity');
-        });
-      }, 1000);
-    };
-    
-    // Short delay to ensure DOM is ready
-    setTimeout(animateInitialElements, 100);
+    // Performance optimization: Only animate sections on scroll, not the hero section
+    // Use lightweight CSS transitions
     
     // Handle scroll to registration if param is present
     if (searchParams.get('scrollToRegistration') === 'true') {
@@ -48,7 +29,7 @@ const Index = () => {
       }
     }
     
-    // Use IntersectionObserver for all sections instead of scroll events
+    // Use IntersectionObserver for all sections except hero
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
@@ -62,8 +43,8 @@ const Index = () => {
       { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
     );
     
-    // Observe all sections
-    const sections = document.querySelectorAll('section');
+    // Observe all sections except hero
+    const sections = document.querySelectorAll('section:not(:first-child)');
     sections.forEach(section => {
       observer.observe(section);
     });
