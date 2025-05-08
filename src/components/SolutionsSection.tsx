@@ -1,23 +1,27 @@
 
 import React, { useEffect, useRef } from "react";
-import { Check } from "lucide-react";
+import { FileText, Shield, Users, Lock } from "lucide-react";
 
 const features = [
   {
     title: "Smart Report Drafting",
-    description: "Generate accurate medical reports with built-in templates and guidelines."
+    description: "Generate accurate medical reports with built-in templates and guidelines.",
+    icon: FileText
   },
   {
     title: "Built-in Policy Checks",
-    description: "Automatically verify compliance with insurance policies before submission."
+    description: "Automatically verify compliance with insurance policies before submission.",
+    icon: Shield
   },
   {
     title: "Doctor-Insurer Collaboration",
-    description: "Seamless communication between healthcare providers and insurance companies."
+    description: "Seamless communication between healthcare providers and insurance companies.",
+    icon: Users
   },
   {
     title: "Secure Medical Data",
-    description: "Enterprise-grade security ensuring patient data protection and privacy."
+    description: "Enterprise-grade security ensuring patient data protection and privacy.",
+    icon: Lock
   }
 ];
 
@@ -85,20 +89,23 @@ const SolutionsSection = () => {
             </p>
             
             <ul className="space-y-8">
-              {features.map((feature, index) => (
-                <li 
-                  key={index} 
-                  className="feature-item flex items-start transition-opacity duration-300 opacity-0"
-                >
-                  <div className="mr-4 p-2 bg-white shadow-md rounded-full transition-transform duration-300 hover:scale-105">
-                    <Check className="h-4 w-4 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-display font-medium text-gray-900">{feature.title}</h3>
-                    <p className="mt-1 text-gray-600 font-light">{feature.description}</p>
-                  </div>
-                </li>
-              ))}
+              {features.map((feature, index) => {
+                const IconComponent = feature.icon;
+                return (
+                  <li 
+                    key={index} 
+                    className="feature-item flex items-start transition-opacity duration-300 opacity-0"
+                  >
+                    <div className="mr-4 p-2 bg-white shadow-md rounded-full transition-transform duration-300 hover:scale-105">
+                      <IconComponent className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-display font-medium text-gray-900">{feature.title}</h3>
+                      <p className="mt-1 text-gray-600 font-light">{feature.description}</p>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           
