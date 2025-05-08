@@ -50,6 +50,9 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Brand color - blue */
+    --brand-blue: 214 89% 52%;
   }
 
   .dark {
@@ -106,37 +109,40 @@
   }
 }
 
-/* Optimized animation classes - simplified for performance */
+/* Highly optimized animation classes for performance */
 .hero-animate {
-  @apply opacity-0 transition-opacity duration-500;
+  @apply opacity-0 transition-opacity duration-300;
 }
 
-/* Optimized glass effects */
+/* Performance optimization: only add will-change when needed */
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Glass effect with better performance */
 .glass {
-  @apply backdrop-blur-md bg-white/50;
+  @apply backdrop-blur-md bg-white/70;
 }
 
 .glass-dark {
-  @apply backdrop-blur-md bg-black/30;
+  @apply backdrop-blur-md bg-black/40;
 }
 
-/* Button hover effects - simplified */
+/* Button effects - using only opacity/colors for performance */
 .btn-hover {
   @apply transition-colors duration-300;
 }
 
-/* Section transitions - using opacity only for better performance */
+/* Section transitions - using only opacity for performance */
 section {
   @apply transition-opacity duration-500;
 }
 
-/* Delay utilities for staggered animations */
+/* Simplified delay utilities */
 .delay-100 { transition-delay: 100ms; }
 .delay-150 { transition-delay: 150ms; }
 .delay-200 { transition-delay: 200ms; }
 .delay-250 { transition-delay: 250ms; }
 .delay-300 { transition-delay: 300ms; }
-.delay-350 { transition-delay: 350ms; }
 .delay-400 { transition-delay: 400ms; }
-.delay-450 { transition-delay: 450ms; }
 .delay-500 { transition-delay: 500ms; }

@@ -45,7 +45,7 @@ const Footer = () => {
         <div className="flex flex-col items-center">
           <div className="mb-8">
             <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
-              <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/2ed6d2ba-0c4f-43b0-9add-5ab55f5579bc.png" />
+              <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/393cca20-ef4b-4f00-9342-81a87850b0dc.png" />
               <span className="ml-2 text-xl font-display font-medium text-gray-900">MedAI</span>
             </Link>
           </div>

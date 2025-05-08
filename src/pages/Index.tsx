@@ -16,17 +16,27 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   
   useEffect(() => {
-    // More efficient animation approach - just target what's visible initially
-    // and let the intersection observers handle the rest
-    setTimeout(() => {
+    // Performance optimization: Only animate the first visible elements
+    // and use lightweight CSS transitions
+    const animateInitialElements = () => {
       const initialElements = document.querySelectorAll('.hero-animate');
-      initialElements.forEach((el, index) => {
-        setTimeout(() => {
-          el.classList.add('opacity-100');
-          el.classList.remove('opacity-0');
-        }, index * 150);
+      initialElements.forEach((el) => {
+        // Add the will-change property to improve rendering performance
+        el.classList.add('will-change-opacity');
+        el.classList.add('opacity-100');
+        el.classList.remove('opacity-0');
       });
-    }, 100);
+      
+      // Remove will-change after animations complete to free up resources
+      setTimeout(() => {
+        initialElements.forEach(el => {
+          el.classList.remove('will-change-opacity');
+        });
+      }, 1000);
+    };
+    
+    // Short delay to ensure DOM is ready
+    setTimeout(animateInitialElements, 100);
     
     // Handle scroll to registration if param is present
     if (searchParams.get('scrollToRegistration') === 'true') {
@@ -37,6 +47,28 @@ const Index = () => {
         }, 600);
       }
     }
+    
+    // Use IntersectionObserver for all sections instead of scroll events
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100');
+            entry.target.classList.remove('opacity-0');
+            observer.unobserve(entry.target); // Stop observing once shown
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+    );
+    
+    // Observe all sections
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+    
+    return () => observer.disconnect();
   }, [searchParams]);
 
   return (
@@ -53,16 +85,16 @@ const Index = () => {
         <EarlyAccessSection />
       </main>
       
-      {/* Sticky Mobile CTA with glass effect */}
+      {/* Sticky Mobile CTA with improved glass effect */}
       <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
         <div className="relative">
-          <div className="absolute inset-0 bg-white/60 backdrop-blur-lg rounded-full"></div>
+          <div className="absolute inset-0 bg-white/70 backdrop-blur-md rounded-full"></div>
           <button
             onClick={() => {
               const registrationSection = document.getElementById('early-access-section');
               registrationSection?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="relative w-full bg-black hover:bg-gray-800 text-white py-3 rounded-full shadow-lg transition-colors"
+            className="relative w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full shadow-lg transition-colors duration-300"
           >
             Join Early Access
           </button>

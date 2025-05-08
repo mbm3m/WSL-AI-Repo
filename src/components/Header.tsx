@@ -44,20 +44,20 @@ const Header = () => {
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
-          <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/2ed6d2ba-0c4f-43b0-9add-5ab55f5579bc.png" />
+          <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/393cca20-ef4b-4f00-9342-81a87850b0dc.png" />
           <span className="ml-2 text-xl font-display font-semibold text-gray-900">MedAI</span>
         </Link>
         <div className="flex items-center gap-4">
           <Button 
             onClick={scrollToRegistration} 
             variant="ghost"
-            className="font-medium text-gray-900 hover:bg-black hover:text-white transition-all duration-300"
+            className="font-medium text-gray-900 hover:bg-blue-600 hover:text-white transition-all duration-300"
           >
             Join Early Access
           </Button>
           <Button 
             onClick={navigateToDemoApp}
-            className="bg-black text-white hover:bg-gray-800 font-medium transition-all duration-300"
+            className="bg-blue-600 text-white hover:bg-blue-700 font-medium transition-all duration-300"
           >
             Try Limited Version
           </Button>

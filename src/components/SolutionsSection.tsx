@@ -32,16 +32,16 @@ const SolutionsSection = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0', 'translate-y-10');
+            entry.target.classList.remove('opacity-0');
             
             // Animate list items if the section is visible
             if (entry.target === sectionRef.current) {
               const items = entry.target.querySelectorAll('.feature-item');
               items.forEach((item, index) => {
                 setTimeout(() => {
-                  item.classList.add('opacity-100', 'translate-y-0');
-                  item.classList.remove('opacity-0', 'translate-y-10');
-                }, 300 + index * 150);
+                  item.classList.add('opacity-100');
+                  item.classList.remove('opacity-0');
+                }, 150 + index * 150);
               });
             }
           }
@@ -68,13 +68,13 @@ const SolutionsSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-32 bg-white transition-all duration-700 opacity-0 translate-y-10"
+      className="py-32 bg-white transition-opacity duration-500 opacity-0"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-center gap-16">
           <div 
             ref={contentRef}
-            className="md:w-1/2 transition-all duration-700 opacity-0 translate-y-10 delay-300"
+            className="md:w-1/2 transition-opacity duration-500 opacity-0 delay-150"
           >
             <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-gray-900 mb-6">
               How Our Platform Solves It
@@ -88,9 +88,9 @@ const SolutionsSection = () => {
               {features.map((feature, index) => (
                 <li 
                   key={index} 
-                  className="feature-item flex items-start transition-all duration-500 opacity-0 translate-y-10"
+                  className="feature-item flex items-start transition-opacity duration-300 opacity-0"
                 >
-                  <div className="mr-4 flex h-6 w-6 items-center justify-center rounded-full bg-black text-white mt-1">
+                  <div className="mr-4 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white mt-1">
                     <Check className="h-3 w-3" />
                   </div>
                   <div>
@@ -104,10 +104,10 @@ const SolutionsSection = () => {
           
           <div 
             ref={imageRef}
-            className="md:w-1/2 mt-12 md:mt-0 transition-all duration-700 opacity-0 translate-y-10 delay-500"
+            className="md:w-1/2 mt-12 md:mt-0 transition-opacity duration-500 opacity-0 delay-300"
           >
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-gray-200 to-gray-100 rounded-2xl blur opacity-30"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 to-gray-100 rounded-2xl blur opacity-30"></div>
               <img
                 src="/lovable-uploads/fb7ed94a-cf37-497c-920e-fee0d98f4139.png"
                 alt="Medical staff using laptop"
