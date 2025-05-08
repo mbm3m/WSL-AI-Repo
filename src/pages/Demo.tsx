@@ -12,7 +12,6 @@ import Footer from "@/components/Footer";
 import { FileText, Upload, AlertTriangle, CheckCircle, XCircle, Lock, Cpu } from "lucide-react";
 import { extractTextFromFile } from "@/utils/fileProcessing";
 import { Checkbox } from "@/components/ui/checkbox";
-import MVPFlowSection from "@/components/MVPFlowSection";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -122,7 +121,7 @@ const Demo = () => {
 
   const analyzeWithGPT4o = async (reportText: string, policyText: string) => {
     try {
-      setAnalysisStage("Analyzing with GPT-4o...");
+      setAnalysisStage("Analyzing with AI...");
       
       // Use Supabase Edge Function instead of direct API call
       const { data, error } = await supabase.functions.invoke('analyze-medical-report', {
@@ -139,7 +138,7 @@ const Demo = () => {
       
       return data;
     } catch (error) {
-      console.error("Error analyzing with GPT-4o:", error);
+      console.error("Error analyzing with AI:", error);
       throw error;
     }
   };
@@ -195,7 +194,7 @@ const Demo = () => {
       setAnalysisStage("Extracting text from policy document...");
       const policyText = await extractTextFromFile(policyFile);
       
-      // Analyze with GPT-4o - using the real API
+      // Analyze with AI
       try {
         const analysisResult = await analyzeWithGPT4o(reportText, policyText);
         setAnalysis(analysisResult);
@@ -243,13 +242,10 @@ const Demo = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       <main className="flex-1 py-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          {/* MVP Visual Flow Section */}
-          <MVPFlowSection />
-          
           <div className="text-center mb-12 mt-12">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-4">
               Medical Report Compliance Checker
@@ -263,9 +259,9 @@ const Demo = () => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="bg-blue-50 p-6 rounded-lg mb-8">
-                  <h2 className="text-lg font-medium text-blue-800 mb-2">👋 Before You Begin</h2>
+                  <h2 className="text-lg font-medium text-blue-800 mb-2">Before You Begin</h2>
                   <p className="text-blue-700">
-                    This demo uses GPT-4o to analyze your medical reports against Saudi healthcare regulations. Please enter your details to try it out.
+                    This demo uses AI to analyze your medical reports against Saudi healthcare regulations. Please enter your details to try it out.
                   </p>
                 </div>
 
@@ -371,6 +367,7 @@ const Demo = () => {
                         </>
                       )}
                       <Input 
+                        id="reportFileInput"
                         type="file" 
                         accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
                         className="hidden" 
@@ -380,6 +377,9 @@ const Demo = () => {
                         type="button" 
                         variant="outline" 
                         className="mt-2 hover:bg-blue-50"
+                        onClick={() => {
+                          document.getElementById('reportFileInput')?.click();
+                        }}
                       >
                         <Upload className="mr-2 h-4 w-4" /> Browse files
                       </Button>
@@ -414,6 +414,7 @@ const Demo = () => {
                         </>
                       )}
                       <Input 
+                        id="policyFileInput"
                         type="file" 
                         accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
                         className="hidden" 
@@ -423,6 +424,9 @@ const Demo = () => {
                         type="button" 
                         variant="outline" 
                         className="mt-2 hover:bg-blue-50"
+                        onClick={() => {
+                          document.getElementById('policyFileInput')?.click();
+                        }}
                       >
                         <Upload className="mr-2 h-4 w-4" /> Browse files
                       </Button>
@@ -460,7 +464,7 @@ const Demo = () => {
                 
                 <Button 
                   type="submit" 
-                  className="w-full bg-blue-500 hover:bg-blue-600 transition-all transform hover:scale-[1.02] active:scale-[0.99]"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.99]"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -498,7 +502,7 @@ const Demo = () => {
                 <div className="text-center py-12">
                   <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
                   <p className="text-lg text-gray-600">{analysisStage}</p>
-                  <p className="text-sm text-gray-500 mt-2">Analyzing with GPT-4o against Saudi healthcare regulations</p>
+                  <p className="text-sm text-gray-500 mt-2">Analyzing with AI against Saudi healthcare regulations</p>
                 </div>
               ) : analysis ? (
                 <div className="prose max-w-none">
@@ -550,7 +554,7 @@ const Demo = () => {
           
           <div className="mt-12 text-center">
             <p className="text-sm text-gray-500">
-              This is a demonstration version with GPT-4o analysis. 
+              This is a demonstration version with simpler AI analysis.
               <br />For full functionality, please <Button variant="link" onClick={navigateToWaitlist} className="text-blue-500 underline p-0 h-auto">register</Button> for early access.
             </p>
           </div>
@@ -559,12 +563,15 @@ const Demo = () => {
       
       {/* Sticky Mobile CTA */}
       <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
-        <Button
-          onClick={navigateToWaitlist}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg shadow-lg"
-        >
-          📩 Join Early Access
-        </Button>
+        <div className="relative">
+          <div className="absolute inset-0 bg-white/70 backdrop-blur-md rounded-full"></div>
+          <Button
+            onClick={navigateToWaitlist}
+            className="relative w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.99]"
+          >
+            Join Early Access
+          </Button>
+        </div>
       </div>
       
       <Footer />

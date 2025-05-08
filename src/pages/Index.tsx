@@ -49,6 +49,10 @@ const Index = () => {
       observer.observe(section);
     });
     
+    // Preload the logo image for better performance
+    const logoPreload = new Image();
+    logoPreload.src = "/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png";
+    
     return () => observer.disconnect();
   }, [searchParams]);
 
