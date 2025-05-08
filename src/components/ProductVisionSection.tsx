@@ -1,30 +1,31 @@
 
 import React, { useEffect, useRef } from "react";
 import { FileText, ShieldCheck, Network, Lock, ChartBar } from "lucide-react";
+import { useTheme } from "@/hooks/use-theme";
 
 const features = [
   {
-    icon: <FileText size={28} className="text-blue-600" />,
+    icon: <FileText size={28} className="text-blue-600 dark:text-blue-400" />,
     title: "Smart Report Generation",
     description: "AI-assisted medical report writing from within the hospital"
   },
   {
-    icon: <ShieldCheck size={28} className="text-blue-600" />,
+    icon: <ShieldCheck size={28} className="text-blue-600 dark:text-blue-400" />,
     title: "Real-Time Policy Validation",
     description: "Instant insurer policy checks to reduce rejections"
   },
   {
-    icon: <Network size={28} className="text-blue-600" />,
+    icon: <Network size={28} className="text-blue-600 dark:text-blue-400" />,
     title: "Hospital–Insurer Sync",
     description: "In-platform communication for case review & updates"
   },
   {
-    icon: <Lock size={28} className="text-blue-600" />,
+    icon: <Lock size={28} className="text-blue-600 dark:text-blue-400" />,
     title: "Secure Data Handling",
     description: "All data encrypted and PDPL-ready"
   },
   {
-    icon: <ChartBar size={28} className="text-blue-600" />,
+    icon: <ChartBar size={28} className="text-blue-600 dark:text-blue-400" />,
     title: "Approval Insights Dashboard",
     description: "Analytics for hospital and insurer decision-makers"
   }
@@ -33,6 +34,7 @@ const features = [
 const ProductVisionSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -72,15 +74,21 @@ const ProductVisionSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-32 bg-gray-50 transition-opacity duration-500 opacity-0"
+      className={`py-32 ${
+        theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'
+      } transition-opacity duration-500 opacity-0`}
     >
       <div className="container mx-auto px-4 max-w-6xl">
         <div 
           ref={headingRef}
           className="text-center mb-16 transition-opacity duration-500 opacity-0"
         >
-          <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-gray-900 mb-4">How MedAI Will Work</h2>
-          <p className="text-xl text-gray-600 font-light max-w-3xl mx-auto">Our complete platform connecting hospitals and insurers</p>
+          <h2 className={`text-4xl md:text-5xl font-display font-bold tracking-tight ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          } mb-4`}>How MedAI Will Work</h2>
+          <p className={`text-xl ${
+            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          } font-light max-w-3xl mx-auto`}>Our complete platform connecting hospitals and insurers</p>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
@@ -89,17 +97,25 @@ const ProductVisionSection = () => {
               key={index} 
               className="vision-feature flex flex-col items-center text-center p-6 transition-opacity duration-300 opacity-0"
             >
-              <div className="p-5 bg-white rounded-full shadow-sm mb-6 transition-transform duration-300 hover:scale-105">
+              <div className={`p-5 ${
+                theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+              } rounded-full shadow-sm mb-6 transition-transform duration-300 hover:scale-105`}>
                 {feature.icon}
               </div>
-              <h3 className="font-display font-medium text-lg mb-3">{feature.title}</h3>
-              <p className="text-gray-600 text-sm font-light">{feature.description}</p>
+              <h3 className={`font-display font-medium text-lg mb-3 ${
+                theme === 'dark' ? 'text-white' : 'text-gray-900'
+              }`}>{feature.title}</h3>
+              <p className={`${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              } text-sm font-light`}>{feature.description}</p>
             </div>
           ))}
         </div>
         
         <div className="text-center mt-16 transition-opacity duration-500 opacity-0 delay-500">
-          <p className="text-sm font-display font-medium text-gray-600">Launching full version in 2025</p>
+          <p className={`text-sm font-display font-medium ${
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+          }`}>Launching full version in 2025</p>
         </div>
       </div>
     </section>
