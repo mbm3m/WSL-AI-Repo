@@ -90,4 +90,76 @@ export const trackViewedContact = () =>
 export const trackClickedStartValidation = (buttonLocation: string) => 
   trackEvent('Clicked Start Validation', { button_location: buttonLocation });
 
+// --------- Validation Form Flow Analytics ---------
+
+// 1. Started Validation
+export const trackStartedValidation = () => 
+  trackEvent('Started Validation', { form_step: 'user_info' });
+
+// 2. Filled User Info
+export const trackFilledUserInfo = (fullName: string, email: string, hasCompany: boolean) => {
+  const emailParts = email.split('@');
+  const emailDomain = emailParts.length > 1 ? emailParts[1] : 'unknown';
+  
+  return trackEvent('Filled User Info', {
+    name_length: fullName.length,
+    has_company: hasCompany,
+    email_domain: emailDomain
+  });
+};
+
+// 3. Uploaded Report
+export const trackUploadedReport = (file: File) => 
+  trackEvent('Uploaded Report', {
+    file_name: file.name,
+    file_size: `${(file.size / 1024).toFixed(2)} KB`,
+    file_type: file.type.split('/')[1]?.toUpperCase() || 'UNKNOWN'
+  });
+
+// 4. Uploaded Policy
+export const trackUploadedPolicy = (file: File) => 
+  trackEvent('Uploaded Policy', {
+    file_name: file.name,
+    file_size: `${(file.size / 1024).toFixed(2)} KB`,
+    file_type: file.type.split('/')[1]?.toUpperCase() || 'UNKNOWN'
+  });
+
+// 5. Agreed to Terms
+export const trackAgreedToTerms = () => 
+  trackEvent('Agreed to Terms');
+
+// 6. Submitted Validation
+export const trackSubmittedValidation = (
+  hasReport: boolean, 
+  hasPolicy: boolean, 
+  agreedTerms: boolean,
+  startTime: number
+) => {
+  const formCompletionTime = Date.now() - startTime;
+  
+  return trackEvent('Submitted Validation', {
+    has_report: hasReport,
+    has_policy: hasPolicy,
+    agreed_terms: agreedTerms,
+    form_completion_time: formCompletionTime / 1000 // convert to seconds
+  });
+};
+
+// 7. Viewed Validation Result
+export const trackViewedValidationResult = (
+  isValid: boolean,
+  errorsCount: number,
+  feedbackType: string,
+  processingStartTime: number
+) => {
+  const processingTime = Date.now() - processingStartTime;
+  
+  return trackEvent('Viewed Validation Result', {
+    valid: isValid,
+    errors_count: errorsCount,
+    feedback_type: feedbackType,
+    processing_time: processingTime
+  });
+};
+
 export default mixpanel;

@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,15 @@ import { FileText, Upload, AlertTriangle, CheckCircle, XCircle, Lock, Cpu } from
 import { extractTextFromFile } from "@/utils/fileProcessing";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useTheme } from "@/hooks/use-theme";
+import { 
+  trackStartedValidation,
+  trackFilledUserInfo,
+  trackUploadedReport,
+  trackUploadedPolicy,
+  trackAgreedToTerms,
+  trackSubmittedValidation,
+  trackViewedValidationResult
+} from "@/utils/analytics";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -46,6 +54,8 @@ const Demo = () => {
   const [analysisStage, setAnalysisStage] = useState<string>("");
   const [isDraggingReport, setIsDraggingReport] = useState(false);
   const [isDraggingPolicy, setIsDraggingPolicy] = useState(false);
+  const [validationStartTime, setValidationStartTime] = useState<number>(0);
+  const [processingStartTime, setProcessingStartTime] = useState<number>(0);
   
   const form = useForm<DemoFormValues>({
     defaultValues: {
@@ -56,6 +66,12 @@ const Demo = () => {
       consentChecked: false,
     }
   });
+
+  // Track when the user enters the validation form page
+  useEffect(() => {
+    trackStartedValidation();
+    setValidationStartTime(Date.now());
+  }, []);
 
   const handleReportFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -69,6 +85,7 @@ const Demo = () => {
         return;
       }
       setReportFile(file);
+      trackUploadedReport(file);
       toast.success("Medical report file uploaded successfully");
     }
   };
@@ -85,6 +102,7 @@ const Demo = () => {
         return;
       }
       setPolicyFile(file);
+      trackUploadedPolicy(file);
       toast.success("Policy file uploaded successfully");
     }
   };
@@ -99,6 +117,7 @@ const Demo = () => {
         return;
       }
       setReportFile(file);
+      trackUploadedReport(file);
       toast.success("Medical report file uploaded successfully");
     }
   };
@@ -113,6 +132,7 @@ const Demo = () => {
         return;
       }
       setPolicyFile(file);
+      trackUploadedPolicy(file);
       toast.success("Policy file uploaded successfully");
     }
   };
@@ -124,6 +144,7 @@ const Demo = () => {
   const analyzeWithGPT4o = async (reportText: string, policyText: string) => {
     try {
       setAnalysisStage("Analyzing with AI...");
+      setProcessingStartTime(Date.now());
       
       // Use Supabase Edge Function instead of direct API call
       const { data, error } = await supabase.functions.invoke('analyze-medical-report', {
@@ -145,6 +166,13 @@ const Demo = () => {
     }
   };
 
+  const handleConsentChange = (checked: boolean) => {
+    if (checked) {
+      trackAgreedToTerms();
+    }
+    form.setValue("consentChecked", checked);
+  };
+
   const onSubmit = async (data: DemoFormValues) => {
     if (!reportFile) {
       toast.error("Please upload a medical report file");
@@ -161,6 +189,21 @@ const Demo = () => {
       return;
     }
 
+    // Track form submission with all required data
+    trackSubmittedValidation(
+      !!reportFile,
+      !!policyFile,
+      data.consentChecked,
+      validationStartTime
+    );
+    
+    // Track user info submission
+    trackFilledUserInfo(
+      data.fullName,
+      data.email,
+      !!data.hospital && data.hospital.trim().length > 0
+    );
+    
     setIsSubmitting(true);
     
     try {
@@ -200,6 +243,22 @@ const Demo = () => {
       try {
         const analysisResult = await analyzeWithGPT4o(reportText, policyText);
         setAnalysis(analysisResult);
+        
+        // Track validation result
+        const isValid = analysisResult.status.includes('✅');
+        const feedbackType = isValid 
+          ? 'pass' 
+          : analysisResult.status.includes('❌') 
+            ? 'failed' 
+            : 'warning';
+            
+        trackViewedValidationResult(
+          isValid,
+          analysisResult.criticalIssues.length,
+          feedbackType,
+          processingStartTime
+        );
+        
         toast.success("✅ Report analyzed — check your output.");
       } catch (error) {
         toast.error("⚠️ Error analyzing report. Please try again later.");
@@ -223,6 +282,10 @@ const Demo = () => {
     setUserData(null);
     setAnalysisStage("");
     form.reset();
+    
+    // Reset tracking timers and track new session start
+    setValidationStartTime(Date.now());
+    trackStartedValidation();
   };
 
   const getStatusColor = () => {
@@ -479,7 +542,7 @@ const Demo = () => {
                         <FormControl>
                           <Checkbox
                             checked={field.value}
-                            onCheckedChange={field.onChange}
+                            onCheckedChange={handleConsentChange}
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
@@ -665,4 +728,3 @@ const Demo = () => {
 };
 
 export default Demo;
-
