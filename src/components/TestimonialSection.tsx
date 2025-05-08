@@ -7,7 +7,13 @@ const TestimonialSection = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    // More efficient intersection observer implementation
+    // Make section visible immediately on mount
+    if (sectionRef.current) {
+      sectionRef.current.classList.add('opacity-100');
+      sectionRef.current.classList.remove('opacity-0');
+    }
+    
+    // Observer for when scrolling to view - no longer needed for initial visibility
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -32,7 +38,7 @@ const TestimonialSection = () => {
       ref={sectionRef}
       className={`py-32 ${
         theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-      } opacity-0 transition-opacity duration-500`}
+      } transition-opacity duration-500`}
     >
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-12 transition-opacity duration-500">

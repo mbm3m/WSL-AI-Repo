@@ -18,8 +18,11 @@ const Index = () => {
   const { theme } = useTheme();
   
   useEffect(() => {
-    // Performance optimization: Only animate sections on scroll, not the hero section
-    // Use lightweight CSS transitions
+    // Make all sections visible immediately
+    document.querySelectorAll('section').forEach(section => {
+      section.classList.add('opacity-100');
+      section.classList.remove('opacity-0');
+    });
     
     // Handle scroll to registration if param is present
     if (searchParams.get('scrollToRegistration') === 'true') {
@@ -31,13 +34,13 @@ const Index = () => {
       }
     }
     
-    // Use IntersectionObserver for all sections except hero
+    // Use IntersectionObserver only for animation effects, not for visibility
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0');
+            // Add animation classes but don't control basic visibility
+            entry.target.classList.add('animate-viewed');
             observer.unobserve(entry.target); // Stop observing once shown
           }
         });
@@ -45,8 +48,8 @@ const Index = () => {
       { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
     );
     
-    // Observe all sections except hero
-    const sections = document.querySelectorAll('section:not(:first-child)');
+    // Observe all sections for additional animations
+    const sections = document.querySelectorAll('section');
     sections.forEach(section => {
       observer.observe(section);
     });

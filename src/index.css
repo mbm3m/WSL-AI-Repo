@@ -118,7 +118,7 @@ img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"] {
 
 /* Highly optimized animation classes for performance */
 .hero-animate {
-  @apply opacity-0 transition-opacity duration-300;
+  @apply transition-opacity duration-300;
 }
 
 /* Performance optimization: only add will-change when needed */
@@ -140,9 +140,15 @@ img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"] {
   @apply transition-colors duration-300;
 }
 
-/* Section transitions - using only opacity for performance */
+/* Section transitions - using only opacity for performance 
+   Sections are now visible by default */
 section {
-  @apply transition-opacity duration-500;
+  @apply transition-opacity duration-500 opacity-100;
+}
+
+/* Animation class for sections that have been viewed */
+.animate-viewed {
+  @apply transition-transform duration-500 translate-y-0;
 }
 
 /* Simplified delay utilities */
