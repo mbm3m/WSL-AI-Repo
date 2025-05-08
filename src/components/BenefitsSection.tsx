@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Hospital, Building, User } from "lucide-react";
+import { Check, HeartPulse, BarChart, Clock } from "lucide-react";
 
 const BenefitsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -80,8 +80,8 @@ const BenefitsSection = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <Card className="border-none shadow-md transition-all duration-300 hover:shadow-lg benefit-card opacity-0 translate-y-10">
             <CardHeader>
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-50 mb-4">
-                <Hospital className="h-6 w-6 text-blue-600" />
+              <div className="w-12 h-12 flex items-center justify-center bg-white shadow-md rounded-full mb-4 transition-transform duration-300 hover:scale-105">
+                <HeartPulse className="h-6 w-6 text-blue-600" />
               </div>
               <CardTitle className="font-display">For Hospitals & Doctors</CardTitle>
             </CardHeader>
@@ -99,8 +99,8 @@ const BenefitsSection = () => {
 
           <Card className="border-none shadow-md transition-all duration-300 hover:shadow-lg benefit-card opacity-0 translate-y-10">
             <CardHeader>
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-50 mb-4">
-                <Building className="h-6 w-6 text-blue-600" />
+              <div className="w-12 h-12 flex items-center justify-center bg-white shadow-md rounded-full mb-4 transition-transform duration-300 hover:scale-105">
+                <BarChart className="h-6 w-6 text-blue-600" />
               </div>
               <CardTitle className="font-display">For Insurance Companies</CardTitle>
             </CardHeader>
@@ -118,8 +118,8 @@ const BenefitsSection = () => {
 
           <Card className="border-none shadow-md transition-all duration-300 hover:shadow-lg benefit-card opacity-0 translate-y-10">
             <CardHeader>
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-50 mb-4">
-                <User className="h-6 w-6 text-blue-600" />
+              <div className="w-12 h-12 flex items-center justify-center bg-white shadow-md rounded-full mb-4 transition-transform duration-300 hover:scale-105">
+                <Clock className="h-6 w-6 text-blue-600" />
               </div>
               <CardTitle className="font-display">For Patients</CardTitle>
             </CardHeader>
