@@ -35,7 +35,7 @@ const MVPFlowSection = () => {
               <Cpu size={24} className="text-blue-600" />
             </div>
             <h3 className="font-medium text-lg mb-2">AI Analysis</h3>
-            <p className="text-gray-600 text-sm">Get instant compliance feedback using GPT-based engine</p>
+            <p className="text-gray-600 text-sm">Get instant compliance feedback using AI-based engine</p>
           </div>
         </div>
       </div>

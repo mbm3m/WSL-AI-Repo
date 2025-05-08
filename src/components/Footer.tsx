@@ -22,9 +22,6 @@ const Footer = () => {
               <li>
                 <Link to="/demo" className="hover:text-white transition-colors">Try Demo</Link>
               </li>
-              <li>
-                <a href="#early-access-section" className="hover:text-white transition-colors">Join Waitlist</a>
-              </li>
             </ul>
           </div>
           <div>
