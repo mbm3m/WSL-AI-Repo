@@ -92,20 +92,6 @@ const Contact = () => {
               {isSubmitting ? "Sending..." : "Send Message"}
             </Button>
           </form>
-          
-          <div className="mt-12 border-t border-gray-200 pt-8">
-            <h2 className="text-xl font-semibold mb-4">Other Ways to Reach Us</h2>
-            <div className="space-y-4">
-              <p className="flex items-center">
-                <span className="font-medium mr-2">Email:</span> 
-                <span>info@medai-sa.com</span>
-              </p>
-              <p className="flex items-center">
-                <span className="font-medium mr-2">Location:</span> 
-                <span>Riyadh, Saudi Arabia</span>
-              </p>
-            </div>
-          </div>
         </div>
       </main>
       <Footer />

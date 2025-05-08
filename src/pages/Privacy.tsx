@@ -35,11 +35,6 @@ const Privacy = () => {
             We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed.
           </p>
           
-          <h2 className="text-xl font-semibold mt-8 mb-4">Your Rights</h2>
-          <p>
-            Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure of your personal data.
-          </p>
-          
           <h2 className="text-xl font-semibold mt-8 mb-4">Contact</h2>
           <p>
             If you have any questions about this privacy notice, please contact us through our contact form.
