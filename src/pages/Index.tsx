@@ -18,16 +18,16 @@ const Index = () => {
   const { theme } = useTheme();
   
   useEffect(() => {
-    // Ensure sections are visible regardless of theme changes
-    const makeSectionsVisible = () => {
-      document.querySelectorAll('section').forEach(section => {
-        section.classList.add('opacity-100');
-        section.classList.remove('opacity-0', 'translate-y-10');
+    // Ensure sections AND footer are visible regardless of theme changes
+    const makeAllElementsVisible = () => {
+      document.querySelectorAll('section, footer').forEach(element => {
+        element.classList.add('opacity-100');
+        element.classList.remove('opacity-0', 'translate-y-10');
       });
     };
     
     // Run immediately and also when theme changes
-    makeSectionsVisible();
+    makeAllElementsVisible();
     
     // Handle scroll to registration if param is present
     if (searchParams.get('scrollToRegistration') === 'true') {
@@ -68,7 +68,7 @@ const Index = () => {
   }, [searchParams, theme]); // Add theme dependency to trigger effect on theme change
 
   return (
-    <div className={`flex flex-col min-h-screen ${
+    <div className={`flex flex-col min-h-screen will-change-auto ${
       theme === 'dark' ? 'bg-gray-900' : 'bg-white'
     } transition-colors duration-300`}>
       <Header />

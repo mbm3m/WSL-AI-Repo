@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -21,39 +21,16 @@ const FooterLink = ({ to, children }: { to: string; children: React.ReactNode })
 };
 
 const Footer = () => {
-  const footerRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (footerRef.current) {
-      observer.observe(footerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   const currentYear = new Date().getFullYear();
 
   return (
     <footer 
-      ref={footerRef}
       className={`${
         theme === 'dark' 
           ? 'bg-gray-900 border-t border-gray-800' 
           : 'bg-white border-t border-gray-100'
-      } py-8 sm:py-16 opacity-0 transition-opacity duration-700`}
+      } py-8 sm:py-16 opacity-100 transition-colors duration-300 will-change-auto`}
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">

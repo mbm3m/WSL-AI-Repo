@@ -9,7 +9,7 @@ const TestimonialSection = () => {
     <section 
       className={`py-16 sm:py-24 md:py-32 ${
         theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-      } transition-colors duration-300`}
+      } transition-colors duration-300 opacity-100 will-change-auto`}
     >
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-8 sm:mb-12">
@@ -19,12 +19,12 @@ const TestimonialSection = () => {
         </div>
         
         <div className="relative">
-          {/* Reduced blur effect and simplified gradient */}
+          {/* Reduced blur effect to eliminate blurry view */}
           <div className={`absolute -inset-1 ${
             theme === 'dark' 
-              ? 'bg-gradient-to-r from-gray-700 to-gray-600' 
-              : 'bg-gradient-to-r from-blue-50 to-white'
-          } rounded-3xl blur-sm opacity-70`}></div>
+              ? 'bg-gradient-to-r from-gray-700 to-gray-600 opacity-50' 
+              : 'bg-gradient-to-r from-blue-50 to-white opacity-70'
+          } rounded-3xl blur-[2px]`}></div>
           <div className={`relative ${
             theme === 'dark' ? 'bg-gray-800' : 'bg-white'
           } rounded-2xl p-6 sm:p-8 md:p-12 shadow-sm hover:shadow-md transition-shadow duration-300`}>

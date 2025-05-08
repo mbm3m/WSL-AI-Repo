@@ -27,15 +27,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     const root = window.document.documentElement;
     
-    // Important: Set all sections to visible BEFORE changing theme to avoid flicker
-    document.querySelectorAll('section').forEach(section => {
-      section.classList.add('opacity-100');
-      section.classList.remove('opacity-0');
+    // Make sure ALL elements (including footer) are fully visible
+    document.querySelectorAll('section, footer').forEach(element => {
+      element.classList.add('opacity-100');
+      element.classList.remove('opacity-0', 'translate-y-10');
     });
     
-    // Add a small delay to ensure DOM is ready before theme switch
+    // Apply theme change using RAF for smoother transition
     requestAnimationFrame(() => {
-      // Apply theme change
       if (theme === "dark") {
         root.classList.add("dark");
       } else {
@@ -44,6 +43,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       
       // Save theme preference
       localStorage.setItem("theme", theme);
+      
+      // Additional RAF to ensure DOM is fully updated
+      requestAnimationFrame(() => {
+        // Force footer to be visible
+        const footer = document.querySelector('footer');
+        if (footer) {
+          footer.style.opacity = '1';
+          footer.classList.add('opacity-100');
+          footer.classList.remove('opacity-0');
+        }
+      });
     });
   }, [theme]);
 
