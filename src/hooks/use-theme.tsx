@@ -12,14 +12,19 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Check if theme was previously stored
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    // Check system preference
-    const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    return savedTheme || systemPreference;
+    if (typeof window !== 'undefined') {
+      // Check if theme was previously stored
+      const savedTheme = localStorage.getItem("theme") as Theme | null;
+      // Check system preference
+      const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      return savedTheme || systemPreference;
+    }
+    return "light"; // Default theme
   });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const root = window.document.documentElement;
     
     if (theme === "dark") {

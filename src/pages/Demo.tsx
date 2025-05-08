@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import { FileText, Upload, AlertTriangle, CheckCircle, XCircle, Lock, Cpu } from "lucide-react";
 import { extractTextFromFile } from "@/utils/fileProcessing";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTheme } from "@/hooks/use-theme";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -34,6 +35,7 @@ interface AnalysisResult {
 
 const Demo = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showReport, setShowReport] = useState(false);
@@ -242,15 +244,21 @@ const Demo = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className={`flex flex-col min-h-screen ${
+      theme === 'dark' ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'
+    }`}>
       <Header />
       <main className="flex-1 py-16">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12 mt-12">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-4">
+            <h1 className={`text-3xl font-bold tracking-tight mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
               Medical Report Compliance Checker
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Upload your medical report to verify compliance with Saudi Arabia's insurance regulations before submission
             </p>
           </div>
@@ -258,9 +266,15 @@ const Demo = () => {
           {showForm && (
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="bg-blue-50 p-6 rounded-lg mb-8">
-                  <h2 className="text-lg font-medium text-blue-800 mb-2">Before You Begin</h2>
-                  <p className="text-blue-700">
+                <div className={`p-6 rounded-lg mb-8 ${
+                  theme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-50'
+                }`}>
+                  <h2 className={`text-lg font-medium mb-2 ${
+                    theme === 'dark' ? 'text-blue-300' : 'text-blue-800'
+                  }`}>Before You Begin</h2>
+                  <p className={
+                    theme === 'dark' ? 'text-blue-200' : 'text-blue-700'
+                  }>
                     This demo uses AI to analyze your medical reports against Saudi healthcare regulations. Please enter your details to try it out.
                   </p>
                 </div>
@@ -271,13 +285,15 @@ const Demo = () => {
                     name="fullName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel className={theme === 'dark' ? 'text-gray-200' : ''}>Full Name</FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Enter your full name" 
                             required 
                             {...field}
-                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors" 
+                            className={`focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors ${
+                              theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : ''
+                            }`}
                           />
                         </FormControl>
                         <FormMessage />
@@ -289,14 +305,16 @@ const Demo = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Address</FormLabel>
+                        <FormLabel className={theme === 'dark' ? 'text-gray-200' : ''}>Email Address</FormLabel>
                         <FormControl>
                           <Input 
                             type="email" 
                             placeholder="Enter your email" 
                             required 
                             {...field}
-                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors"
+                            className={`focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors ${
+                              theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : ''
+                            }`}
                           />
                         </FormControl>
                         <FormMessage />
@@ -308,13 +326,15 @@ const Demo = () => {
                     name="hospital"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Hospital/Company</FormLabel>
+                        <FormLabel className={theme === 'dark' ? 'text-gray-200' : ''}>Hospital/Company</FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Enter your organization" 
                             required 
                             {...field}
-                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors"
+                            className={`focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors ${
+                              theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : ''
+                            }`}
                           />
                         </FormControl>
                         <FormMessage />
@@ -326,13 +346,15 @@ const Demo = () => {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone Number</FormLabel>
+                        <FormLabel className={theme === 'dark' ? 'text-gray-200' : ''}>Phone Number</FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Enter your phone number" 
                             required 
                             {...field}
-                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors"
+                            className={`focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors ${
+                              theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : ''
+                            }`}
                           />
                         </FormControl>
                         <FormMessage />
@@ -343,9 +365,15 @@ const Demo = () => {
                 
                 {/* File Upload for Medical Report */}
                 <div className="space-y-2">
-                  <FormLabel>Medical Report</FormLabel>
+                  <FormLabel className={theme === 'dark' ? 'text-gray-200' : ''}>Medical Report</FormLabel>
                   <div 
-                    className={`border-2 border-dashed rounded-md bg-white p-6 transition-colors ${isDraggingReport ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}
+                    className={`border-2 border-dashed rounded-md p-6 transition-colors ${
+                      isDraggingReport 
+                        ? 'border-blue-500 ' + (theme === 'dark' ? 'bg-blue-900/20' : 'bg-blue-50') 
+                        : theme === 'dark' 
+                          ? 'border-gray-700 bg-gray-800' 
+                          : 'border-gray-300 bg-white'
+                    }`}
                     onDragOver={(e) => {e.preventDefault(); setIsDraggingReport(true);}}
                     onDragLeave={(e) => {e.preventDefault(); setIsDraggingReport(false);}}
                     onDrop={handleReportFileDrop}
@@ -353,17 +381,17 @@ const Demo = () => {
                     <label className="flex flex-col items-center justify-center gap-2 cursor-pointer text-center">
                       {reportFile ? (
                         <>
-                          <div className="bg-green-100 rounded-full p-3">
-                            <FileText className="h-8 w-8 text-green-600" />
+                          <div className={`rounded-full p-3 ${theme === 'dark' ? 'bg-green-900/30' : 'bg-green-100'}`}>
+                            <FileText className={`h-8 w-8 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
                           </div>
-                          <span className="font-medium text-green-600">{reportFile.name}</span>
-                          <span className="text-sm text-gray-500">File selected - click to change</span>
+                          <span className={theme === 'dark' ? 'font-medium text-green-400' : 'font-medium text-green-600'}>{reportFile.name}</span>
+                          <span className={theme === 'dark' ? 'text-sm text-gray-400' : 'text-sm text-gray-500'}>File selected - click to change</span>
                         </>
                       ) : (
                         <>
                           <FileText className="h-10 w-10 text-blue-500" />
                           <span className="font-medium text-blue-500">Upload medical report</span>
-                          <span className="text-sm text-gray-500">PDF or DOCX, max 10MB</span>
+                          <span className={theme === 'dark' ? 'text-sm text-gray-400' : 'text-sm text-gray-500'}>PDF or DOCX, max 10MB</span>
                         </>
                       )}
                       <Input 
@@ -376,23 +404,29 @@ const Demo = () => {
                       <Button 
                         type="button" 
                         variant="outline" 
-                        className="mt-2 hover:bg-blue-50"
+                        className={`mt-2 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-blue-50'}`}
                         onClick={() => {
                           document.getElementById('reportFileInput')?.click();
                         }}
                       >
                         <Upload className="mr-2 h-4 w-4" /> Browse files
                       </Button>
-                      <p className="text-xs text-gray-500 mt-1">Or drag files here</p>
+                      <p className={theme === 'dark' ? 'text-xs text-gray-400 mt-1' : 'text-xs text-gray-500 mt-1'}>Or drag files here</p>
                     </label>
                   </div>
                 </div>
                 
                 {/* File Upload for Policies */}
                 <div className="space-y-2">
-                  <FormLabel>Applicable Policies</FormLabel>
+                  <FormLabel className={theme === 'dark' ? 'text-gray-200' : ''}>Applicable Policies</FormLabel>
                   <div 
-                    className={`border-2 border-dashed rounded-md bg-white p-6 transition-colors ${isDraggingPolicy ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}
+                    className={`border-2 border-dashed rounded-md p-6 transition-colors ${
+                      isDraggingPolicy 
+                        ? 'border-blue-500 ' + (theme === 'dark' ? 'bg-blue-900/20' : 'bg-blue-50') 
+                        : theme === 'dark' 
+                          ? 'border-gray-700 bg-gray-800' 
+                          : 'border-gray-300 bg-white'
+                    }`}
                     onDragOver={(e) => {e.preventDefault(); setIsDraggingPolicy(true);}}
                     onDragLeave={(e) => {e.preventDefault(); setIsDraggingPolicy(false);}}
                     onDrop={handlePolicyFileDrop}
@@ -400,17 +434,17 @@ const Demo = () => {
                     <label className="flex flex-col items-center justify-center gap-2 cursor-pointer text-center">
                       {policyFile ? (
                         <>
-                          <div className="bg-green-100 rounded-full p-3">
-                            <FileText className="h-8 w-8 text-green-600" />
+                          <div className={`rounded-full p-3 ${theme === 'dark' ? 'bg-green-900/30' : 'bg-green-100'}`}>
+                            <FileText className={`h-8 w-8 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
                           </div>
-                          <span className="font-medium text-green-600">{policyFile.name}</span>
-                          <span className="text-sm text-gray-500">File selected - click to change</span>
+                          <span className={theme === 'dark' ? 'font-medium text-green-400' : 'font-medium text-green-600'}>{policyFile.name}</span>
+                          <span className={theme === 'dark' ? 'text-sm text-gray-400' : 'text-sm text-gray-500'}>File selected - click to change</span>
                         </>
                       ) : (
                         <>
                           <FileText className="h-10 w-10 text-blue-500" />
                           <span className="font-medium text-blue-500">Upload policy documents</span>
-                          <span className="text-sm text-gray-500">PDF or DOCX, max 10MB</span>
+                          <span className={theme === 'dark' ? 'text-sm text-gray-400' : 'text-sm text-gray-500'}>PDF or DOCX, max 10MB</span>
                         </>
                       )}
                       <Input 
@@ -423,14 +457,14 @@ const Demo = () => {
                       <Button 
                         type="button" 
                         variant="outline" 
-                        className="mt-2 hover:bg-blue-50"
+                        className={`mt-2 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-blue-50'}`}
                         onClick={() => {
                           document.getElementById('policyFileInput')?.click();
                         }}
                       >
                         <Upload className="mr-2 h-4 w-4" /> Browse files
                       </Button>
-                      <p className="text-xs text-gray-500 mt-1">Or drag files here</p>
+                      <p className={theme === 'dark' ? 'text-xs text-gray-400 mt-1' : 'text-xs text-gray-500 mt-1'}>Or drag files here</p>
                     </label>
                   </div>
                 </div>
@@ -449,7 +483,7 @@ const Demo = () => {
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel>
+                          <FormLabel className={theme === 'dark' ? 'text-gray-200' : ''}>
                             I agree to share this file for demo analysis purposes only
                           </FormLabel>
                         </div>
@@ -457,7 +491,11 @@ const Demo = () => {
                     )}
                   />
                   
-                  <div className="bg-yellow-50 border border-yellow-200 rounded p-3 text-sm text-yellow-700">
+                  <div className={`border rounded p-3 text-sm ${
+                    theme === 'dark' 
+                      ? 'bg-yellow-900/20 border-yellow-800/50 text-yellow-300' 
+                      : 'bg-yellow-50 border-yellow-200 text-yellow-700'
+                  }`}>
                     Do not upload real patient data. This is a limited demo version for testing only.
                   </div>
                 </div>
@@ -475,7 +513,9 @@ const Demo = () => {
                   ) : "Analyze Report"}
                 </Button>
                 
-                <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+                <div className={`flex items-center justify-center gap-4 text-sm ${
+                  theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <div className="flex items-center">
                     <Cpu className="h-4 w-4 text-blue-500 mr-1" />
                     <span>AI-powered</span>
@@ -490,72 +530,115 @@ const Demo = () => {
           )}
 
           {showReport && (
-            <div className="bg-white border rounded-lg shadow-lg p-6">
+            <div className={`border rounded-lg shadow-lg p-6 ${
+              theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            }`}>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Compliance Report</h2>
+                <h2 className={`text-2xl font-bold ${
+                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                }`}>Compliance Report</h2>
                 <div className="flex space-x-3">
-                  <Button variant="outline" onClick={resetDemo} className="hover:bg-blue-50">Try Another Report</Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={resetDemo} 
+                    className={theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-blue-50'}
+                  >
+                    Try Another Report
+                  </Button>
                 </div>
               </div>
               
               {isSubmitting ? (
                 <div className="text-center py-12">
                   <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-                  <p className="text-lg text-gray-600">{analysisStage}</p>
-                  <p className="text-sm text-gray-500 mt-2">Analyzing with AI against Saudi healthcare regulations</p>
+                  <p className={`text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{analysisStage}</p>
+                  <p className={`text-sm mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                    Analyzing with AI against Saudi healthcare regulations
+                  </p>
                 </div>
               ) : analysis ? (
-                <div className="prose max-w-none">
+                <div className={`prose max-w-none ${theme === 'dark' ? 'prose-invert' : ''}`}>
                   <div className="flex items-center mb-6">
                     {getStatusIcon()}
                     <h3 className={`text-xl font-bold ml-2 ${getStatusColor()}`}>Status: {analysis.status}</h3>
                   </div>
 
-                  <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-6">
-                    <h4 className="text-lg font-semibold mb-2 text-green-800 flex items-center">
+                  <div className={`border rounded-md p-4 mb-6 ${
+                    theme === 'dark' 
+                      ? 'bg-green-900/20 border-green-800/50' 
+                      : 'bg-green-50 border-green-200'
+                  }`}>
+                    <h4 className={`text-lg font-semibold mb-2 flex items-center ${
+                      theme === 'dark' ? 'text-green-400' : 'text-green-800'
+                    }`}>
                       <CheckCircle className="h-5 w-5 mr-2" /> Report Analysis Complete
                     </h4>
-                    <p className="text-green-700">
+                    <p className={theme === 'dark' ? 'text-green-300' : 'text-green-700'}>
                       We've analyzed your report and identified the compliance issues below.
                       Register for early access to get automatic corrections and downloadable fixed reports.
                     </p>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="text-lg font-semibold mb-2">Critical Issues Found:</h4>
+                    <h4 className={`text-lg font-semibold mb-2 ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-900'
+                    }`}>Critical Issues Found:</h4>
                     <ol className="list-decimal pl-5 space-y-2">
                       {analysis.criticalIssues.map((issue, index) => (
-                        <li key={index}>
-                          <span className="font-medium">{issue.issue}</span> - <span className="text-sm text-gray-600 italic">{issue.regulation}</span>
+                        <li key={index} className={theme === 'dark' ? 'text-gray-300' : ''}>
+                          <span className="font-medium">{issue.issue}</span> - 
+                          <span className={`text-sm italic ${
+                            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                          }`}> {issue.regulation}</span>
                         </li>
                       ))}
                     </ol>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="text-lg font-semibold mb-2">Fix Recommendations:</h4>
+                    <h4 className={`text-lg font-semibold mb-2 ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-900'
+                    }`}>Fix Recommendations:</h4>
                     <ul className="list-disc pl-5 space-y-2">
                       {analysis.recommendations.map((rec, index) => (
-                        <li key={index}>{rec}</li>
+                        <li key={index} className={theme === 'dark' ? 'text-gray-300' : ''}>
+                          {rec}
+                        </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="bg-amber-50 border border-amber-200 rounded-md p-4">
-                    <h4 className="text-lg font-semibold mb-2 text-amber-800">Regulatory Risk:</h4>
-                    <p className="text-amber-700">{analysis.risk}</p>
+                  <div className={`border rounded-md p-4 ${
+                    theme === 'dark' 
+                      ? 'bg-amber-900/20 border-amber-800/50' 
+                      : 'bg-amber-50 border-amber-200'
+                  }`}>
+                    <h4 className={`text-lg font-semibold mb-2 ${
+                      theme === 'dark' ? 'text-amber-400' : 'text-amber-800'
+                    }`}>Regulatory Risk:</h4>
+                    <p className={theme === 'dark' ? 'text-amber-300' : 'text-amber-700'}>
+                      {analysis.risk}
+                    </p>
                   </div>
                 </div>
               ) : (
-                <p>No analysis available.</p>
+                <p className={theme === 'dark' ? 'text-gray-300' : ''}>No analysis available.</p>
               )}
             </div>
           )}
           
           <div className="mt-12 text-center">
-            <p className="text-sm text-gray-500">
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
               This is a demonstration version with simpler AI analysis.
-              <br />For full functionality, please <Button variant="link" onClick={navigateToWaitlist} className="text-blue-500 underline p-0 h-auto">register</Button> for early access.
+              <br />For full functionality, please 
+              <Button 
+                variant="link" 
+                onClick={navigateToWaitlist} 
+                className={`p-0 h-auto ${theme === 'dark' ? 'text-blue-400' : 'text-blue-500'} underline`}
+              >
+                register
+              </Button> 
+              for early access.
             </p>
           </div>
         </div>
@@ -564,7 +647,9 @@ const Demo = () => {
       {/* Sticky Mobile CTA */}
       <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
         <div className="relative">
-          <div className="absolute inset-0 bg-white/70 backdrop-blur-md rounded-full"></div>
+          <div className={`absolute inset-0 ${
+            theme === 'dark' ? 'bg-gray-900/70' : 'bg-white/70'
+          } backdrop-blur-md rounded-full`}></div>
           <Button
             onClick={navigateToWaitlist}
             className="relative w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.99]"
@@ -580,3 +665,4 @@ const Demo = () => {
 };
 
 export default Demo;
+
