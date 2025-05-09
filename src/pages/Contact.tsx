@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -67,7 +68,7 @@ const Contact = () => {
           <p className={`${
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           } max-w-lg mx-auto text-lg`}>
-            Have questions about MedAI? We'd love to hear from you. Fill out the form below and our team will get back to you as soon as possible.
+            Have questions about WSL? We'd love to hear from you. Fill out the form below and our team will get back to you as soon as possible.
           </p>
         </div>
         

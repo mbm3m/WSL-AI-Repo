@@ -40,7 +40,7 @@ const Terms = () => {
                 theme === 'dark' ? 'text-white hover:text-gray-300' : 'text-gray-800 hover:text-gray-600'
               }`}>Acceptance of Terms</AccordionTrigger>
               <AccordionContent className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
-                By accessing and using MedAI, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by these terms, please do not use this service.
+                By accessing and using WSL, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by these terms, please do not use this service.
               </AccordionContent>
             </AccordionItem>
             
@@ -50,7 +50,7 @@ const Terms = () => {
               }`}>Demo Version Limitations</AccordionTrigger>
               <AccordionContent className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                 <p>
-                  The current version of MedAI is a limited demonstration of our technology and is not intended for production use. The demo version:
+                  The current version of WSL is a limited demonstration of our technology and is not intended for production use. The demo version:
                 </p>
                 <ul className="list-disc pl-5 space-y-2 my-4">
                   <li>Should not be used with real patient data</li>
@@ -82,7 +82,7 @@ const Terms = () => {
                 theme === 'dark' ? 'text-white hover:text-gray-300' : 'text-gray-800 hover:text-gray-600'
               }`}>Intellectual Property</AccordionTrigger>
               <AccordionContent className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
-                All content included on this site, such as text, graphics, logos, and software, is the property of MedAI or its content suppliers and is protected by international copyright laws.
+                All content included on this site, such as text, graphics, logos, and software, is the property of WSL or its content suppliers and is protected by international copyright laws.
               </AccordionContent>
             </AccordionItem>
             
@@ -91,7 +91,7 @@ const Terms = () => {
                 theme === 'dark' ? 'text-white hover:text-gray-300' : 'text-gray-800 hover:text-gray-600'
               }`}>Limitation of Liability</AccordionTrigger>
               <AccordionContent className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
-                MedAI shall not be liable for any direct, indirect, incidental, special, or consequential damages that result from the use of, or the inability to use, the demo service.
+                WSL shall not be liable for any direct, indirect, incidental, special, or consequential damages that result from the use of, or the inability to use, the demo service.
               </AccordionContent>
             </AccordionItem>
             
