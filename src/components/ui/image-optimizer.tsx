@@ -73,7 +73,7 @@ export function ImageOptimizer({
           className
         )}
         loading={priority === "high" ? "eager" : "lazy"}
-        fetchpriority={priority}
+        fetchPriority={priority}
         onLoad={handleLoad}
       />
     </div>

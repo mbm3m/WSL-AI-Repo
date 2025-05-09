@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
 import { trackViewedTerms, trackViewedContact, trackClickedStartValidation } from "@/utils/analytics";
+import ImageOptimizer from "@/components/ui/image-optimizer";
 
 const FooterLink = ({ to, children, trackEvent }: { to: string; children: React.ReactNode; trackEvent?: () => void }) => {
   const { theme } = useTheme();
@@ -44,13 +45,13 @@ const Footer = () => {
         <div className="flex flex-col items-center">
           <div className="mb-6 sm:mb-8">
             <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
-              <img 
+              <ImageOptimizer 
                 alt="MedAI Logo" 
                 className="h-6 sm:h-8 w-auto" 
                 src="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" 
-                width="32" 
-                height="32" 
-                loading="lazy" 
+                width={32} 
+                height={32} 
+                priority="low"
               />
               <span className={`ml-2 text-lg sm:text-xl font-display font-medium ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'

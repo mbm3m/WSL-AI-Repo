@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { trackClickedStartValidation } from "@/utils/analytics";
+import ImageOptimizer from "@/components/ui/image-optimizer";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -89,13 +90,12 @@ const HeroSection = () => {
           
           <div className="lg:w-2/5 mt-12 lg:mt-0">
             <div className="relative">
-              <img 
+              <ImageOptimizer 
                 alt="Doctor using smartphone" 
                 className="w-full rounded-2xl shadow-lg" 
-                loading="eager" 
-                fetchpriority="high" 
-                width="600"
-                height="400"
+                priority="high" 
+                width={600}
+                height={400}
                 src="/lovable-uploads/6f4b5419-4357-428a-bd7d-2269d59ce1ba.png" 
               />
             </div>
