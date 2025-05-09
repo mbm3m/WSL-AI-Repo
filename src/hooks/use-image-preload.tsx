@@ -5,10 +5,10 @@ import { useState, useEffect } from 'react';
  * Custom hook for preloading images
  * 
  * @param src - Image source URL to preload
- * @param priority - Loading priority ('high', 'medium', 'low')
+ * @param priority - Loading priority ('high', 'low', 'auto')
  * @returns Object containing loading state and error
  */
-export function useImagePreload(src: string, priority: 'high' | 'medium' | 'low' = 'medium') {
+export function useImagePreload(src: string, priority: 'high' | 'low' | 'auto' = 'high') {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -56,9 +56,9 @@ export function useImagePreload(src: string, priority: 'high' | 'medium' | 'low'
  * 
  * @param images - Array of { src, priority } objects
  */
-export function preloadImages(images: Array<{ src: string, priority: 'high' | 'medium' | 'low' }>) {
+export function preloadImages(images: Array<{ src: string, priority: 'high' | 'low' | 'auto' }>) {
   images.sort((a, b) => {
-    const priorityValue = { high: 0, medium: 1, low: 2 };
+    const priorityValue = { high: 0, low: 2, auto: 1 };
     return priorityValue[a.priority] - priorityValue[b.priority];
   }).forEach(({ src, priority }) => {
     const img = new Image();

@@ -8,7 +8,7 @@ interface ImageOptimizerProps {
   width?: number;
   height?: number;
   className?: string;
-  priority?: "high" | "medium" | "low";
+  priority?: "high" | "low" | "auto";
   onLoad?: () => void;
   placeholderColor?: string;
 }
