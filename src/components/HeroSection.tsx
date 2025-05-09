@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { trackClickedStartValidation } from "@/utils/analytics";
-import ImageOptimizer from "@/components/ui/image-optimizer";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ const HeroSection = () => {
   };
   
   return (
-    <section id="hero" className={`relative min-h-screen flex items-center justify-center pt-16 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900' : ''}`}>
+    <section className={`relative min-h-screen flex items-center justify-center pt-16 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900' : ''}`}>
       <div className="absolute inset-0 z-0">
         {/* Simplified gradient without blur for better performance */}
         <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-gradient-to-b from-gray-900 to-gray-800' : 'bg-gradient-to-b from-gray-50 to-white'}`}></div>
@@ -90,12 +89,10 @@ const HeroSection = () => {
           
           <div className="lg:w-2/5 mt-12 lg:mt-0">
             <div className="relative">
-              <ImageOptimizer 
+              <img 
                 alt="Doctor using smartphone" 
                 className="w-full rounded-2xl shadow-lg" 
-                priority="high" 
-                width={600}
-                height={400}
+                loading="lazy" 
                 src="/lovable-uploads/6f4b5419-4357-428a-bd7d-2269d59ce1ba.png" 
               />
             </div>

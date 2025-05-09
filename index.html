@@ -17,63 +17,32 @@
     <meta name="twitter:site" content="@medai" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
     
-    <!-- DNS Prefetch and Preconnect -->
-    <link rel="dns-prefetch" href="https://www.apple.com">
-    <link rel="preconnect" href="https://www.apple.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    
-    <!-- Preload critical assets -->
-    <link rel="preload" href="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" as="image" fetchPriority="high">
-    <link rel="preload" href="/lovable-uploads/6f4b5419-4357-428a-bd7d-2269d59ce1ba.png" as="image" fetchPriority="high">
-    
-    <!-- Font imports with display swap -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    </noscript>
-    
+    <!-- Font imports -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <style>
-      /* Inline critical CSS */
       @font-face {
         font-family: 'SF Pro Display';
         src: url('https://www.apple.com/wss/fonts/SF-Pro-Display/v3/sf-pro-display_regular.woff2') format('woff2');
         font-weight: 400;
         font-style: normal;
-        font-display: swap;
       }
       @font-face {
         font-family: 'SF Pro Display';
         src: url('https://www.apple.com/wss/fonts/SF-Pro-Display/v3/sf-pro-display_medium.woff2') format('woff2');
         font-weight: 500;
         font-style: normal;
-        font-display: swap;
       }
       @font-face {
         font-family: 'SF Pro Display';
         src: url('https://www.apple.com/wss/fonts/SF-Pro-Display/v3/sf-pro-display_semibold.woff2') format('woff2');
         font-weight: 600;
         font-style: normal;
-        font-display: swap;
       }
       @font-face {
         font-family: 'SF Pro Display';
         src: url('https://www.apple.com/wss/fonts/SF-Pro-Display/v3/sf-pro-display_bold.woff2') format('woff2');
         font-weight: 700;
         font-style: normal;
-        font-display: swap;
-      }
-      
-      /* Reduce CLS with layout placeholders */
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      
-      /* LCP image optimization */
-      img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"],
-      img[src*="6f4b5419-4357-428a-bd7d-2269d59ce1ba.png"] {
-        content-visibility: auto;
       }
     </style>
   </head>

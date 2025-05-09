@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -106,12 +107,6 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
-  
-  /* Use content-visibility for better paint performance */
-  section {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 500px; /* Approximate size hint */
-  }
 }
 
 /* Optimize logo loading */
@@ -121,7 +116,7 @@ img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"] {
   aspect-ratio: 1 / 1;
 }
 
-/* Performance optimized animation classes - reduced properties */
+/* Performance optimized animation classes */
 .hero-animate {
   @apply transition-opacity duration-200;
 }
@@ -135,13 +130,13 @@ img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"] {
   will-change: opacity;
 }
 
-/* Improved glass effect with better performance - reduced blur */
+/* Improved glass effect with better performance */
 .glass {
-  @apply backdrop-blur-[2px] bg-white/70 dark:bg-black/30;
+  @apply backdrop-blur-sm bg-white/70 dark:bg-black/30;
 }
 
 .glass-dark {
-  @apply backdrop-blur-[2px] bg-black/40;
+  @apply backdrop-blur-sm bg-black/40;
 }
 
 /* Button effects - using only transform/opacity for performance */
@@ -154,13 +149,14 @@ section {
   @apply transition-all duration-200 opacity-100;
 }
 
-/* Animation class for sections that have been viewed - simplify */
+/* Animation class for sections that have been viewed */
 .animate-viewed {
   @apply transition-transform duration-200 translate-y-0;
 }
 
-/* Optimized delay utilities - fewer options */
+/* Optimized delay utilities */
 .delay-100 { transition-delay: 100ms; }
+.delay-150 { transition-delay: 150ms; }
 .delay-200 { transition-delay: 200ms; }
 
 /* Form styling in dark mode */
@@ -178,12 +174,21 @@ section {
   @apply bg-gray-900 text-gray-100;
 }
 
-/* Ensure dark mode transition is smooth across the app - critical elements only */
-body, section, button {
+/* Ensure dark mode transition is smooth across the app */
+body, section, div, button, input, textarea {
   @apply transition-colors duration-200;
 }
 
-/* Mobile responsive rules - same */
+/* Specific fixes for Demo page */
+.dark .form-group label {
+  @apply text-gray-200;
+}
+
+.dark .bg-white {
+  @apply bg-gray-800;
+}
+
+/* Mobile responsive rules */
 @media (max-width: 640px) {
   h1 {
     @apply text-3xl;
@@ -203,13 +208,8 @@ section, div {
   @apply opacity-100;
 }
 
-/* Image optimization utilities */
-.img-optimized {
-  @apply w-full h-auto;
-  aspect-ratio: attr(width) / attr(height);
-}
-
-/* Hardware acceleration only for critical animations */
+/* Hardware acceleration for smoother animations */
 .gpu-accelerated {
   transform: translateZ(0);
+  backface-visibility: hidden;
 }
