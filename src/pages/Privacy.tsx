@@ -34,7 +34,7 @@ const Privacy = () => {
                 theme === 'dark' ? 'text-white hover:text-gray-300' : 'text-gray-800 hover:text-gray-600'
               }`}>Introduction</AccordionTrigger>
               <AccordionContent className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
-                At MedAI, we respect your privacy and are committed to protecting your personal data. This privacy notice will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
+                At WSL, we respect your privacy and are committed to protecting your personal data. This privacy notice will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
               </AccordionContent>
             </AccordionItem>
             

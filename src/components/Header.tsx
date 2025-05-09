@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -61,9 +62,9 @@ const Header = () => {
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center transition-opacity hover:opacity-80 z-20">
-          <img alt="MedAI Logo" className="h-8 w-auto" src="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" />
+          <img alt="WSL Logo" className="h-8 w-auto" src="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" />
           <span className={`ml-2 text-xl font-display font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-            MedAI
+            WSL
           </span>
         </Link>
         

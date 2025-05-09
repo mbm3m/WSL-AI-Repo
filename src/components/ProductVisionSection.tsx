@@ -77,7 +77,7 @@ const ProductVisionSection = () => {
         >
           <h2 className={`text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
-          } mb-3 sm:mb-4`}>How MedAI Will Work</h2>
+          } mb-3 sm:mb-4`}>How WSL Will Work</h2>
           <p className={`text-base sm:text-lg md:text-xl ${
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           } font-light max-w-3xl mx-auto`}>Our complete platform connecting hospitals and insurers</p>

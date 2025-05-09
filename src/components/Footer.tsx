@@ -44,10 +44,10 @@ const Footer = () => {
         <div className="flex flex-col items-center">
           <div className="mb-6 sm:mb-8">
             <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
-              <img alt="MedAI Logo" className="h-6 sm:h-8 w-auto" src="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" />
+              <img alt="WSL Logo" className="h-6 sm:h-8 w-auto" src="/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png" />
               <span className={`ml-2 text-lg sm:text-xl font-display font-medium ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}>MedAI</span>
+              }`}>WSL</span>
             </Link>
           </div>
           
@@ -62,7 +62,7 @@ const Footer = () => {
             <p className={`text-xs sm:text-sm font-light ${
               theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
             }`}>
-              &copy; {currentYear} MedAI. All rights reserved.
+              &copy; {currentYear} WSL. All rights reserved.
             </p>
           </div>
         </div>

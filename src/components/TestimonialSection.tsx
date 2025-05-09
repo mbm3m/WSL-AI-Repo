@@ -32,7 +32,7 @@ const TestimonialSection = () => {
               <blockquote className={`text-xl sm:text-2xl md:text-3xl font-light ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
               } mb-6 sm:mb-8 font-display`}>
-                "MedAI helped us reduce our approval delays drastically — can't wait for the full release!"
+                "WSL helped us reduce our approval delays drastically — can't wait for the full release!"
               </blockquote>
               <cite className={`font-medium ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
