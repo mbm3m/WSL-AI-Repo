@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
@@ -13,12 +13,28 @@ import TestimonialSection from "@/components/TestimonialSection";
 import MVPFlowSection from "@/components/MVPFlowSection";
 import { useTheme } from "@/hooks/use-theme";
 import { trackPageVisit, trackViewedPolicies } from "@/utils/analytics";
+import { lazy, Suspense } from "react";
+
+// Prepare loading state placeholder for deferred sections
+const SectionPlaceholder = () => (
+  <div className="w-full h-64 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-lg"></div>
+);
 
 const Index = () => {
   const [searchParams] = useSearchParams();
   const { theme } = useTheme();
   const policiesRef = useRef<HTMLDivElement>(null);
   const policiesObserved = useRef(false);
+  const [visibleSections, setVisibleSections] = useState({
+    hero: true,
+    challenges: false,
+    mvpFlow: false,
+    solutions: false,
+    productVision: false,
+    testimonial: false,
+    benefits: false,
+    earlyAccess: false
+  });
   
   useEffect(() => {
     // Track page visit on component mount
@@ -64,31 +80,61 @@ const Index = () => {
       policyObserver.observe(policiesRef.current);
     }
     
-    // Use IntersectionObserver with optimized animation settings
-    const observer = new IntersectionObserver(
+    // Use IntersectionObserver with optimized animation settings and progressive loading
+    const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             // Add animation classes but maintain visibility
             entry.target.classList.add('animate-viewed');
+            
+            // Update visibility state for the section
+            const sectionId = entry.target.id;
+            if (sectionId) {
+              setVisibleSections(prev => ({
+                ...prev,
+                [sectionId.replace('-section', '')]: true
+              }));
+            }
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" }
+      { 
+        threshold: 0.1, 
+        rootMargin: "0px 0px -5% 0px" 
+      }
     );
     
-    // Observe sections for animations
+    // Observe sections for animations and progressive loading
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
-      observer.observe(section);
+      // Add ID if missing for visibility tracking
+      if (!section.id && section.className.includes('min-h-screen')) {
+        const index = Array.from(sections).indexOf(section);
+        section.id = `section-${index}`;
+      }
+      sectionObserver.observe(section);
     });
     
-    // Preload logo
-    const logoPreload = new Image();
-    logoPreload.src = "/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png";
+    // Preload critical hero image with high priority
+    const preloadImages = () => {
+      const imagePreload = new Image();
+      imagePreload.fetchPriority = 'high';
+      imagePreload.src = "/lovable-uploads/3765665d-0866-4731-a246-f10a9c4c2a2d.png"; // Logo
+      
+      // Preload hero image with medium priority after logo
+      setTimeout(() => {
+        const heroImagePreload = new Image();
+        heroImagePreload.fetchPriority = 'medium';
+        heroImagePreload.src = "/lovable-uploads/6f4b5419-4357-428a-bd7d-2269d59ce1ba.png"; // Hero image
+      }, 100);
+    };
+    
+    // Call preload function
+    preloadImages();
     
     return () => {
-      observer.disconnect();
+      sectionObserver.disconnect();
       policyObserver.disconnect();
     };
   }, [searchParams, theme]); // Add theme dependency to trigger effect on theme change
@@ -100,14 +146,45 @@ const Index = () => {
       <Header />
       <main className="flex-1">
         <HeroSection />
-        <ChallengesSection />
-        <MVPFlowSection />
+        
+        {visibleSections.challenges ? (
+          <ChallengesSection />
+        ) : (
+          <SectionPlaceholder />
+        )}
+        
+        {visibleSections.mvpFlow ? (
+          <MVPFlowSection />
+        ) : (
+          <SectionPlaceholder />
+        )}
+        
         <div ref={policiesRef}>
-          <SolutionsSection />
+          {visibleSections.solutions ? (
+            <SolutionsSection />
+          ) : (
+            <SectionPlaceholder />
+          )}
         </div>
-        <ProductVisionSection />
-        <TestimonialSection />
-        <BenefitsSection />
+        
+        {visibleSections.productVision ? (
+          <ProductVisionSection />
+        ) : (
+          <SectionPlaceholder />
+        )}
+        
+        {visibleSections.testimonial ? (
+          <TestimonialSection />
+        ) : (
+          <SectionPlaceholder />
+        )}
+        
+        {visibleSections.benefits ? (
+          <BenefitsSection />
+        ) : (
+          <SectionPlaceholder />
+        )}
+        
         <EarlyAccessSection />
       </main>
       

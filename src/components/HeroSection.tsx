@@ -26,7 +26,7 @@ const HeroSection = () => {
   };
   
   return (
-    <section className={`relative min-h-screen flex items-center justify-center pt-16 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900' : ''}`}>
+    <section id="hero" className={`relative min-h-screen flex items-center justify-center pt-16 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900' : ''}`}>
       <div className="absolute inset-0 z-0">
         {/* Simplified gradient without blur for better performance */}
         <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-gradient-to-b from-gray-900 to-gray-800' : 'bg-gradient-to-b from-gray-50 to-white'}`}></div>
@@ -92,7 +92,10 @@ const HeroSection = () => {
               <img 
                 alt="Doctor using smartphone" 
                 className="w-full rounded-2xl shadow-lg" 
-                loading="lazy" 
+                loading="eager" 
+                fetchpriority="high" 
+                width="600"
+                height="400"
                 src="/lovable-uploads/6f4b5419-4357-428a-bd7d-2269d59ce1ba.png" 
               />
             </div>
