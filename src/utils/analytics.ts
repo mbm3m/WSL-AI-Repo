@@ -64,6 +64,7 @@ export const trackEvent = async (eventName: string, additionalProperties = {}) =
       timestamp: new Date().toISOString(),
       location,
       referrer: document.referrer || 'direct',
+      funnel: 'validation_demo', // Add funnel property to all events
     };
 
     mixpanel.track(eventName, {
@@ -94,7 +95,11 @@ export const trackClickedStartValidation = (buttonLocation: string) =>
 
 // 1. Started Validation
 export const trackStartedValidation = () => 
-  trackEvent('Started Validation', { form_step: 'user_info' });
+  trackEvent('Started Validation', { 
+    form_step: 'user_info',
+    funnel_step: 1,
+    funnel_name: 'validation_demo'
+  });
 
 // 2. Filled User Info
 export const trackFilledUserInfo = (fullName: string, email: string, hasCompany: boolean) => {
@@ -104,7 +109,9 @@ export const trackFilledUserInfo = (fullName: string, email: string, hasCompany:
   return trackEvent('Filled User Info', {
     name_length: fullName.length,
     has_company: hasCompany,
-    email_domain: emailDomain
+    email_domain: emailDomain,
+    funnel_step: 2,
+    funnel_name: 'validation_demo'
   });
 };
 
@@ -113,7 +120,9 @@ export const trackUploadedReport = (file: File) =>
   trackEvent('Uploaded Report', {
     file_name: file.name,
     file_size: `${(file.size / 1024).toFixed(2)} KB`,
-    file_type: file.type.split('/')[1]?.toUpperCase() || 'UNKNOWN'
+    file_type: file.type.split('/')[1]?.toUpperCase() || 'UNKNOWN',
+    funnel_step: 3,
+    funnel_name: 'validation_demo'
   });
 
 // 4. Uploaded Policy
@@ -121,12 +130,17 @@ export const trackUploadedPolicy = (file: File) =>
   trackEvent('Uploaded Policy', {
     file_name: file.name,
     file_size: `${(file.size / 1024).toFixed(2)} KB`,
-    file_type: file.type.split('/')[1]?.toUpperCase() || 'UNKNOWN'
+    file_type: file.type.split('/')[1]?.toUpperCase() || 'UNKNOWN',
+    funnel_step: 4,
+    funnel_name: 'validation_demo'
   });
 
 // 5. Agreed to Terms
 export const trackAgreedToTerms = () => 
-  trackEvent('Agreed to Terms');
+  trackEvent('Agreed to Terms', {
+    funnel_step: 5,
+    funnel_name: 'validation_demo'
+  });
 
 // 6. Submitted Validation
 export const trackSubmittedValidation = (
@@ -141,7 +155,10 @@ export const trackSubmittedValidation = (
     has_report: hasReport,
     has_policy: hasPolicy,
     agreed_terms: agreedTerms,
-    form_completion_time: formCompletionTime / 1000 // convert to seconds
+    form_completion_time: formCompletionTime / 1000, // convert to seconds
+    funnel_step: 6,
+    funnel_name: 'validation_demo',
+    form_action: 'analyze_report' // Explicitly link to form button click
   });
 };
 
@@ -158,7 +175,10 @@ export const trackViewedValidationResult = (
     valid: isValid,
     errors_count: errorsCount,
     feedback_type: feedbackType,
-    processing_time: processingTime / 1000 // convert to seconds for consistency
+    processing_time: processingTime / 1000, // convert to seconds for consistency
+    funnel_step: 7, // Final step in the funnel
+    funnel_name: 'validation_demo',
+    funnel_completion: true // Mark funnel completion
   });
 };
 
