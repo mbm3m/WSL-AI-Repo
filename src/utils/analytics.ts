@@ -1,4 +1,3 @@
-
 import mixpanel from 'mixpanel-browser';
 
 // Initialize Mixpanel with your project token
@@ -75,7 +74,7 @@ export const trackEvent = async (eventName: string, additionalProperties = {}) =
   }
 };
 
-// Specific event tracking functions
+// Verify all required event tracking functions are defined and properly implemented
 export const trackPageVisit = () => trackEvent('Visited Landing Page');
 
 export const trackViewedPolicies = () => 

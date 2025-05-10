@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -17,7 +16,7 @@ const Terms = () => {
   useEffect(() => {
     // Track terms page view
     trackViewedTerms();
-  }, []);
+  }, []); // Removed theme from dependency array as it's not needed for this effect
   
   return (
     <div className={`min-h-screen flex flex-col ${
