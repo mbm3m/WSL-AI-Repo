@@ -1,3 +1,4 @@
+
 import mixpanel from 'mixpanel-browser';
 
 // Initialize Mixpanel with your project token
@@ -157,7 +158,7 @@ export const trackViewedValidationResult = (
     valid: isValid,
     errors_count: errorsCount,
     feedback_type: feedbackType,
-    processing_time: processingTime
+    processing_time: processingTime / 1000 // convert to seconds for consistency
   });
 };
 
