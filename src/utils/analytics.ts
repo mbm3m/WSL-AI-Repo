@@ -53,6 +53,9 @@ const getLocation = async (): Promise<string> => {
   return 'location_unavailable';
 };
 
+// Enhanced analytics integration with GA
+import { trackGAEvent } from './monitoring';
+
 // Track events with common properties
 export const trackEvent = async (eventName: string, additionalProperties = {}) => {
   try {
@@ -68,6 +71,12 @@ export const trackEvent = async (eventName: string, additionalProperties = {}) =
     };
 
     mixpanel.track(eventName, {
+      ...commonProperties,
+      ...additionalProperties,
+    });
+
+    // Also track with Google Analytics
+    trackGAEvent(eventName, {
       ...commonProperties,
       ...additionalProperties,
     });
