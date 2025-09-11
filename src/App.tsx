@@ -22,6 +22,10 @@ const queryClient = new QueryClient();
 initSentry();
 initGoogleAnalytics();
 
+// Test error trigger for QA
+import { triggerTestError } from '@/utils/monitoring';
+triggerTestError();
+
 const AppContent = () => {
   usePageTracking();
   

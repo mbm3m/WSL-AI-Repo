@@ -10,13 +10,27 @@ declare global {
 
 // Initialize Sentry for error monitoring
 export const initSentry = () => {
+  const dsn = import.meta.env.VITE_SENTRY_DSN;
+  
+  if (!dsn) {
+    console.warn('Sentry DSN not found - error monitoring disabled');
+    return;
+  }
+
   Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN || '', // Add your Sentry DSN
+    dsn,
     environment: import.meta.env.DEV ? 'development' : 'production',
+    release: import.meta.env.VITE_APP_VERSION || '1.0.0',
     integrations: [
-      // Add integrations based on what's available
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration({
+        maskAllText: false,
+        blockAllMedia: false,
+      }),
     ],
     tracesSampleRate: import.meta.env.DEV ? 1.0 : 0.1,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
     beforeSend(event) {
       // Filter out development errors in production
       if (import.meta.env.DEV) return event;
@@ -129,4 +143,13 @@ export const addBreadcrumb = (message: string, category?: string, data?: Record<
     data,
     level: 'info',
   });
+};
+
+// Test error for QA (use ?sentry_test=1 in URL)
+export const triggerTestError = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('sentry_test') === '1') {
+    console.log('Triggering test error for Sentry...');
+    throw new Error('Test error for Sentry monitoring - this is intentional');
+  }
 };

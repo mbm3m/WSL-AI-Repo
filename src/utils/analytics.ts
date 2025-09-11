@@ -2,11 +2,17 @@
 import mixpanel from 'mixpanel-browser';
 
 // Initialize Mixpanel with your project token
-mixpanel.init('1a88a43618cdb22b8085c76f70ea90b4', {
-  debug: import.meta.env.DEV, // Enable debug mode in development
-  track_pageview: false, // We'll handle page views manually
-  persistence: 'localStorage',
-});
+const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN;
+
+if (mixpanelToken) {
+  mixpanel.init(mixpanelToken, {
+    debug: import.meta.env.DEV, // Enable debug mode in development
+    track_pageview: false, // We'll handle page views manually
+    persistence: 'localStorage',
+  });
+} else {
+  console.warn('Mixpanel token not found - analytics disabled');
+}
 
 // Generate a unique session ID
 const generateSessionId = () => {
