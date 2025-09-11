@@ -54,13 +54,7 @@ export const initGoogleAnalytics = () => {
     return;
   }
 
-  // Load gtag script
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-  document.head.appendChild(script);
-
-  // Initialize gtag
+  // Initialize dataLayer and gtag function first
   window.dataLayer = window.dataLayer || [];
   function gtag(...args: any[]) {
     window.dataLayer.push(args);
@@ -69,12 +63,15 @@ export const initGoogleAnalytics = () => {
   // Make gtag available globally
   (window as any).gtag = gtag;
 
+  // Initialize gtag immediately
   gtag('js', new Date());
-  gtag('config', GA_MEASUREMENT_ID, {
-    anonymize_ip: true, // GDPR compliance
-    cookie_flags: 'SameSite=Strict;Secure',
-    allow_google_signals: false, // Disable advertising features for privacy
-  });
+  gtag('config', GA_MEASUREMENT_ID);
+
+  // Load gtag script
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  document.head.appendChild(script);
 };
 
 // Google Analytics event tracking
