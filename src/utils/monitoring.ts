@@ -45,33 +45,14 @@ export const initSentry = () => {
   });
 };
 
-// Initialize Google Analytics with GDPR compliance
+// Google Analytics initialization (simplified - script loaded via HTML)
 export const initGoogleAnalytics = () => {
-  const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
-  
-  if (!GA_MEASUREMENT_ID) {
-    console.warn('Google Analytics measurement ID not found');
-    return;
+  // Script is loaded directly in index.html, just verify it's available
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    console.log('Google Analytics is ready');
+  } else {
+    console.warn('Google Analytics not detected');
   }
-
-  // Initialize dataLayer and gtag function first
-  window.dataLayer = window.dataLayer || [];
-  function gtag(...args: any[]) {
-    window.dataLayer.push(args);
-  }
-  
-  // Make gtag available globally
-  (window as any).gtag = gtag;
-
-  // Initialize gtag immediately
-  gtag('js', new Date());
-  gtag('config', GA_MEASUREMENT_ID);
-
-  // Load gtag script
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-  document.head.appendChild(script);
 };
 
 // Google Analytics event tracking
