@@ -1,5 +1,4 @@
-
-import { Toaster } from "@/components/ui/toaster";
+﻿import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -7,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { initSentry, initGoogleAnalytics } from "@/utils/monitoring";
 import { usePageTracking } from "@/hooks/usePageTracking";
-import * as Sentry from '@sentry/react';
+import * as Sentry from "@sentry/react";
+import "./i18n";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Demo from "./pages/Demo";
@@ -23,7 +23,7 @@ initSentry();
 initGoogleAnalytics();
 
 // Test error trigger for QA
-import { triggerTestError } from '@/utils/monitoring';
+import { triggerTestError } from "@/utils/monitoring";
 triggerTestError();
 
 const AppContent = () => {
@@ -34,9 +34,9 @@ const AppContent = () => {
       <Toaster />
       <Sonner />
       <Sentry.ErrorBoundary fallback={({ error, resetError }) => (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
+        <div style={{ padding: "20px", textAlign: "center" }}>
           <h2>Something went wrong</h2>
-          <p>{error instanceof Error ? error.message : 'An unexpected error occurred'}</p>
+          <p>{error instanceof Error ? error.message : "An unexpected error occurred"}</p>
           <button onClick={resetError}>Try again</button>
         </div>
       )}>

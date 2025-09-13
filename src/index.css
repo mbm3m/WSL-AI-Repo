@@ -1,5 +1,4 @@
-
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -49,10 +48,7 @@
 
     --sidebar-border: 220 13% 91%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    
-    /* Brand color - blue */
-    --brand-blue: 214 89% 52%;
+    --sidebar-ring: 217.2 32.6% 17.5%;
   }
 
   .dark {
@@ -83,14 +79,22 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
+
+    --sidebar-background: 222.2 84% 4.9%;
+
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
+
+    --sidebar-primary: 224.3 76.3% 94.1%;
+
+    --sidebar-primary-foreground: 240 5.9% 10%;
+
     --sidebar-accent: 240 3.7% 15.9%;
+
     --sidebar-accent-foreground: 240 4.8% 95.9%;
+
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --sidebar-ring: 217.2 32.6% 17.5%;
   }
 }
 
@@ -98,118 +102,297 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground font-sans;
-    scroll-behavior: smooth;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply bg-background text-foreground;
   }
 }
 
-/* Optimize logo loading */
-img[src*="3765665d-0866-4731-a246-f10a9c4c2a2d.png"] {
-  width: 32px;
-  height: 32px;
-  aspect-ratio: 1 / 1;
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
 }
 
-/* Performance optimized animation classes */
-.hero-animate {
-  @apply transition-opacity duration-200;
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
 }
 
-/* Only add will-change when needed to improve performance */
-.will-change-transform {
-  will-change: transform;
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
 }
 
-.will-change-opacity {
-  will-change: opacity;
+[dir="rtl"] .mr-4 {
+  margin-right: 0;
+  margin-left: 1rem;
 }
 
-/* Improved glass effect with better performance */
-.glass {
-  @apply backdrop-blur-sm bg-white/70 dark:bg-black/30;
+[dir="rtl"] .ml-4 {
+  margin-left: 0;
+  margin-right: 1rem;
 }
 
-.glass-dark {
-  @apply backdrop-blur-sm bg-black/40;
+[dir="rtl"] .text-left {
+  text-align: right;
 }
 
-/* Button effects - using only transform/opacity for performance */
-.btn-hover {
-  @apply transition-transform duration-200;
+[dir="rtl"] .text-right {
+  text-align: left;
 }
 
-/* Section transitions - sections are visible by default to prevent disappearing */
-section {
-  @apply transition-all duration-200 opacity-100;
+[dir="rtl"] .items-start {
+  align-items: flex-end;
 }
 
-/* Animation class for sections that have been viewed */
+[dir="rtl"] .justify-start {
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .justify-end {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .lg\\:flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .md\\:flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .sm\\:flex-row {
+  flex-direction: row-reverse;
+}
+
+/* Animation classes */
 .animate-viewed {
-  @apply transition-transform duration-200 translate-y-0;
+  animation: slideInUp 0.6s ease-out forwards;
 }
 
-/* Optimized delay utilities */
-.delay-100 { transition-delay: 100ms; }
-.delay-150 { transition-delay: 150ms; }
-.delay-200 { transition-delay: 200ms; }
-
-/* Form styling in dark mode */
-.dark input,
-.dark textarea {
-  @apply bg-gray-800 border-gray-700 text-gray-100 placeholder:text-gray-400;
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.dark button {
-  @apply text-gray-100;
+.challenge-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
 }
 
-/* Consistent dark mode styling for sections */
-.dark section {
-  @apply bg-gray-900 text-gray-100;
+.challenge-card.shown {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Ensure dark mode transition is smooth across the app */
-body, section, div, button, input, textarea {
-  @apply transition-colors duration-200;
+.feature-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.6s ease-out;
 }
 
-/* Specific fixes for Demo page */
-.dark .form-group label {
-  @apply text-gray-200;
+.feature-item.opacity-100 {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-.dark .bg-white {
-  @apply bg-gray-800;
+/* RTL specific animations */
+[dir="rtl"] .feature-item {
+  transform: translateX(20px);
 }
 
-/* Mobile responsive rules */
-@media (max-width: 640px) {
-  h1 {
-    @apply text-3xl;
+[dir="rtl"] .feature-item.opacity-100 {
+  transform: translateX(0);
+}
+
+/* Ensure proper spacing for RTL */
+[dir="rtl"] .space-x-4 > * + * {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .space-x-6 > * + * {
+  margin-left: 0;
+  margin-right: 1.5rem;
+}
+
+[dir="rtl"] .space-x-8 > * + * {
+  margin-left: 0;
+  margin-right: 2rem;
+}
+
+[dir="rtl"] .gap-4 {
+  gap: 1rem;
+}
+
+[dir="rtl"] .gap-6 {
+  gap: 1.5rem;
+}
+
+[dir="rtl"] .gap-8 {
+  gap: 2rem;
+}
+
+/* RTL specific flex utilities */
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row;
+}
+
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+/* RTL text alignment */
+[dir="rtl"] .text-center {
+  text-align: center;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* RTL positioning */
+[dir="rtl"] .left-0 {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .right-0 {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .left-4 {
+  left: auto;
+  right: 1rem;
+}
+
+[dir="rtl"] .right-4 {
+  right: auto;
+  left: 1rem;
+}
+
+/* RTL padding and margin utilities */
+[dir="rtl"] .pl-4 {
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+[dir="rtl"] .pr-4 {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+[dir="rtl"] .pl-6 {
+  padding-left: 0;
+  padding-right: 1.5rem;
+}
+
+[dir="rtl"] .pr-6 {
+  padding-right: 0;
+  padding-left: 1.5rem;
+}
+
+[dir="rtl"] .pl-8 {
+  padding-left: 0;
+  padding-right: 2rem;
+}
+
+[dir="rtl"] .pr-8 {
+  padding-right: 0;
+  padding-left: 2rem;
+}
+
+/* RTL border utilities */
+[dir="rtl"] .border-l {
+  border-left: none;
+  border-right: 1px solid;
+}
+
+[dir="rtl"] .border-r {
+  border-right: none;
+  border-left: 1px solid;
+}
+
+[dir="rtl"] .border-l-4 {
+  border-left: none;
+  border-right: 4px solid;
+}
+
+[dir="rtl"] .border-r-4 {
+  border-right: none;
+  border-left: 4px solid;
+}
+
+/* RTL shadow utilities */
+[dir="rtl"] .shadow-l {
+  box-shadow: -4px 0 6px -1px rgba(0, 0, 0, 0.1), -2px 0 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+[dir="rtl"] .shadow-r {
+  box-shadow: 4px 0 6px -1px rgba(0, 0, 0, 0.1), 2px 0 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* RTL transform utilities */
+[dir="rtl"] .translate-x-0 {
+  transform: translateX(0);
+}
+
+[dir="rtl"] .translate-x-full {
+  transform: translateX(-100%);
+}
+
+[dir="rtl"] .-translate-x-full {
+  transform: translateX(100%);
+}
+
+/* RTL specific responsive utilities */
+@media (min-width: 640px) {
+  [dir="rtl"] .sm\\:ml-2 {
+    margin-left: 0;
+    margin-right: 0.5rem;
   }
   
-  h2 {
-    @apply text-2xl;
+  [dir="rtl"] .sm\\:mr-2 {
+    margin-right: 0;
+    margin-left: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  [dir="rtl"] .md\\:ml-2 {
+    margin-left: 0;
+    margin-right: 0.5rem;
   }
   
-  .container {
-    @apply px-4;
+  [dir="rtl"] .md\\:mr-2 {
+    margin-right: 0;
+    margin-left: 0.5rem;
   }
 }
 
-/* Ensure content is always visible during theme transitions */
-section, div {
-  @apply opacity-100;
-}
-
-/* Hardware acceleration for smoother animations */
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
+@media (min-width: 1024px) {
+  [dir="rtl"] .lg\\:ml-2 {
+    margin-left: 0;
+    margin-right: 0.5rem;
+  }
+  
+  [dir="rtl"] .lg\\:mr-2 {
+    margin-right: 0;
+    margin-left: 0.5rem;
+  }
 }

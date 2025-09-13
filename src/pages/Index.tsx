@@ -1,5 +1,4 @@
-
-import React, { useEffect, useRef } from "react";
+﻿import React, { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
@@ -13,10 +12,12 @@ import TestimonialSection from "@/components/TestimonialSection";
 import MVPFlowSection from "@/components/MVPFlowSection";
 import { useTheme } from "@/hooks/use-theme";
 import { trackPageVisit, trackViewedPolicies } from "@/utils/analytics";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
   const [searchParams] = useSearchParams();
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const policiesRef = useRef<HTMLDivElement>(null);
   const policiesObserved = useRef(false);
   
@@ -26,9 +27,9 @@ const Index = () => {
     
     // Ensure sections AND footer are visible regardless of theme changes
     const makeAllElementsVisible = () => {
-      document.querySelectorAll('section, footer').forEach(element => {
-        element.classList.add('opacity-100');
-        element.classList.remove('opacity-0', 'translate-y-10');
+      document.querySelectorAll("section, footer").forEach(element => {
+        element.classList.add("opacity-100");
+        element.classList.remove("opacity-0", "translate-y-10");
       });
     };
     
@@ -36,11 +37,11 @@ const Index = () => {
     makeAllElementsVisible();
     
     // Handle scroll to registration if param is present
-    if (searchParams.get('scrollToRegistration') === 'true') {
-      const registrationSection = document.getElementById('early-access-section');
+    if (searchParams.get("scrollToRegistration") === "true") {
+      const registrationSection = document.getElementById("early-access-section");
       if (registrationSection) {
         setTimeout(() => {
-          registrationSection.scrollIntoView({ behavior: 'smooth' });
+          registrationSection.scrollIntoView({ behavior: "smooth" });
         }, 300);
       }
     }
@@ -70,7 +71,7 @@ const Index = () => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             // Add animation classes but maintain visibility
-            entry.target.classList.add('animate-viewed');
+            entry.target.classList.add("animate-viewed");
           }
         });
       },
@@ -78,7 +79,7 @@ const Index = () => {
     );
     
     // Observe sections for animations
-    const sections = document.querySelectorAll('section');
+    const sections = document.querySelectorAll("section");
     sections.forEach(section => {
       observer.observe(section);
     });
@@ -95,7 +96,7 @@ const Index = () => {
 
   return (
     <div className={`flex flex-col min-h-screen will-change-auto ${
-      theme === 'dark' ? 'bg-gray-900' : 'bg-white'
+      theme === "dark" ? "bg-gray-900" : "bg-white"
     } transition-colors duration-300`}>
       <Header />
       <main className="flex-1">
@@ -115,16 +116,16 @@ const Index = () => {
       <div className="fixed bottom-4 left-0 right-0 md:hidden z-50 px-4">
         <div className="relative">
           <div className={`absolute inset-0 ${
-            theme === 'dark' ? 'bg-gray-800/80' : 'bg-white/80'
+            theme === "dark" ? "bg-gray-800/80" : "bg-white/80"
           } backdrop-blur-sm rounded-full`}></div>
           <button
             onClick={() => {
-              const registrationSection = document.getElementById('early-access-section');
-              registrationSection?.scrollIntoView({ behavior: 'smooth' });
+              const registrationSection = document.getElementById("early-access-section");
+              registrationSection?.scrollIntoView({ behavior: "smooth" });
             }}
             className="relative w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full shadow-lg transition-colors duration-300"
           >
-            Join Early Access
+            {t("mobileCta.joinEarlyAccess")}
           </button>
         </div>
       </div>

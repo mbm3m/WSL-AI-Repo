@@ -1,0 +1,156 @@
+﻿{
+  "header": {
+    "logo": "WSL",
+    "joinEarlyAccess": "Join Early Access",
+    "tryLimitedVersion": "Try Limited Version",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "switchToLightMode": "Switch to light mode",
+    "switchToDarkMode": "Switch to dark mode"
+  },
+  "hero": {
+    "title": "Faster Medical Approvals Built for Saudi Hospitals",
+    "subtitle1": "Part of a full platform connecting hospitals and insurers in Saudi Arabia.",
+    "subtitle2": "Transform the approval journey with a reliable, accurate, and fast digital process tailored to the local healthcare system.",
+    "joinEarlyAccess": "Join Early Access",
+    "tryLimitedVersion": "Try Limited Version",
+    "comingSoon": "Coming Soon: NPHIES & PDPL integration"
+  },
+  "challenges": {
+    "title": "Common Challenges We Solve",
+    "subtitle": "Our platform addresses key pain points in the medical approval process",
+    "delays": {
+      "title": "Delays in Manual Reviews",
+      "description": "Eliminate bottlenecks in the approval process with streamlined digital workflows."
+    },
+    "errors": {
+      "title": "High Error Rates & Rejections",
+      "description": "Reduce mistakes and improve accuracy with automated validation checks."
+    },
+    "mismatch": {
+      "title": "Mismatch with Insurance Policies",
+      "description": "Ensure compliance with real-time policy verification and updates."
+    }
+  },
+  "solutions": {
+    "title": "How Our Platform Solves It",
+    "subtitle": "We have built powerful features to transform medical approvals",
+    "smartDrafting": {
+      "title": "Smart Report Drafting",
+      "description": "Generate accurate medical reports with built-in templates and guidelines."
+    },
+    "policyChecks": {
+      "title": "Built-in Policy Checks",
+      "description": "Automatically verify compliance with insurance policies before submission."
+    },
+    "collaboration": {
+      "title": "Doctor-Insurer Collaboration",
+      "description": "Seamless communication between healthcare providers and insurance companies."
+    },
+    "security": {
+      "title": "Secure Medical Data",
+      "description": "Enterprise-grade security ensuring patient data protection and privacy."
+    }
+  },
+  "benefits": {
+    "title": "Benefits for Everyone",
+    "subtitle": "Our platform delivers value across the entire healthcare ecosystem",
+    "hospitals": {
+      "title": "For Hospitals",
+      "fasterApproval": "60% faster approval times",
+      "reducedBurden": "Reduced administrative burden",
+      "betterSatisfaction": "Better patient satisfaction"
+    },
+    "insurance": {
+      "title": "For Insurance Companies",
+      "streamlinedProcess": "Streamlined evaluation process",
+      "reducedCosts": "Reduced processing costs",
+      "enhancedDetection": "Enhanced fraud detection"
+    },
+    "patients": {
+      "title": "For Patients",
+      "fasterTreatment": "Faster treatment approvals",
+      "transparentTracking": "Transparent process tracking",
+      "improvedExperience": "Improved care experience"
+    }
+  },
+  "productVision": {
+    "title": "How WSL Will Work",
+    "subtitle": "Our complete platform connecting hospitals and insurers",
+    "launching": "Launching full version in 2025",
+    "features": {
+      "smartReport": {
+        "title": "Smart Report Generation",
+        "description": "AI-assisted medical report writing from within the hospital"
+      },
+      "policyValidation": {
+        "title": "Real-Time Policy Validation",
+        "description": "Instant insurer policy checks to reduce rejections"
+      },
+      "hospitalSync": {
+        "title": "HospitalInsurer Sync",
+        "description": "In-platform communication for case review & updates"
+      },
+      "secureData": {
+        "title": "Secure Data Handling",
+        "description": "All data encrypted and PDPL-ready"
+      },
+      "insightsDashboard": {
+        "title": "Approval Insights Dashboard",
+        "description": "Analytics for hospital and insurer decision-makers"
+      }
+    }
+  },
+  "mvpFlow": {
+    "title": "How Our System Works",
+    "subtitle": "This is a limited demo simulating part of our full system",
+    "steps": {
+      "uploadReport": {
+        "title": "Upload Medical Report",
+        "description": "PDF or Word files from hospital systems"
+      },
+      "uploadPolicy": {
+        "title": "Upload Insurance Policy",
+        "description": "Choose payer's document to validate against"
+      },
+      "aiAnalysis": {
+        "title": "AI Analysis",
+        "description": "Get instant compliance feedback using AI-based engine"
+      }
+    }
+  },
+  "testimonial": {
+    "title": "What Early Users Say",
+    "quote": "WSL helped us reduce our approval delays drastically  can't wait for the full release!",
+    "author": "Dr. Ahmed B., Internal Medicine, Riyadh"
+  },
+  "earlyAccess": {
+    "title": "Join the Platform  Early Access",
+    "subtitle": "Be among the first to transform your medical approval process",
+    "form": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "hospital": "Hospital/Company",
+      "phone": "Phone Number",
+      "fullNamePlaceholder": "Your name",
+      "emailPlaceholder": "Your email",
+      "hospitalPlaceholder": "Your organization",
+      "phonePlaceholder": "Your phone number",
+      "applyNow": "Apply Now",
+      "processing": "Processing...",
+      "successMessage": "Application submitted successfully! We will be in touch soon.",
+      "errorMessage": "Failed to submit your application. Please try again.",
+      "unexpectedError": "An unexpected error occurred. Please try again."
+    }
+  },
+  "footer": {
+    "tryDemo": "Try Demo",
+    "contactUs": "Contact Us",
+    "termsOfUse": "Terms of Use",
+    "privacyNotice": "Privacy Notice",
+    "copyright": "All rights reserved."
+  },
+  "mobileCta": {
+    "joinEarlyAccess": "Join Early Access"
+  }
+}

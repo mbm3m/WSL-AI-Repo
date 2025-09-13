@@ -1,29 +1,30 @@
-
-import React, { useEffect, useRef } from "react";
+﻿import React, { useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, HeartPulse, BarChart, Clock } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
+import { useTranslation } from "react-i18next";
 
 const BenefitsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const benefits = {
     hospitals: [
-      "60% faster approval times",
-      "Reduced administrative burden",
-      "Better patient satisfaction"
+      t("benefits.hospitals.fasterApproval"),
+      t("benefits.hospitals.reducedBurden"),
+      t("benefits.hospitals.betterSatisfaction")
     ],
     insurance: [
-      "Streamlined evaluation process",
-      "Reduced processing costs",
-      "Enhanced fraud detection"
+      t("benefits.insurance.streamlinedProcess"),
+      t("benefits.insurance.reducedCosts"),
+      t("benefits.insurance.enhancedDetection")
     ],
     patients: [
-      "Faster treatment approvals",
-      "Transparent process tracking",
-      "Improved care experience"
+      t("benefits.patients.fasterTreatment"),
+      t("benefits.patients.transparentTracking"),
+      t("benefits.patients.improvedExperience")
     ]
   };
 
@@ -32,16 +33,16 @@ const BenefitsSection = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100');
-            entry.target.classList.remove('opacity-0', 'translate-y-10');
+            entry.target.classList.add("opacity-100");
+            entry.target.classList.remove("opacity-0", "translate-y-10");
             
             // If the heading becomes visible, animate the cards
             if (entry.target === headingRef.current) {
-              const cards = document.querySelectorAll('.benefit-card');
+              const cards = document.querySelectorAll(".benefit-card");
               cards.forEach((card, index) => {
                 setTimeout(() => {
-                  card.classList.add('opacity-100', 'translate-y-0');
-                  card.classList.remove('opacity-0', 'translate-y-10');
+                  card.classList.add("opacity-100", "translate-y-0");
+                  card.classList.remove("opacity-0", "translate-y-10");
                 }, 150 + index * 100); // Optimized animation timing
               });
             }
@@ -54,7 +55,6 @@ const BenefitsSection = () => {
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
-    
     if (headingRef.current) {
       observer.observe(headingRef.current);
     }
@@ -62,104 +62,121 @@ const BenefitsSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const cardClasses = theme === 'dark' 
-    ? 'border-gray-700 bg-gray-800 shadow-md hover:shadow-lg hover:bg-gray-700' 
-    : 'border-none shadow-md hover:shadow-lg';
-
   return (
     <section 
       ref={sectionRef}
-      id="benefits-section"
-      className={`py-32 ${
-        theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'
-      } transition-colors duration-300 opacity-100`}
+      className={`py-16 sm:py-24 md:py-32 ${theme === "dark" ? "bg-gray-50" : "bg-white"} opacity-0 translate-y-10 transition-all duration-700`}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 
-          ref={headingRef}
-          className={`text-4xl md:text-5xl font-display font-bold tracking-tight text-center ${
-            theme === 'dark' ? 'text-white' : 'text-gray-900'
-          } mb-8 opacity-100`}
-        >
-          Why Choose Us
-        </h2>
-        
-        <p className={`text-xl text-center ${
-          theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-        } font-light mb-16 max-w-3xl mx-auto opacity-100`}>
-          Our platform provides benefits across the healthcare ecosystem
-        </p>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 
+            ref={headingRef}
+            className={`text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight ${theme === "dark" ? "text-gray-900" : "text-gray-900"} mb-4 sm:mb-6 opacity-0 translate-y-10 transition-all duration-700`}
+          >
+            {t("benefits.title")}
+          </h2>
+          <p className={`text-base sm:text-lg md:text-xl ${theme === "dark" ? "text-gray-600" : "text-gray-600"} max-w-3xl mx-auto font-light`}>
+            {t("benefits.subtitle")}
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <Card className={`transition-all duration-300 benefit-card opacity-100 ${cardClasses} will-change-transform`}>
-            <CardHeader>
-              <div className={`w-12 h-12 flex items-center justify-center ${
-                theme === 'dark' ? 'bg-gray-700' : 'bg-white'
-              } shadow-md rounded-full mb-4 transition-transform duration-300 hover:scale-105`}>
-                <HeartPulse className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          {/* Hospitals Card */}
+          <Card className={`benefit-card opacity-0 translate-y-10 transition-all duration-700 ${
+            theme === "dark" 
+              ? "bg-white hover:shadow-lg" 
+              : "bg-white hover:shadow-lg"
+          } border-0 shadow-sm`}>
+            <CardHeader className="text-center pb-4">
+              <div className={`mx-auto p-4 rounded-full ${
+                theme === "dark" ? "bg-blue-100" : "bg-blue-100"
+              } w-fit mb-4`}>
+                <HeartPulse className="h-8 w-8 text-blue-600" />
               </div>
-              <CardTitle className={`font-display ${
-                theme === 'dark' ? 'text-white' : ''
-              }`}>For Hospitals & Doctors</CardTitle>
+              <CardTitle className={`text-xl font-display font-semibold ${
+                theme === "dark" ? "text-gray-900" : "text-gray-900"
+              }`}>
+                {t("benefits.hospitals.title")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 {benefits.hospitals.map((benefit, index) => (
-                  <li key={index} className="flex">
-                    <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                    <span className={`font-light ${
-                      theme === 'dark' ? 'text-gray-300' : ''
-                    }`}>{benefit}</span>
+                  <li key={index} className="flex items-start">
+                    <Check className="h-5 w-5 text-green-600 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className={`text-sm ${
+                      theme === "dark" ? "text-gray-600" : "text-gray-600"
+                    }`}>
+                      {benefit}
+                    </span>
                   </li>
                 ))}
               </ul>
             </CardContent>
           </Card>
 
-          <Card className={`transition-all duration-300 benefit-card opacity-100 ${cardClasses} will-change-transform`}>
-            <CardHeader>
-              <div className={`w-12 h-12 flex items-center justify-center ${
-                theme === 'dark' ? 'bg-gray-700' : 'bg-white'
-              } shadow-md rounded-full mb-4 transition-transform duration-300 hover:scale-105`}>
-                <BarChart className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+          {/* Insurance Companies Card */}
+          <Card className={`benefit-card opacity-0 translate-y-10 transition-all duration-700 ${
+            theme === "dark" 
+              ? "bg-white hover:shadow-lg" 
+              : "bg-white hover:shadow-lg"
+          } border-0 shadow-sm`}>
+            <CardHeader className="text-center pb-4">
+              <div className={`mx-auto p-4 rounded-full ${
+                theme === "dark" ? "bg-green-100" : "bg-green-100"
+              } w-fit mb-4`}>
+                <BarChart className="h-8 w-8 text-green-600" />
               </div>
-              <CardTitle className={`font-display ${
-                theme === 'dark' ? 'text-white' : ''
-              }`}>For Insurance Companies</CardTitle>
+              <CardTitle className={`text-xl font-display font-semibold ${
+                theme === "dark" ? "text-gray-900" : "text-gray-900"
+              }`}>
+                {t("benefits.insurance.title")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 {benefits.insurance.map((benefit, index) => (
-                  <li key={index} className="flex">
-                    <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                    <span className={`font-light ${
-                      theme === 'dark' ? 'text-gray-300' : ''
-                    }`}>{benefit}</span>
+                  <li key={index} className="flex items-start">
+                    <Check className="h-5 w-5 text-green-600 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className={`text-sm ${
+                      theme === "dark" ? "text-gray-600" : "text-gray-600"
+                    }`}>
+                      {benefit}
+                    </span>
                   </li>
                 ))}
               </ul>
             </CardContent>
           </Card>
 
-          <Card className={`transition-all duration-300 benefit-card opacity-100 ${cardClasses} will-change-transform`}>
-            <CardHeader>
-              <div className={`w-12 h-12 flex items-center justify-center ${
-                theme === 'dark' ? 'bg-gray-700' : 'bg-white'
-              } shadow-md rounded-full mb-4 transition-transform duration-300 hover:scale-105`}>
-                <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+          {/* Patients Card */}
+          <Card className={`benefit-card opacity-0 translate-y-10 transition-all duration-700 ${
+            theme === "dark" 
+              ? "bg-white hover:shadow-lg" 
+              : "bg-white hover:shadow-lg"
+          } border-0 shadow-sm`}>
+            <CardHeader className="text-center pb-4">
+              <div className={`mx-auto p-4 rounded-full ${
+                theme === "dark" ? "bg-purple-100" : "bg-purple-100"
+              } w-fit mb-4`}>
+                <Clock className="h-8 w-8 text-purple-600" />
               </div>
-              <CardTitle className={`font-display ${
-                theme === 'dark' ? 'text-white' : ''
-              }`}>For Patients</CardTitle>
+              <CardTitle className={`text-xl font-display font-semibold ${
+                theme === "dark" ? "text-gray-900" : "text-gray-900"
+              }`}>
+                {t("benefits.patients.title")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 {benefits.patients.map((benefit, index) => (
-                  <li key={index} className="flex">
-                    <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                    <span className={`font-light ${
-                      theme === 'dark' ? 'text-gray-300' : ''
-                    }`}>{benefit}</span>
+                  <li key={index} className="flex items-start">
+                    <Check className="h-5 w-5 text-green-600 mt-0.5 mr-3 flex-shrink-0" />
+                    <span className={`text-sm ${
+                      theme === "dark" ? "text-gray-600" : "text-gray-600"
+                    }`}>
+                      {benefit}
+                    </span>
                   </li>
                 ))}
               </ul>
